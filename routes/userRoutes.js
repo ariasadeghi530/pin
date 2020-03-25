@@ -12,7 +12,7 @@ router.post('/users/login', (req, res) => {
     if (err) throw err;
     res.json({
       isLoggedIn: !!user,
-      items: user.items,
+      posts: user.posts,
       user: user.username,
       token: jwt.sign({ id: user._id }, process.env.SECRET)
     });
@@ -21,7 +21,9 @@ router.post('/users/login', (req, res) => {
 
 router.post('/users/register', (req, res) => {
   User.register(new User({
-    username: req.body.username
+    username: req.body.username,
+    email: req.body.email,
+    github: req.body.github
   }), req.body.password, err => {
     if (err) throw err;
     res.sendStatus(200);

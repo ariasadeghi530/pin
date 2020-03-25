@@ -4,7 +4,13 @@ const UserSchema = new Schema({
   username: String,
   email: String,
   github: String,
-  posts: [
+  ideas: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'post'
+    }
+  ],
+  projects: [
     {
       type: Schema.Types.ObjectId,
       ref: 'post'
