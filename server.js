@@ -6,12 +6,9 @@ const { Strategy: JWTStrategy, ExtractJwt } = require('passport-jwt');
 const { User } = require('./models');
 require('dotenv').config();
 
-
 const app = express();
 
-
-
-app.use(express.static(join(__dirname, 'public')));
+app.use(express.static(join(__dirname, 'client', 'build')));
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -32,5 +29,5 @@ passport.use(new JWTStrategy({
 app.use(require('./routes'))
 
 require('./config')
-  .then(() => app.listen(process.env.PORT || 3000))
+  .then(() => app.listen(process.env.PORT || 3001))
   .catch(e => console.log(e));
