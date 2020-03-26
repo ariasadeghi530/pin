@@ -7,13 +7,17 @@ const UserSchema = new Schema({
   ideas: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'post'
+      ref: 'post', 
+      unique: true,
+      dropDups: true
     }
   ],
   projects: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'post'
+      ref: 'post', 
+      unique: true,
+      dropDups: true
     }
   ]
 });

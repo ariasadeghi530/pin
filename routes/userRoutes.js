@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
-const { User } = require('../models');
+const { User, Post } = require('../models');
 
 const jwt = require('jsonwebtoken');
 
@@ -37,6 +37,13 @@ router.post('/users/register', (req, res) => {
   
 // })
 
+//get a user and their projects/ideas
+router.get('/users', passport.authenticate('jwt'), (req, res) => {
+  User.findById(req.user._id)
+  .then((user) => res.json(user))
+  .catch(e => console.error(e));
+})
+
 //update user info and get it back
 router.put('/users/update', passport.authenticate('jwt'), (req, res) => {
   User.findByIdAndUpdate(req.user._id, req.body)
@@ -47,12 +54,26 @@ router.put('/users/update', passport.authenticate('jwt'), (req, res) => {
 })
 
 // Pinning a project, saving a project idea
-router.put('/users/:projectID', passport.authenticate('jwt'), (req, res) => {
-  User.findByIdAndUpdate(req.user._id, { $push: { projects: req.params.projects}})
+router.put('/users/projects/add/:projectID', passport.authenticate('jwt'), (req, res) => {
+  User.findByIdAndUpdate(req.user._id, { $push: { projects: req.params.projectID}})
+  .then(() => { 
+  User.findById(req.user._id)
+  .then((user) => res.json(user))
+  .catch(e => console.error)})
+});
+
+// removing a project, unpinning
+router.put('/users/projects/remove/:projectID', passport.authenticate('jwt'), (req, res) => {
+  User.findByIdAndUpdate(req.user._id, { $pull: { projects: req.params.projectID}})
+  .then(() => { 
+  User.findById(req.user._id)
+  .then((user) => res.json(user))
+  .catch(e => console.error)})
 })
 
+
 //Delete user account
-router.delete('/users/delete', passport.authenticate('jwt'), (req, res) => {
+router.delete('/users', passport.authenticate('jwt'), (req, res) => {
   User.findByIdAndDelete(req.user._id)
   .then(() => res.sendStatus(200))
   .catch(e => console.error(e))
