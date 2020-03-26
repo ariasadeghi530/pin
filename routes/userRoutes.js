@@ -45,7 +45,7 @@ router.get('/users', passport.authenticate('jwt'), (req, res) => {
 })
 
 //update user info and get it back
-router.put('/users/update', passport.authenticate('jwt'), (req, res) => {
+router.put('/users', passport.authenticate('jwt'), (req, res) => {
   User.findByIdAndUpdate(req.user._id, req.body)
   .then(() => {User.findById(req.user._id)
   .then((user) => res.json(user))
@@ -54,7 +54,7 @@ router.put('/users/update', passport.authenticate('jwt'), (req, res) => {
 })
 
 // Pinning a project, saving a project idea
-router.put('/users/projects/add/:projectID', passport.authenticate('jwt'), (req, res) => {
+router.put('/users/:projectID', passport.authenticate('jwt'), (req, res) => {
   User.findByIdAndUpdate(req.user._id, { $push: { projects: req.params.projectID}})
   .then(() => { 
   User.findById(req.user._id)
@@ -63,7 +63,7 @@ router.put('/users/projects/add/:projectID', passport.authenticate('jwt'), (req,
 });
 
 // removing a project, unpinning
-router.put('/users/projects/remove/:projectID', passport.authenticate('jwt'), (req, res) => {
+router.delete('/users/:projectID', passport.authenticate('jwt'), (req, res) => {
   User.findByIdAndUpdate(req.user._id, { $pull: { projects: req.params.projectID}})
   .then(() => { 
   User.findById(req.user._id)
@@ -72,10 +72,13 @@ router.put('/users/projects/remove/:projectID', passport.authenticate('jwt'), (r
 })
 
 
+
 //Delete user account
 router.delete('/users', passport.authenticate('jwt'), (req, res) => {
   User.findByIdAndDelete(req.user._id)
+  .then(() => {Post.deleteMany({owner: req.user._id})
   .then(() => res.sendStatus(200))
+  .catch(e => console.error(e));})
   .catch(e => console.error(e))
 })
 
