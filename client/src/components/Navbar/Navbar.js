@@ -23,7 +23,8 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    display: 'none',
+    // display: 'none',
+    flexGrow: 1,
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -36,8 +37,8 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
+    marginLeft: 25,
+    width: '60%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
       width: 'auto',
@@ -131,21 +132,13 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      {/* <MenuItem>
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
             Pin
           </Typography>
           </Toolbar>
-        </MenuItem>
+        </MenuItem> */}
       {/* <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
@@ -180,15 +173,15 @@ export default function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
           >
             <MenuIcon />
-          </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
+          </IconButton> */}
+          <Typography className={classes.title} variant="h5" noWrap>
             Pin
           </Typography>
           <div className={classes.search}>
@@ -235,7 +228,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <MoreIcon />
+          <MenuIcon />
             </IconButton>
           </div>
         </Toolbar>
