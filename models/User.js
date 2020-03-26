@@ -1,9 +1,9 @@
 const { model, Schema } = require('mongoose');
 
 const UserSchema = new Schema({
-  username: String,
-  email: String,
-  github: String,
+  username: {type: String, unique: true, required: true, dropDups: true},
+  email: {type: String, unique: true, required: true, dropDups: true},
+  github: {type: String, unique: true, required: true, dropDups: true},
   ideas: [
     {
       type: Schema.Types.ObjectId,

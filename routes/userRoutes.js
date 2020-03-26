@@ -27,7 +27,7 @@ router.post('/users/register', (req, res) => {
     email: req.body.email,
     github: req.body.github
   }), req.body.password, err => {
-    if (err) throw err;
+    if (err) res.send(err);
     res.sendStatus(200);
   })
 })
@@ -37,10 +37,12 @@ router.post('/users/register', (req, res) => {
   
 // })
 
-//update user info
+//update user info and get it back
 router.put('/users/update', passport.authenticate('jwt'), (req, res) => {
   User.findByIdAndUpdate(req.user._id, req.body)
-  .then(user => res.json(user))
+  .then(() => {User.findById(req.user._id)
+  .then((user) => res.json(user))
+  .catch(e => console.error(e));})
   .catch(e => console.error(e));
 })
 
