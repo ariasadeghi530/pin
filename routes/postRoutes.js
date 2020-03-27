@@ -3,8 +3,6 @@ const passport = require('passport');
 
 const { Post, User } = require('../models');
 
-
-
 // Get all posts
 router.get('/posts', passport.authenticate('jwt'), (req, res) => {
   Post.find()
