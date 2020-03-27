@@ -23,11 +23,11 @@ const AccountDetails = props => {
   const classes = useStyles();
 
   const [values, setValues] = useState({
-    firstName: 'Shen',
-    lastName: 'Zhi',
-    email: 'shen.zhi@devias.io',
-    phone: '',
-    state: 'Alabama',
+    firstName: 'Evan',
+    lastName: 'Erickson',
+    email: 'amazingEunit@gmail.com',
+    phone: '949-669-6969',
+    state: 'California',
     country: 'USA'
   });
 

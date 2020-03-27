@@ -40,7 +40,7 @@ const AccountProfile = props => {
   const classes = useStyles();
 
   const user = {
-    name: 'Shen Zhi',
+    name: 'Evan Erickson',
     city: 'Los Angeles',
     country: 'USA',
     timezone: 'GTM-7',
