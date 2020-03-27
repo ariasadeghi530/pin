@@ -1,17 +1,24 @@
 import React from 'react';
-import HomePageCard from './components/HomePageCard';
-import Footer from './components/Footer'
+import SignIn from './components/views/SignIn';
+import HomePage from './components/views/HomePage';
+import SignUp from './components/views/SignUp';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
 function App() {
   return (
-    <>
-      <HomePageCard />
-      <HomePageCard />
-      <HomePageCard />
-      <HomePageCard />
-      <HomePageCard />
-      <Footer />
-    </>
+    <Router>
+      <Switch>
+        <Route exact path="/signin">
+          <SignIn />
+        </Route>
+        <Route exact path="/signup">
+          <SignUp />
+        </Route>
+        <Route exact path="/">
+          <HomePage />
+        </Route>
+      </Switch>
+    </Router>
   )
 };
 
