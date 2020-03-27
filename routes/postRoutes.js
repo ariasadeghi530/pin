@@ -31,7 +31,17 @@ router.post('/posts' , passport.authenticate('jwt'), (req, res) => {
     .catch(e => console.error(e))
   })
   .catch(e => console.error(e))
+});
+
+//Update a specific post
+router.put('/posts/:postID', passport.authenticate('jwt'), (req, res) => {
+  Post.findByIdAndUpdate(req.params.postID, req.body).then(() => {
+  Post.findById(req.params.postID)
+  .then((post) => res.json(post))
+  .catch(e => console.error(e))
 })
+.catch(e => console.error(e))
+});
 
 //delete a users post
 router.delete('/posts/:ideaID', passport.authenticate('jwt'), (req, res) => {
@@ -48,6 +58,11 @@ router.delete('/posts/:ideaID', passport.authenticate('jwt'), (req, res) => {
 })
 
 
+// "title": "hello",
+// "description": "world",
+// "difficulty": "Easy",
+// "totalTime": 21,
+// "imageLinks": ["linkOne", "linkTwo"]
 
 
 module.exports = router;

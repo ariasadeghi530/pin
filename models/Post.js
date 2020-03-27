@@ -1,10 +1,10 @@
 const { model, Schema } = require('mongoose');
 
 const PostSchema = new Schema({
-  title: String,
-  description: String,
-  difficulty: String,
-  totalTime: Number,
+  title: {type:String, required: true},
+  description: {type:String, required: true},
+  difficulty: {type:String, required: true},
+  totalTime: String,
   imageLinks: [{
     type: Object
   }],
