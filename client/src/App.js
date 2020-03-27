@@ -1,5 +1,6 @@
 import React from 'react';
 import HomePageCard from './components/HomePageCard';
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <HomePageCard />
       <HomePageCard />
       <HomePageCard />
+      <Footer />
     </>
   )
 };
