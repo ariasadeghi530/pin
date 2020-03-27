@@ -10,7 +10,6 @@ const UserSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref: 'post', 
-      unique: true,
       dropDups: true
     }
   ],
@@ -18,7 +17,6 @@ const UserSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref: 'post', 
-      unique: true,
       dropDups: true
     }
   ]

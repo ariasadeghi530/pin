@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -47,6 +48,40 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
+  const [newUserState, setNewUserState] = useState(
+    {
+      first: '',
+      last: '',
+      username: '',
+      email: '',
+      github: '',
+      password: "",
+      user: {}
+    }
+  )
+
+   const handleInputChange = event => {
+     setNewUserState({...newUserState, [event.target.name]: event.target.value});
+    
+   }
+   const handleSignUp = event => {
+     event.preventDefault();
+
+     const user =  {first: newUserState.first, last: newUserState.last, username: newUserState.username, email: newUserState.email, github: newUserState.github, password: newUserState.password};
+
+      axios.post('/api/users/register', user)
+      .then((user) => {
+        setNewUserState({...newUserState, user, first: '',
+     last: '',
+     username: '',
+     email: '',
+     github: '',
+     password: ""})
+    })
+      .catch(e => console.error(e));
+      
+   }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -62,13 +97,15 @@ export default function SignUp() {
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
-                name="firstName"
+                name="first"
+                value={newUserState.first}
                 variant="outlined"
                 required
                 fullWidth
                 id="firstName"
                 label="First Name"
                 autoFocus
+                onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -78,8 +115,10 @@ export default function SignUp() {
                 fullWidth
                 id="lastName"
                 label="Last Name"
-                name="lastName"
+                name="last"
                 autoComplete="lname"
+                value={newUserState.last}
+                onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -91,6 +130,8 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={newUserState.email}
+                onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -101,6 +142,8 @@ export default function SignUp() {
                 id="username"
                 label="Username"
                 name="username"
+                value={newUserState.username}
+                onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -113,6 +156,8 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={newUserState.password}
+                onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -122,6 +167,8 @@ export default function SignUp() {
                 id="github"
                 label="GitHub username"
                 name="github"
+                value={newUserState.github}
+                onChange={handleInputChange}
               />
             </Grid>
           </Grid>
@@ -131,6 +178,7 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSignUp}
           >
             Sign Up
           </Button>
