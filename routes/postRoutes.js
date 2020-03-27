@@ -43,6 +43,28 @@ router.put('/posts/:postID', passport.authenticate('jwt'), (req, res) => {
 .catch(e => console.error(e))
 });
 
+//add a solution to a post
+router.put('/posts/:postID/solutions', passport.authenticate('jwt'), (req, res) => {
+  Post.findByIdAndUpdate(req.params.postID, {$push: {solutions: { github: req.body.github, deployed: req.body.deployed, owner: req.user._id}}})
+  .then(() => {
+    Post.findById(req.params.postID)
+  .then((post) => res.json(post))
+  .catch(e => console.error(e))
+})
+  .catch(e => console.error(e))
+});
+
+//add a comment to a post
+router.put('/posts/:postID/comments', passport.authenticate('jwt'), (req, res) => {
+  Post.findByIdAndUpdate(req.params.postID, {$push: {comments: { comment: req.body.comment, owner: req.user._id}}})
+  .then(() => {
+    Post.findById(req.params.postID)
+  .then((post) => res.json(post))
+  .catch(e => console.error(e))
+})
+  .catch(e => console.error(e))
+})
+
 //delete a users post
 router.delete('/posts/:ideaID', passport.authenticate('jwt'), (req, res) => {
   Post.findByIdAndDelete(req.params.ideaID)
