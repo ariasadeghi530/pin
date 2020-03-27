@@ -4,6 +4,5 @@ module.exports = require('mongoose').connect(process.env.MONGODB_URI || process.
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true
+    useFindAndModify: false
   });

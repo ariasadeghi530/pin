@@ -23,7 +23,7 @@ router.get('/posts/:postID', passport.authenticate('jwt'), (req, res) => {
 
 //create a post/idea
 router.post('/posts' , passport.authenticate('jwt'), (req, res) => {
-  Post.create({title: req.body.title, description: req.body.description, difficulty: req.body.difficulty, totalTime: req.body.totalTime, imageLinks: req.body.imageLinks, owner: [req.user._id]})
+  Post.create({title: req.body.title, description: req.body.description, difficulty: req.body.difficulty, totalTime: req.body.totalTime, imageLinks: req.body.imageLinks, owner: req.user._id, solutions: [], comments: []})
   .then((post) => {
     res.json(post);
     User.findByIdAndUpdate(req.user._id, {$push: {ideas: post}})

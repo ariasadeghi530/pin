@@ -8,10 +8,10 @@ const PostSchema = new Schema({
   imageLinks: [{
     type: Object
   }],
-  owner: [{
+  owner: {
     type: Schema.Types.ObjectId,
     ref: 'user'
-  }],
+  },
   solutions:[{
     type: Object
   }],
