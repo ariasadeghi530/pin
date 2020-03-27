@@ -27,7 +27,9 @@ router.post('/users/register', (req, res) => {
     last: req.body.last,
     username: req.body.username,
     email: req.body.email,
-    github: req.body.github
+    github: req.body.github,
+    projects: [],
+    ideas: []
   }), req.body.password, err => {
     if (err) res.send(err);
     res.sendStatus(200);

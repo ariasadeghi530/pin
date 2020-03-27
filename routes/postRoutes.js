@@ -21,7 +21,7 @@ router.get('/posts/:postID', passport.authenticate('jwt'), (req, res) => {
 
 //create a post/idea
 router.post('/posts' , passport.authenticate('jwt'), (req, res) => {
-  Post.create({title: req.body.title, description: req.body.description, difficulty: req.body.difficulty, totalTime: req.body.totalTime, imageLinks: req.body.imageLinks, owner: [req.user._id]})
+  Post.create({title: req.body.title, description: req.body.description, difficulty: req.body.difficulty, totalTime: req.body.totalTime, imageLinks: req.body.imageLinks, owner: req.user._id, solutions: [], comments: []})
   .then((post) => {
     res.json(post);
     User.findByIdAndUpdate(req.user._id, {$push: {ideas: post}})
@@ -29,7 +29,61 @@ router.post('/posts' , passport.authenticate('jwt'), (req, res) => {
     .catch(e => console.error(e))
   })
   .catch(e => console.error(e))
+});
+
+//Update a specific post
+router.put('/posts/:postID', passport.authenticate('jwt'), (req, res) => {
+  Post.findByIdAndUpdate(req.params.postID, req.body).then(() => {
+  Post.findById(req.params.postID)
+  .then((post) => res.json(post))
+  .catch(e => console.error(e))
 })
+.catch(e => console.error(e))
+});
+
+//add a solution to a post
+router.put('/posts/:postID/solutions', passport.authenticate('jwt'), (req, res) => {
+  Post.findByIdAndUpdate(req.params.postID, {$push: {solutions: { github: req.body.github, deployed: req.body.deployed, owner: req.user._id}}})
+  .then(() => {
+    Post.findById(req.params.postID)
+  .then((post) => res.json(post))
+  .catch(e => console.error(e))
+})
+  .catch(e => console.error(e))
+});
+
+//add a comment to a post
+router.put('/posts/:postID/comments', passport.authenticate('jwt'), (req, res) => {
+  Post.findByIdAndUpdate(req.params.postID, {$push: {comments: { comment: req.body.comment, owner: req.user._id}}})
+  .then(() => {
+    Post.findById(req.params.postID)
+  .then((post) => res.json(post))
+  .catch(e => console.error(e))
+})
+  .catch(e => console.error(e))
+});
+
+//remove a solution from a post
+router.delete('/posts/:postID/solutions', passport.authenticate('jwt'), (req, res) => {
+  Post.findByIdAndUpdate(req.params.postID, {$pull: {solutions: { github: req.body.github, deployed: req.body.deployed, owner: req.user._id}}})
+  .then(() => {
+    Post.findById(req.params.postID)
+  .then((post) => res.json(post))
+  .catch(e => console.error(e))
+})
+  .catch(e => console.error(e))
+});
+
+//remove a comment from a post
+router.delete('/posts/:postID/comments', passport.authenticate('jwt'), (req, res) => {
+  Post.findByIdAndUpdate(req.params.postID, {$pull: {comments: { comment: req.body.comment, owner: req.user._id}}})
+  .then(() => {
+    Post.findById(req.params.postID)
+  .then((post) => res.json(post))
+  .catch(e => console.error(e))
+})
+  .catch(e => console.error(e))
+});
 
 //delete a users post
 router.delete('/posts/:ideaID', passport.authenticate('jwt'), (req, res) => {
@@ -46,6 +100,11 @@ router.delete('/posts/:ideaID', passport.authenticate('jwt'), (req, res) => {
 })
 
 
+// "title": "hello",
+// "description": "world",
+// "difficulty": "Easy",
+// "totalTime": 21,
+// "imageLinks": ["linkOne", "linkTwo"]
 
 
 module.exports = router;
