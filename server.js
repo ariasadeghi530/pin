@@ -27,6 +27,9 @@ passport.use(new JWTStrategy({
 ));
 
 app.use(require('./routes'))
+app.get('/*', ( req, res) => {
+  res.sendFile(join(__dirname, 'client', 'build', 'index.html'));
+})
 
 require('./config')
   .then(() => app.listen(process.env.PORT || 3001))
