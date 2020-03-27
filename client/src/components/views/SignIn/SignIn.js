@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,7 +18,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit">
         PIN
       </Link>{' '}
       {new Date().getFullYear()}
@@ -48,7 +49,28 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [userState, setUserState] = useState({
+    username: '',
+    password: '',
+    user: {},
+    isLoggedIn: false
+  })
 
+  const handleInputChange = event => {
+    setUserState({... userState, [event.target.name]: event.target.value});
+  }
+const handleLogIn = event => {
+  event.preventDefault();
+  const user = {username: userState.username, password: userState.password}
+
+  axios.post('api/users/login', user)
+  .then(({data}) => {
+    setUserState({...userState, user, username: '', password: '', isLoggedIn: data.isLoggedIn})
+
+  })
+  .catch(e => console.error(e))
+
+}
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -68,6 +90,8 @@ export default function SignIn() {
             id="username"
             label="Username"
             name="username"
+            value={userState.username}
+            onChange={handleInputChange}
             autoFocus
           />
           <TextField
@@ -75,10 +99,12 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
+            value={userState.password}
             name="password"
             label="Password"
             type="password"
             id="password"
+            onChange={handleInputChange}
             autoComplete="current-password"
           />
           <FormControlLabel
@@ -91,6 +117,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleLogIn}
           >
             Sign In
           </Button>
