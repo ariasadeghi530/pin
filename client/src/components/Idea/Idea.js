@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
-import Navbar from './Navbar'
-import axios from 'axios'
+import Navbar from '../Navbar'
+//import axios from 'axios'
 
-const Idea = () => {
+export default function Idea() {
     const [comments, setComments] = useState([])
     /*
     useEffect(() => {
@@ -34,3 +34,4 @@ const Idea = () => {
         
     )
 }
+

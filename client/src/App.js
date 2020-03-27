@@ -4,6 +4,7 @@ import HomePage from './components/views/HomePage';
 import SignUp from './components/views/SignUp';
 import Reset from './components/views/Reset';
 import PrimarySearchAppBar from './components/Navbar'
+import Idea from './components/Idea'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
 function App() {
@@ -22,6 +23,9 @@ function App() {
         </Route>
         <Route exact path="/reset">
           <Reset />
+        </Route>
+        <Route exact path="/idea">
+          <Idea />
         </Route>
       </Switch>
     </Router>
