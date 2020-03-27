@@ -23,6 +23,8 @@ router.post('/users/login', (req, res) => {
 // User registration
 router.post('/users/register', (req, res) => {
   User.register(new User({
+    first: req.body.first,
+    last: req.body.last,
     username: req.body.username,
     email: req.body.email,
     github: req.body.github
