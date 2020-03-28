@@ -6,7 +6,7 @@ import Reset from './components/views/Reset';
 import PrimarySearchAppBar from './components/Navbar'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import UserContext from './utils/UserContext';
-import axios from 'axios';
+import User from './utils/User'
 
 function App() {
 
@@ -17,8 +17,7 @@ function App() {
     username: '',
     email: '',
     github: '',
-    password: '',
-    isLoggedIn: false
+    password: ''
   })
   userState.handleInputChange = event => {
     setUserState({...userState, [event.target.name]: event.target.value});
@@ -36,30 +35,23 @@ function App() {
       password: userState.password
       };
 
-      console.log(user, userState.password);
-      axios.post('/api/users/register', user)
+      User.register(user)
       .then((registered) => {
-        axios.post('/api/users/login', {username: user.username, password: user.password})
-        .then((response) => {
-          console.log(response);
+        User.login({username: user.username, password: user.password})
+        .then(({data}) => {
+          localStorage.setItem('jwt', data.token);
           setUserState({...userState, 
-            user: {
-              first: user.first,
-              last: user.last,
-              username: user.username,
-              email: user.email,
-              github: user.github
-            }, 
+            user: data, 
              first: '',
              last: '',
              username: '',
              email: '',
              github: '',
-             password: ''})
+             password: '',
+            isLoggedIn: data.isLoggedIn})
       })
       .catch(e => console.error(e))
         })
-
       .catch(e => console.error(e));
   }
 
@@ -67,9 +59,10 @@ function App() {
     event.preventDefault();
     const user = {username: userState.username, password: userState.password};
 
-  axios.post('api/users/login', {user})
+  User.login(user)
   .then(({data}) => {
-    setUserState({...userState, user: {username: user.username}, username: '', password: '', isLoggedIn: data.isLoggedIn})
+    localStorage.setItem('jwt', data.token);
+    setUserState({...userState, user: data, username: '', password: '', isLoggedIn: data.isLoggedIn})
 
   })
   .catch(e => console.error(e))
@@ -84,10 +77,10 @@ function App() {
           <SignIn />
         </Route>
         <Route exact path="/signup">
-          <PrimarySearchAppBar />
           <SignUp />
         </Route>
         <Route exact path="/">
+        <PrimarySearchAppBar />
           <HomePage />
         </Route>
         <Route exact path="/reset">
