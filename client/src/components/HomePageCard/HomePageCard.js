@@ -5,16 +5,22 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 import Post from '../../utils/Post';
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
-    marginBottom: 10
+    marginBottom: 0,
+    marginTop: 20,
   },
   title: {
     fontSize: 14,
-    textAlign: "right"
+    textAlign: "right",
+    float: "right",
+  },
+  ideaName: {
+    marginTop: 0,
   }
 });
 
@@ -29,29 +35,31 @@ function HomePageCard() {
   })
 
   return (
+    <Container>
     <Card className={classes.root} variant="outlined">
       <CardContent>
         <Typography className={classes.title} color="textSecondary">
           Calumbelot
           </Typography>
-        <Typography variant="h4" component="h2">
+        <Typography variant="h3" component="h2" className={classes.ideaName}>
           To-do List
           <Typography variant="body2" component="p">
+            <br/>
             Difficulty: Easy
           </Typography>
         </Typography>
         <Typography variant="body2" component="p">
-          <br />
+         
           This is a beginner level application where a user should be able to input various items, mark them as complete or incomplete, and delete them.
           <br />
-          <br />
-          Technologies: JavaScript, Node, Express
+   
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">View GitHub Repo</Button>
+        <Button size="small">View Idea</Button>
       </CardActions>
     </Card>
+    </Container>
   )
 };
 
