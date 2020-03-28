@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios'
+import React, {useContext} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import UserContext from '../../../utils/UserContext'
 
 function Copyright() {
   return (
@@ -48,41 +48,10 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
-  const [newUserState, setNewUserState] = useState(
-    {
-      first: '',
-      last: '',
-      username: '',
-      email: '',
-      github: '',
-      password: "",
-      user: {}
-    }
-  )
-
-   const handleInputChange = event => {
-     setNewUserState({...newUserState, [event.target.name]: event.target.value});
-    
-   }
-   const handleSignUp = event => {
-     event.preventDefault();
-
-     const user =  {first: newUserState.first, last: newUserState.last, username: newUserState.username, email: newUserState.email, github: newUserState.github, password: newUserState.password};
-
-      axios.post('/api/users/register', user)
-      .then((user) => {
-        setNewUserState({...newUserState, user, first: '',
-     last: '',
-     username: '',
-     email: '',
-     github: '',
-     password: ""})
-    })
-      .catch(e => console.error(e));
-      
-   }
+   const {first, last, email, username, password, github, handleInputChange, handleRegisterUser, handleSignInUser} = useContext(UserContext);
 
   return (
+    
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -98,7 +67,7 @@ export default function SignUp() {
               <TextField
                 autoComplete="fname"
                 name="first"
-                value={newUserState.first}
+                value={first}
                 variant="outlined"
                 required
                 fullWidth
@@ -117,7 +86,7 @@ export default function SignUp() {
                 label="Last Name"
                 name="last"
                 autoComplete="lname"
-                value={newUserState.last}
+                value={last}
                 onChange={handleInputChange}
               />
             </Grid>
@@ -130,7 +99,7 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                value={newUserState.email}
+                value={email}
                 onChange={handleInputChange}
               />
             </Grid>
@@ -142,7 +111,7 @@ export default function SignUp() {
                 id="username"
                 label="Username"
                 name="username"
-                value={newUserState.username}
+                value={username}
                 onChange={handleInputChange}
               />
             </Grid>
@@ -155,8 +124,8 @@ export default function SignUp() {
                 label="Password"
                 type="password"
                 id="password"
+                value={password}
                 autoComplete="current-password"
-                value={newUserState.password}
                 onChange={handleInputChange}
               />
             </Grid>
@@ -167,7 +136,7 @@ export default function SignUp() {
                 id="github"
                 label="GitHub username"
                 name="github"
-                value={newUserState.github}
+                value={github}
                 onChange={handleInputChange}
               />
             </Grid>
@@ -178,7 +147,7 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={handleSignUp}
+            onClick={handleRegisterUser}
           >
             Sign Up
           </Button>

@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import axios from 'axios';
+import React, {useContext} from 'react';
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import UserContext from '../../../utils/UserContext'
 
 function Copyright() {
   return (
@@ -49,28 +50,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const [userState, setUserState] = useState({
-    username: '',
-    password: '',
-    user: {},
-    isLoggedIn: false
-  })
+  
+  const { username, password, handleInputChange, handleSignInUser} = useContext(UserContext);
 
-  const handleInputChange = event => {
-    setUserState({... userState, [event.target.name]: event.target.value});
-  }
-const handleLogIn = event => {
-  event.preventDefault();
-  const user = {username: userState.username, password: userState.password}
-
-  axios.post('api/users/login', user)
-  .then(({data}) => {
-    setUserState({...userState, user, username: '', password: '', isLoggedIn: data.isLoggedIn})
-
-  })
-  .catch(e => console.error(e))
-
-}
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -90,7 +72,7 @@ const handleLogIn = event => {
             id="username"
             label="Username"
             name="username"
-            value={userState.username}
+            value={username}
             onChange={handleInputChange}
             autoFocus
           />
@@ -99,7 +81,7 @@ const handleLogIn = event => {
             margin="normal"
             required
             fullWidth
-            value={userState.password}
+           
             name="password"
             label="Password"
             type="password"
@@ -117,7 +99,7 @@ const handleLogIn = event => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={handleLogIn}
+            onClick={handleSignInUser}
           >
             Sign In
           </Button>
