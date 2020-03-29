@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import UserContext from '../../../utils/UserContext'
+import {Redirect} from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -51,10 +52,12 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
   
-  const { username, password, handleInputChange, handleSignInUser} = useContext(UserContext);
+  const { username, password, isLoggedIn, handleInputChange, handleSignInUser} = useContext(UserContext);
 
   return (
-    <Container component="main" maxWidth="xs">
+    <>
+    { isLoggedIn ? <Redirect to={{pathname: '/'}}/> : 
+   ( <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -120,6 +123,7 @@ export default function SignIn() {
       <Box mt={8}>
         <Copyright />
       </Box>
-    </Container>
+    </Container>)}
+    </>
   );
 }

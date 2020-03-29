@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
-   const {first, last, email, username, password, github, handleInputChange, handleRegisterUser, handleSignInUser} = useContext(UserContext);
+   const {first, last, email, username, password, github, handleInputChange, handleRegisterUser} = useContext(UserContext);
 
   return (
     
