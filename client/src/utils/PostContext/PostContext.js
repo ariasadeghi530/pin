@@ -8,6 +8,7 @@ const PostContext = createContext({
   difficulty: '',
   totalTime: '',
   imageLinks: '',
+  handleViewAll: () => {},
   handleCreateNewPost: () => {},
   handleInputChange: () => {},
   handleUpdatePost: () => {},

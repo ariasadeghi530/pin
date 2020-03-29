@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import SignIn from './components/views/SignIn';
 import HomePage from './components/views/HomePage';
 import SignUp from './components/views/SignUp';
@@ -6,7 +6,9 @@ import Reset from './components/views/Reset';
 import PrimarySearchAppBar from './components/Navbar'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import UserContext from './utils/UserContext';
+import PostContext from './utils/PostContext';
 import User from './utils/User'
+import Post from './utils/Post';
 
 function App() {
 
@@ -18,7 +20,18 @@ function App() {
     email: '',
     github: '',
     password: ''
-  })
+  });
+
+  const [postState, setPostState] = useState({
+    posts: [],
+    post: {},
+    title: '',
+    description: '',
+    difficulty: '',
+    totalTime: '',
+    imageLinks: ''
+  });
+
   userState.handleInputChange = event => {
     setUserState({...userState, [event.target.name]: event.target.value});
   }
@@ -62,6 +75,7 @@ function App() {
   User.login(user)
   .then(({data}) => {
     localStorage.setItem('jwt', data.token);
+    console.log(data);
     setUserState({...userState, user: data, username: '', password: '', isLoggedIn: data.isLoggedIn})
 
   })
@@ -69,7 +83,18 @@ function App() {
 
   }
 
+  postState.handleViewAll = () =>{
+    Post.home()
+    .then(({data}) => {
+     
+      setPostState({...postState, posts: data})
+    })
+    .catch(e => console.error(e))
+  }
+
   return (
+    <>
+    <PostContext.Provider value={postState}>
     <UserContext.Provider value={userState}>
     <Router>
       <Switch>
@@ -89,6 +114,8 @@ function App() {
       </Switch>
     </Router>
     </UserContext.Provider>
+    </PostContext.Provider>
+    </>
   )
 };
 
