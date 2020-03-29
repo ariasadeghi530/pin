@@ -6,7 +6,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import Post from '../../utils/Post';
+import UserContext from '../../utils/UserContext';
+import PostContext from '../../utils/PostContext';
+import  { Redirect }  from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -26,31 +28,33 @@ const useStyles = makeStyles({
 
 function HomePageCard() {
 
-  const classes = useStyles()
+  const classes = useStyles();
 
-  useEffect(() => {
-    Post.home()
-    .then(({data}) => console.log(data))
-    .catch(e => console.error(e))
-  })
+const {posts, handleViewAll} = useContext(PostContext);
+const {isLoggedIn, user} = useContext(UserContext);
+
+useEffect(() =>{
+  handleViewAll();
+}, [isLoggedIn])
 
   return (
-    <Container>
+    <>
+    { isLoggedIn ? 
+  posts.map(obj => ( <Container>
     <Card className={classes.root} variant="outlined">
       <CardContent>
         <Typography className={classes.title} color="textSecondary">
-          Calumbelot
+          {obj.user[0].username}
           </Typography>
-        <Typography variant="h3" component="h2" className={classes.ideaName}>
-          To-do List
+        <Typography variant="h4" component="h3" className={classes.ideaName}>
+         {obj.post.title}
           <Typography variant="body2" component="p">
             <br/>
-            Difficulty: Easy
+            Difficulty: {obj.post.difficulty}
           </Typography>
         </Typography>
         <Typography variant="body2" component="p">
-         
-          This is a beginner level application where a user should be able to input various items, mark them as complete or incomplete, and delete them.
+        {obj.post.description}
           <br />
    
         </Typography>
@@ -59,7 +63,9 @@ function HomePageCard() {
         <Button size="small">View Idea</Button>
       </CardActions>
     </Card>
-    </Container>
+    </Container>)) : <Redirect to={{pathname: '/signin'}} /> 
+    }
+  </>
   )
 };
 
