@@ -41,7 +41,7 @@ useEffect(() =>{
     <>
     { isLoggedIn ? 
   posts.map(obj => ( <Container>
-    <Card className={classes.root} variant="outlined">
+    <Card className={classes.root} key={obj.post._id} variant="outlined">
       <CardContent>
         <Typography className={classes.title} color="textSecondary">
           {obj.user[0].username}
@@ -56,7 +56,6 @@ useEffect(() =>{
         <Typography variant="body2" component="p">
         {obj.post.description}
           <br />
-   
         </Typography>
       </CardContent>
       <CardActions>
