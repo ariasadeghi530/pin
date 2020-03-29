@@ -9,7 +9,19 @@ const { Post, User } = require('../models');
 router.get('/posts', passport.authenticate('jwt'), (req, res) => {
   Post.find()
     .then((posts) => {
-      res.json(posts);
+
+     let allPosts = [];
+     for(let i = 0; i < posts.length; ++i){
+       User.find({_id: posts[i].owner})
+       .then((user) => {
+         allPosts[i] = {post: posts[i], user};
+         if(i === posts.length - 1){
+           res.json(allPosts);
+         }
+       })
+       .catch(e => console.log(e));
+     }
+    
     })
     .catch(e => console.log(e));
 });
