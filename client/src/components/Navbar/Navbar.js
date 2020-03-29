@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,9 +11,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
+import UserContext from '../../utils/UserContext';
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -105,6 +104,8 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const {user, handleLogOut} = useContext(UserContext);
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -165,6 +166,9 @@ export default function PrimarySearchAppBar() {
           <AccountCircle />
         </IconButton>
         <p>Profile</p>
+      </MenuItem>
+      <MenuItem onClick={handleLogOut}>
+      <p>Logout</p>
       </MenuItem>
     </Menu>
   );
