@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
@@ -12,6 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import Typography from '@material-ui/core/Typography';
 import { ClickAwayListener } from '@material-ui/core';
+import PostContext from '../../../utils/PostContext';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -66,6 +67,8 @@ function CreateIdea() {
     setOpen(true);
   };
 
+  const { title, description, difficulty, totalTime, handleCreateNewPost, handleInputChange } = useContext(PostContext);
+
   return (
     <Container className={classes.container}component="main" maxWidth="xs">
       <div className={classes.paper}>
@@ -79,10 +82,10 @@ function CreateIdea() {
               fullWidth
               id="title"
               label="Project Title"
-              name="Project Title"
+              name="title"
               className={classes.input}
-              // value={''}
-              // onChange={''}
+              value={title}
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -93,10 +96,10 @@ function CreateIdea() {
               fullWidth
               id="text"
               label="Project Description"
-              name="Project Description"
+              name="description"
               className={classes.input}
-              // value={}
-              // onChange={}
+              value={description}
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12} className={classes.inline}>
@@ -105,8 +108,8 @@ function CreateIdea() {
               <Select
                 label="difficulty"
                 id="difficulty"
-              // value={}
-              // onChange={}
+                value={difficulty}
+                onChange={handleInputChange}
               >
                 <MenuItem value={'easy'}>Easy</MenuItem>
                 <MenuItem value={'medium'}>Medium</MenuItem>
@@ -123,7 +126,7 @@ function CreateIdea() {
                 disableFocusListener
                 disableTouchListener
                 title="Select a difficulty for your project">
-                <Button onClick={handleTooltipOpen} onHover={handleTooltipOpen}>
+                <Button onClick={handleTooltipOpen}>
                   <HelpOutlineIcon />
                 </Button>
               </Tooltip>
@@ -135,15 +138,16 @@ function CreateIdea() {
               fullWidth
               id="time"
               label="Estimated Time to Complete"
-              name="ETA"
-            // value={''}
-            // onChange={''}
+              name="time"
+              value={totalTime}
+              onChange={handleInputChange}
               className={classes.input}
             />
           </Grid>
           <Button variant="contained" 
             color="primary"
-            className={classes.button}>
+            className={classes.button}
+            onClick={handleCreateNewPost}>
             Post
           </Button>
         </form>
