@@ -13,10 +13,11 @@ router.get('/posts', passport.authenticate('jwt'), (req, res) => {
     .catch(e => console.log(e));
 });
 router.get('/posts/search', passport.authenticate('jwt'), (req, res) =>{
-  Post.find({$text:{$search: req.body.search}, limit: 10}).populate("owner")
+  Post.find({ $text: { $search: req.body.search}}).populate("owner").limit(10)
   .then((posts) =>{
    res.json(posts);
   })
+  .catch(e => console.error(e))
 })
 
 //get one post
