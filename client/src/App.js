@@ -123,11 +123,10 @@ function App() {
       difficulty: postState.difficulty,
       totalTime: postState.totalTime,
       imageLinks: []
-    }
+    };
     Post.create(post)
       .then(({data}) => {
-        console.log(data)
-        setPostState({ ...postState, title: '', description: '', difficulty: '', totalTime: '', imageLinks: '', post })
+        setPostState({ ...postState, title: '', description: '', difficulty: '', totalTime: '', imageLinks: '', post: data });
       })
       .catch(e => console.error(e))
   };
