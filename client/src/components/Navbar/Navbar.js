@@ -135,7 +135,7 @@ export default function PersistentDrawerRight() {
       >
         <Toolbar>
           <Typography variant="h6" noWrap className={classes.title} >
-            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo} /> Pin
+            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo} alt="pin logo"/> Pin
           </Typography>
           <IconButton
             color="inherit"
