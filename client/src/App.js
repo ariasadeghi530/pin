@@ -3,6 +3,7 @@ import SignIn from './components/views/SignIn';
 import HomePage from './components/views/HomePage';
 import SignUp from './components/views/SignUp';
 import Reset from './components/views/Reset';
+import CreateIdea from './components/views/CreateIdea'
 import PrimarySearchAppBar from './components/Navbar'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import UserContext from './utils/UserContext';
@@ -127,11 +128,15 @@ function App() {
           <SignUp />
         </Route>
         <Route exact path="/">
-        <PrimarySearchAppBar />
+          <PrimarySearchAppBar />
           <HomePage />
         </Route>
         <Route exact path="/reset">
           <Reset />
+        </Route>
+        <Route exact path="/postidea">
+          <PrimarySearchAppBar />
+          <CreateIdea />
         </Route>
       </Switch>
     </Router>

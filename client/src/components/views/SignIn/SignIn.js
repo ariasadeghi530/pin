@@ -65,7 +65,7 @@ export default function SignIn() {
    ( <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-      <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.signLogo}/>
+      <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.signLogo} alt="pin logo"/>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
