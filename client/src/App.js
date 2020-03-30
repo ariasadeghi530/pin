@@ -87,8 +87,9 @@ function App() {
   }
 
   userState.handleLogOut = () => {
-    console.log('ping')
+
     localStorage.clear();
+    setUserState({...userState, isLoggedIn: false});
   }
 
   postState.handleViewAll = () =>{

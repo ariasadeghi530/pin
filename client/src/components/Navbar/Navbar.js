@@ -186,7 +186,7 @@ export default function PersistentDrawerRight() {
             </ListItem>
           ))}
             <ListItem>
-            <Button variant="outlined" color="secondary" onClick={handleLogOut} href="/signin">
+            <Button variant="outlined" color="secondary" onClick={handleLogOut} >
             Logout
           </Button>
             </ListItem>
