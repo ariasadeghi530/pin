@@ -78,7 +78,6 @@ function App() {
   .then(({data}) => {
     localStorage.setItem('jwt', data.token);
     localStorage.setItem('loggedIn', data.isLoggedIn);
-    console.log(data);
     setUserState({...userState, user: data, username: '', password: '', isLoggedIn: data.isLoggedIn})
 
   })
