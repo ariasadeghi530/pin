@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import Navbar from '../Navbar'
+import TextareaAutosize from '@material-ui/core/TextareaAutosize'
+import Button from '@material-ui/core/Button'
+import Icon from '@material-ui/core/Icon'
 //import axios from 'axios'
 
 import './Idea.css'
@@ -31,6 +34,14 @@ export default function Idea() {
                 
             </section>
 
+            <TextareaAutosize aria-label="minimum height" rowsMin={3} placeholder="Write a comment" />
+            <Button
+                variant="contained"
+                color="primary"
+                endIcon={<Icon>send</Icon>}
+            >
+                Send
+            </Button>
             <ul className="ul-comments">
                 {/* {comments.map(comment => <li>{comment}</li>)}  */}
                 <li>Comment #1</li>
