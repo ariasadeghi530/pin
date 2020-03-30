@@ -30,7 +30,8 @@ function App() {
     description: '',
     difficulty: '',
     totalTime: '',
-    imageLinks: ''
+    imageLinks: '',
+    search: '',
   });
 
   userState.handleInputChange = event => {
@@ -86,16 +87,29 @@ function App() {
   }
 
   userState.handleLogOut = () => {
-
     localStorage.clear();
     setUserState({...userState, isLoggedIn: false});
+  }
+
+  postState.handleInputChange = event => {
+    setPostState({...postState, [event.target.name]: event.target.value});
   }
 
   postState.handleViewAll = () =>{
     Post.home()
     .then(({data}) => {
-     
+    
       setPostState({...postState, posts: data})
+    })
+    .catch(e => console.error(e))
+  }
+  postState.handleSearch = (event) => {
+    event.preventDefault();
+  
+    Post.search(postState.search)
+    .then(({data}) =>{
+      console.log(data);
+      setPostState({...postState, posts: data, search: ''});
     })
     .catch(e => console.error(e))
   }
@@ -104,7 +118,7 @@ function App() {
     <>
     <PostContext.Provider value={postState}>
     <UserContext.Provider value={userState}>
-    <Router>
+    <Router> 
       <Switch>
         <Route exact path="/signin">
           <SignIn />

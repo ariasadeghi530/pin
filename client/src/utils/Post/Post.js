@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const Post = {
   home: () => axios.get('/api/posts', { headers: {"Authorization": "Bearer " + (localStorage.getItem('jwt'))}}),
+  search: search => axios.get(`/api/posts/search/${search}`, { headers: {"Authorization": "Bearer " + (localStorage.getItem('jwt'))}}),
   idea: id => axios.get(`/api/posts/${id}`, { headers: {"Authorization": "Bearer " + (localStorage.getItem('jwt'))}}),
   create: post => axios.post('/api/posts', post, { headers: {"Authorization": "Bearer " + (localStorage.getItem('jwt'))}}),
   update: (id, updates) => axios.put(`/api/posts/${id}`, updates, { headers: {"Authorization": "Bearer " + (localStorage.getItem('jwt'))}}),
