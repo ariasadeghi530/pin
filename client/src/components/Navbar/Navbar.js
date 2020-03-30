@@ -109,7 +109,9 @@ const useStyles = makeStyles(theme => ({
     height: "7%",
     width: "7%",
     marginBottom: 7,
-
+  },
+  text: {
+    color: "white"
   }
 }));
 
@@ -140,8 +142,10 @@ export default function PersistentDrawerRight() {
         <Toolbar >
           <Typography variant="h6" noWrap className={classes.title} >
           <Link href="/" >
+            <div className={classes.text}>
             <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo}/> 
             Pin 
+            </div>
             </Link>
           </Typography>
           <IconButton
