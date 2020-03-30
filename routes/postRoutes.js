@@ -4,27 +4,21 @@ const passport = require('passport');
 const { Post, User } = require('../models');
 
 
-
 // Get all posts
 router.get('/posts', passport.authenticate('jwt'), (req, res) => {
-  Post.find()
+  Post.find().populate("owner")
     .then((posts) => {
-
-     let allPosts = [];
-     for(let i = 0; i < posts.length; ++i){
-       User.find({_id: posts[i].owner})
-       .then((user) => {
-         allPosts[i] = {post: posts[i], user};
-         if(i === posts.length - 1){
-           res.json(allPosts);
-         }
-       })
-       .catch(e => console.log(e));
-     }
-    
+      res.json(posts);
     })
     .catch(e => console.log(e));
 });
+router.get('/posts/search/:search', passport.authenticate('jwt'), (req, res) =>{
+  Post.find({ $text: { $search: req.params.search}}).populate("owner").limit(10)
+  .then((posts) =>{
+   res.json(posts);
+  })
+  .catch(e => console.error(e))
+})
 
 //get one post
 router.get('/posts/:postID', passport.authenticate('jwt'), (req, res) => {

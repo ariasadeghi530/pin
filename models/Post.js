@@ -20,4 +20,6 @@ const PostSchema = new Schema({
   }]
 });
 
+PostSchema.index({title: 'text', description: 'text', difficulty: 'text', totalTime: 'text'})
+
 module.exports = model('post', PostSchema);

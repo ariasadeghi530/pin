@@ -20,6 +20,8 @@ import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import UserContext from '../../utils/UserContext';
+import PostContext from '../../utils/PostContext';
+import Link from '@material-ui/core/Link';
 
 const drawerWidth = '100%';
 
@@ -107,6 +109,9 @@ const useStyles = makeStyles(theme => ({
     height: "7%",
     width: "7%",
     marginBottom: 7,
+  },
+  text: {
+    color: "white"
   }
 }));
 
@@ -123,6 +128,7 @@ export default function PersistentDrawerRight() {
     setOpen(false);
   };
   const {handleLogOut} = useContext(UserContext);
+  const {handleSearch, handleInputChange, search} = useContext(PostContext);
 
   return (
     <div className={classes.root}>
@@ -133,9 +139,14 @@ export default function PersistentDrawerRight() {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
+        <Toolbar >
           <Typography variant="h6" noWrap className={classes.title} >
-            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo} alt="pin logo"/> Pin
+          <Link href="/" >
+            <div className={classes.text}>
+            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo}/> 
+            Pin 
+            </div>
+            </Link>
           </Typography>
           <IconButton
             color="inherit"
@@ -169,14 +180,21 @@ export default function PersistentDrawerRight() {
             
           <SearchIcon />
           <div className={classes.search}>
+            <form onSubmit={(e) => {handleSearch(e); handleDrawerClose()}} noValidate> 
             <InputBase
-              placeholder="Search…"
+            name="search"
+            value={search}
+              placeholder="Search for an idea..."
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              onChange={handleInputChange}
+    
             />
+            {/* <Button onClick={handleSearch}></Button> */}
+            </form>
           </div>
           </ListItem>
           {['Profile', 'New Idea'].map((text, index) => (

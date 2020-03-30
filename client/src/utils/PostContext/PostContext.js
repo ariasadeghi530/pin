@@ -8,12 +8,14 @@ const PostContext = createContext({
   difficulty: '',
   totalTime: '',
   imageLinks: '',
+  search: '',
   handleViewAll: () => {},
   handleCreateNewPost: () => {},
   handleInputChange: () => {},
   handleUpdatePost: () => {},
   handleAddToPost: () => {},
-  handleRemoveFromPost: () => {}
+  handleRemoveFromPost: () => {},
+  handleSearch: () => {}
 });
 
 export default PostContext;

@@ -107,13 +107,12 @@ function CreateIdea() {
               <InputLabel id="difficulty">Difficulty</InputLabel>
               <Select
                 label="difficulty"
-                id="difficulty"
+                name="difficulty"
                 value={difficulty}
-                onChange={handleInputChange}
-              >
-                <MenuItem value={'easy'}>Easy</MenuItem>
-                <MenuItem value={'medium'}>Medium</MenuItem>
-                <MenuItem value={'hard'}>Hard</MenuItem>
+                onChange={handleInputChange} >
+                <MenuItem value={'Easy'}>Easy</MenuItem>
+                <MenuItem value={'Moderate'}>Moderate</MenuItem>
+                <MenuItem value={'Hard'}>Hard</MenuItem>
               </Select>
             </FormControl>
             <ClickAwayListener onClickAway={handleTooltipClose}>
@@ -138,7 +137,7 @@ function CreateIdea() {
               fullWidth
               id="time"
               label="Estimated Time to Complete"
-              name="time"
+              name="totalTime"
               value={totalTime}
               onChange={handleInputChange}
               className={classes.input}
