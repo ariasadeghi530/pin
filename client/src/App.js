@@ -21,7 +21,7 @@ function App() {
     email: '',
     github: '',
     password: '',
-    isLoggedIn: localStorage.getItem('isLoggedIn') || false
+    isLoggedIn: localStorage.getItem('loggedIn') || false
   });
 
   const [postState, setPostState] = useState({
@@ -55,7 +55,7 @@ function App() {
         User.login({username: user.username, password: user.password})
         .then(({data}) => {
           localStorage.setItem('jwt', data.token);
-          localStorage.setItem('loggedIn', data.isLoggedIn)
+          localStorage.setItem('loggedIn', data.isLoggedIn);
           setUserState({...userState, 
             user: data, 
              first: '',
@@ -78,7 +78,7 @@ function App() {
   User.login(user)
   .then(({data}) => {
     localStorage.setItem('jwt', data.token);
-    localStorage.setItem('isLoggedIn', data.isLoggedIn);
+    localStorage.setItem('loggedIn', data.isLoggedIn);
     console.log(data);
     setUserState({...userState, user: data, username: '', password: '', isLoggedIn: data.isLoggedIn})
 

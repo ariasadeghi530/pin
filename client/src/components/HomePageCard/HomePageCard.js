@@ -36,25 +36,24 @@ const {isLoggedIn, user} = useContext(UserContext);
 useEffect(() =>{
   handleViewAll();
 }, [isLoggedIn])
-
   return (
     <>
     { isLoggedIn ? 
-  posts.map((obj,index )=> ( <Container key={index}>
-    <Card className={classes.root} key={obj.post._id} variant="outlined">
+  posts.map((post,index )=> ( <Container key={index}>
+    <Card className={classes.root} key={post.owner._id} variant="outlined">
       <CardContent>
         <Typography className={classes.title} color="textSecondary">
-          {obj.user[0].username}
+          {post.owner.username}
           </Typography>
         <Typography variant="h4" component="h3" className={classes.ideaName}>
-         {obj.post.title}
+         {post.title}
           <Typography variant="body2" component="p">
             <br/>
-            Difficulty: {obj.post.difficulty}
+            Difficulty: {post.difficulty}
           </Typography>
         </Typography>
         <Typography variant="body2" component="p">
-        {obj.post.description}
+        {post.description}
           <br />
         </Typography>
       </CardContent>
