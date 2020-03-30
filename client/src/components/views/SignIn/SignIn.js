@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useContext} from 'react';
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,12 +13,14 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import UserContext from '../../../utils/UserContext'
+import {Redirect} from 'react-router-dom';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit">
         PIN
       </Link>{' '}
       {new Date().getFullYear()}
@@ -44,18 +47,25 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  signLogo: {
+    height: "20%",
+    width: "20%",
+    marginBottom: 7,
+  }
 }));
 
 export default function SignIn() {
   const classes = useStyles();
+  
+  const { username, password, isLoggedIn, handleInputChange, handleSignInUser} = useContext(UserContext);
 
   return (
-    <Container component="main" maxWidth="xs">
+    <>
+    { isLoggedIn ? <Redirect to={{pathname: '/'}}/> : 
+   ( <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+      <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.signLogo}/>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
@@ -68,6 +78,8 @@ export default function SignIn() {
             id="username"
             label="Username"
             name="username"
+            value={username}
+            onChange={handleInputChange}
             autoFocus
           />
           <TextField
@@ -75,10 +87,12 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
+           value={password}
             name="password"
             label="Password"
             type="password"
             id="password"
+            onChange={handleInputChange}
             autoComplete="current-password"
           />
           <FormControlLabel
@@ -91,6 +105,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSignInUser}
           >
             Sign In
           </Button>
@@ -111,6 +126,7 @@ export default function SignIn() {
       <Box mt={8}>
         <Copyright />
       </Box>
-    </Container>
+    </Container>)}
+    </>
   );
 }
