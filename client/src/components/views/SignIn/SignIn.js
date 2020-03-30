@@ -47,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  signLogo: {
+    height: "20%",
+    width: "20%",
+    marginBottom: 7,
+  }
 }));
 
 export default function SignIn() {
@@ -60,9 +65,7 @@ export default function SignIn() {
    ( <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+      <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.signLogo}/>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>

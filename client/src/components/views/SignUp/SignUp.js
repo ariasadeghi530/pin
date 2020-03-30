@@ -6,11 +6,11 @@ import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import UserContext from '../../../utils/UserContext'
+import {Redirect} from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -43,21 +43,27 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  signLogo: {
+    height: "20%",
+    width: "20%",
+    marginBottom: 7,
+  }
 }));
 
 export default function SignUp() {
   const classes = useStyles();
 
-   const {first, last, email, username, password, github, handleInputChange, handleRegisterUser} = useContext(UserContext);
+   const {first, last, email, username, password, github, handleInputChange, handleRegisterUser, isLoggedIn} = useContext(UserContext);
 
   return (
-    
-    <Container component="main" maxWidth="xs">
+    <>
+    { isLoggedIn ? <Redirect to={{pathname: '/'}}/> :
+    (<Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+      
+        <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.signLogo}/>
+      
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
@@ -163,6 +169,8 @@ export default function SignUp() {
       <Box mt={5}>
         <Copyright />
       </Box>
-    </Container>
+    </Container>)
+  }
+  </>
   );
 }

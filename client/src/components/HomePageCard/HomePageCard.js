@@ -40,7 +40,7 @@ useEffect(() =>{
   return (
     <>
     { isLoggedIn ? 
-  posts.map(obj => ( <Container>
+  posts.map((obj,index )=> ( <Container key={index}>
     <Card className={classes.root} key={obj.post._id} variant="outlined">
       <CardContent>
         <Typography className={classes.title} color="textSecondary">
