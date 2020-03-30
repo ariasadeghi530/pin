@@ -170,7 +170,7 @@ export default function PersistentDrawerRight() {
           <SearchIcon />
           <div className={classes.search}>
             <InputBase
-              placeholder="Search…"
+              placeholder="Search for an idea..."
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
