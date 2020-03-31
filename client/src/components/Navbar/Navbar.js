@@ -112,7 +112,6 @@ const useStyles = makeStyles(theme => ({
   },
   text: {
     color: "white",
-    marginLeft: "1rem"
   },
   listText: {
     color: "black"
