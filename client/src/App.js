@@ -175,6 +175,9 @@ function App() {
           <PrimarySearchAppBar />
           <CreateIdea />
         </Route>
+        <Route path="/resetPassword/:token">
+
+        </Route>
       </Switch>
     </Router>
     </UserContext.Provider>
