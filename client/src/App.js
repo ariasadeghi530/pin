@@ -9,6 +9,7 @@ import UserContext from './utils/UserContext';
 import PostContext from './utils/PostContext';
 import User from './utils/User'
 import Post from './utils/Post';
+import Profile from './components/views/Profile';
 
 function App() {
 
@@ -109,6 +110,9 @@ function App() {
       <Switch>
         <Route exact path="/signin">
           <SignIn />
+        </Route>
+        <Route exact path="/profile">
+          <Profile />
         </Route>
         <Route exact path="/signup">
           <SignUp />
