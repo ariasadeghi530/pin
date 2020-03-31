@@ -11,7 +11,6 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -22,6 +21,7 @@ import InputBase from '@material-ui/core/InputBase';
 import UserContext from '../../utils/UserContext';
 import PostContext from '../../utils/PostContext';
 import Link from '@material-ui/core/Link';
+import CloseIcon from '@material-ui/icons/Close';
 
 const drawerWidth = '100%';
 
@@ -111,7 +111,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 7,
   },
   text: {
-    color: "white"
+    color: "white",
+    marginLeft: "1rem"
   },
   listText: {
     color: "black"
@@ -174,7 +175,7 @@ export default function PersistentDrawerRight() {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronRightIcon />}
+            {theme.direction === 'rtl' ? <CloseIcon /> : <CloseIcon />}
           </IconButton>
         </div>
         <Divider />
