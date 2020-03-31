@@ -36,6 +36,7 @@ import Button from '@material-ui/core/Button';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    paddingBottom: '0px',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -56,8 +57,14 @@ const useStyles = makeStyles((theme) => ({
       marginTop: 10,
     //   float: 'right'
   },
+  avatar: {
+    marginBottom: 10,
+  },
   floatRight: {
     //   float: 'right'
+  },
+  noMargin: {
+      margin: 0,
   }
 }));
 
@@ -76,7 +83,7 @@ export default function ControlledExpansionPanels() {
     <div className={classes.blah}>
     <Card className={classes.root}>
       <CardContent>
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+      <Avatar className={classes.avatar} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
       <div className={classes.floatRight}>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           Evan Erickson
@@ -91,9 +98,9 @@ export default function ControlledExpansionPanels() {
         </Typography>
         </div>
       </CardContent>
-      {/* <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions> */}
+      <CardActions>
+        <Button size="small" color="primary" className={classes.noMargin}>Edit</Button>
+      </CardActions>
     </Card>
     </div>
 
