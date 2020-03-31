@@ -96,6 +96,9 @@ export default function ControlledExpansionPanels() {
         <Typography variant="body2" component="p">
           MERN Stack, Vanilla Javascript, Python, and PHP.
         </Typography>
+        <Typography className={classes.blah} variant="body2" component="p">
+          Bio: I am a full stack software developer. I currently work for The Erickson Organization and live in Los Angeles, CA.
+        </Typography>
         </div>
       </CardContent>
       <CardActions>
