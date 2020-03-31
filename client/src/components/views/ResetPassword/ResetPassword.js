@@ -1,23 +1,19 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import UserContext from '../../../utils/UserContext'
-import {Redirect} from 'react-router-dom';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit">
+      <Link color="inherit" href="">
         PIN
       </Link>{' '}
       {new Date().getFullYear()}
@@ -53,18 +49,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  
-  const { username, password, isLoggedIn, handleInputChange, handleSignInUser} = useContext(UserContext);
 
   return (
-    <>
-    { isLoggedIn ? <Redirect to={{pathname: '/'}}/> : 
-   ( <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-      <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.signLogo} alt="pin logo"/>
+        <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.signLogo} alt="pin logo" />
         <Typography component="h1" variant="h5">
-          Sign in
+          Confirm Your Password Reset
+        </Typography>
+        <Typography variant="subtitle2" color="textSecondary">
+          Enter your new password
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -72,29 +67,22 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            value={username}
-            onChange={handleInputChange}
-            autoFocus
+            name="password"
+            label="New Password"
+            type="password"
+            // onChange={}
+            // value={}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-           value={password}
             name="password"
-            label="Password"
+            label="Confirm Password"
             type="password"
-            id="password"
-            onChange={handleInputChange}
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            // onChange={}
+            // value={}
           />
           <Button
             type="submit"
@@ -102,28 +90,16 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={handleSignInUser}
+            // onChange={}
+            // onClick={}
           >
-            Sign In
+            Submit
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="/reset" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
         </form>
       </div>
       <Box mt={8}>
         <Copyright />
       </Box>
-    </Container>)}
-    </>
+    </Container>
   );
 }

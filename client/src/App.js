@@ -3,6 +3,7 @@ import SignIn from './components/views/SignIn';
 import HomePage from './components/views/HomePage';
 import SignUp from './components/views/SignUp';
 import Reset from './components/views/Reset';
+import ResetPassword from './components/views/ResetPassword';
 import CreateIdea from './components/views/CreateIdea'
 import PrimarySearchAppBar from './components/Navbar'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
@@ -170,6 +171,9 @@ function App() {
         </Route>
         <Route exact path="/reset">
           <Reset />
+        </Route>
+        <Route path="/resetpassword">
+          <ResetPassword />
         </Route>
         <Route exact path="/postidea">
           <PrimarySearchAppBar />

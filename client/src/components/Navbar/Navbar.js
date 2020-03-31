@@ -146,7 +146,7 @@ export default function PersistentDrawerRight() {
           <Typography variant="h6" noWrap className={classes.title} >
           <Link href="/" >
             <div className={classes.text}>
-            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo}/> 
+            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo} alt="pin logo"/> 
             Pin 
             </div>
             </Link>
