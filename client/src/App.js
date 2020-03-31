@@ -3,6 +3,7 @@ import SignIn from './components/views/SignIn';
 import HomePage from './components/views/HomePage';
 import SignUp from './components/views/SignUp';
 import Reset from './components/views/Reset';
+import CreateIdea from './components/views/CreateIdea'
 import PrimarySearchAppBar from './components/Navbar'
 import Idea from './components/Idea'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
@@ -31,7 +32,8 @@ function App() {
     description: '',
     difficulty: '',
     totalTime: '',
-    imageLinks: ''
+    imageLinks: '',
+    search: '',
   });
 
   userState.handleInputChange = event => {
@@ -79,7 +81,6 @@ function App() {
   .then(({data}) => {
     localStorage.setItem('jwt', data.token);
     localStorage.setItem('loggedIn', data.isLoggedIn);
-    console.log(data);
     setUserState({...userState, user: data, username: '', password: '', isLoggedIn: data.isLoggedIn})
 
   })
@@ -88,46 +89,79 @@ function App() {
   }
 
   userState.handleLogOut = () => {
-
     localStorage.clear();
     setUserState({...userState, isLoggedIn: false});
+  }
+
+  postState.handleInputChange = event => {
+    setPostState({...postState, [event.target.name]: event.target.value});
   }
 
   postState.handleViewAll = () =>{
     Post.home()
     .then(({data}) => {
-     
+    
       setPostState({...postState, posts: data})
     })
     .catch(e => console.error(e))
   }
+  postState.handleSearch = (event) => {
+    event.preventDefault();
+  
+    Post.search(postState.search)
+    .then(({data}) =>{
+      console.log(data);
+      setPostState({...postState, posts: data, search: ''});
+    })
+    .catch(e => console.error(e))
+  }
+
+  postState.handleCreateNewPost = event => {
+    event.preventDefault();
+    let post = { 
+      title: postState.title,
+      description: postState.description,
+      difficulty: postState.difficulty,
+      totalTime: postState.totalTime,
+      imageLinks: []
+    };
+    Post.create(post)
+      .then(({data}) => {
+        setPostState({ ...postState, title: '', description: '', difficulty: '', totalTime: '', imageLinks: '', post: data });
+      })
+      .catch(e => console.error(e))
+  };
 
   return (
     <>
-    <PostContext.Provider value={postState}>
-    <UserContext.Provider value={userState}>
-    <Router>
-      <Switch>
-        <Route exact path="/signin">
-          <SignIn />
-        </Route>
-        <Route exact path="/signup">
-          <SignUp />
-        </Route>
-        <Route exact path="/">
-        <PrimarySearchAppBar />
-          <HomePage />
-        </Route>
-        <Route exact path="/reset">
-          <Reset />
-        </Route>
-        <Route exact path="/idea">
-          <Idea />
-        </Route>
-      </Switch>
-    </Router>
-    </UserContext.Provider>
-    </PostContext.Provider>
+      <PostContext.Provider value={postState}>
+      <UserContext.Provider value={userState}>
+      <Router> 
+        <Switch>
+          <Route exact path="/signin">
+            <SignIn />
+          </Route>
+          <Route exact path="/signup">
+            <SignUp />
+          </Route>
+          <Route exact path="/">
+            <PrimarySearchAppBar />
+            <HomePage />
+          </Route>
+          <Route exact path="/reset">
+            <Reset />
+          </Route>
+          <Route exact path="/idea">
+            <Idea />
+          </Route>
+          <Route exact path="/postidea">
+            <PrimarySearchAppBar />
+            <CreateIdea />
+          </Route>
+        </Switch>
+      </Router>
+      </UserContext.Provider>
+      </PostContext.Provider>
     </>
   )
 };

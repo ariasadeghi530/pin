@@ -11,7 +11,6 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -20,6 +19,9 @@ import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import UserContext from '../../utils/UserContext';
+import PostContext from '../../utils/PostContext';
+import Link from '@material-ui/core/Link';
+import CloseIcon from '@material-ui/icons/Close';
 
 const drawerWidth = '100%';
 
@@ -107,7 +109,13 @@ const useStyles = makeStyles(theme => ({
     height: "7%",
     width: "7%",
     marginBottom: 7,
-  }
+  },
+  text: {
+    color: "white",
+  },
+  listText: {
+    color: "black"
+  },
 }));
 
 export default function PersistentDrawerRight() {
@@ -123,6 +131,7 @@ export default function PersistentDrawerRight() {
     setOpen(false);
   };
   const {handleLogOut} = useContext(UserContext);
+  const {handleSearch, handleInputChange, search} = useContext(PostContext);
 
   return (
     <div className={classes.root}>
@@ -133,9 +142,14 @@ export default function PersistentDrawerRight() {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
+        <Toolbar >
           <Typography variant="h6" noWrap className={classes.title} >
-            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo} /> Pin
+          <Link href="/" >
+            <div className={classes.text}>
+            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo}/> 
+            Pin 
+            </div>
+            </Link>
           </Typography>
           <IconButton
             color="inherit"
@@ -160,7 +174,7 @@ export default function PersistentDrawerRight() {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronRightIcon />}
+            {theme.direction === 'rtl' ? <CloseIcon /> : <CloseIcon />}
           </IconButton>
         </div>
         <Divider />
@@ -169,21 +183,30 @@ export default function PersistentDrawerRight() {
             
           <SearchIcon />
           <div className={classes.search}>
+            <form onSubmit={(e) => {handleSearch(e); handleDrawerClose()}} noValidate> 
             <InputBase
+            name="search"
+            value={search}
               placeholder="Search for an idea..."
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              onChange={handleInputChange}
+    
             />
+            {/* <Button onClick={handleSearch}></Button> */}
+            </form>
           </div>
           </ListItem>
           {['Profile', 'New Idea'].map((text, index) => (
+            <Link href={index % 2 === 0 ? "/profile": "/postidea"} className={classes.listText}>
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <AccountCircleOutlinedIcon /> : <CreateOutlinedIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
+            </Link>
           ))}
             <ListItem>
             <Button variant="outlined" color="secondary" onClick={handleLogOut} >
