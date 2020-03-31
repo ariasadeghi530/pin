@@ -173,6 +173,14 @@ export default function PersistentDrawerRight() {
         }}
       >
         <div className={classes.drawerHeader}>
+        <Typography variant="h6" noWrap className={classes.title} >
+          <Link href="/" >
+            <div >
+            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo}/> 
+            Pin 
+            </div>
+            </Link>
+          </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <CloseIcon /> : <CloseIcon />}
           </IconButton>

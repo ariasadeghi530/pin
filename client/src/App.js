@@ -10,6 +10,7 @@ import UserContext from './utils/UserContext';
 import PostContext from './utils/PostContext';
 import User from './utils/User'
 import Post from './utils/Post';
+import Axios from 'axios';
 
 function App() {
 
@@ -34,6 +35,12 @@ function App() {
     imageLinks: '',
     search: '',
   });
+
+  const [forgotPasswordState, setForgotPasswordState] = useState({
+    email:'',
+    message: '',
+    error: false
+  })
 
   userState.handleInputChange = event => {
     setUserState({...userState, [event.target.name]: event.target.value});
@@ -130,6 +137,20 @@ function App() {
       })
       .catch(e => console.error(e))
   };
+
+  forgotPasswordState.handleInputChange = event =>{
+    setForgotPasswordState({...forgotPasswordState, [event.target.name]: event.target.value});
+  }
+
+  forgotPasswordState.sendEmail = event =>{
+    event.preventDefault();
+    if(forgotPasswordState.email === ''){
+      setForgotPasswordState({...forgotPasswordState, error: false, message: ''})
+    }
+    else{
+      
+    }
+  }
 
   return (
     <>

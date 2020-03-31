@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const passport = require('passport');
 const { User, Post } = require('../models');
+const TokenGenerator = require('uuid-token-generator');
+const nodemailer = require('nodemailer')
+
 
 const jwt = require('jsonwebtoken');
 
@@ -29,13 +32,75 @@ router.post('/users/register', (req, res) => {
     email: req.body.email,
     github: req.body.github,
     projects: [],
-    ideas: []
+    ideas: [],
+    bio: ''
   }), req.body.password, err => {
     if (err) res.send(err);
     res.sendStatus(200);
   })
 })
 
+router.post('/forgotPassword', (req, res) => {
+  let token = '';
+  if(req.body.email === ''){
+    res.status(400).json({message: "Email required"});
+  }
+  User.findOne({email: req.body.email})
+  .then((user) =>{
+    if(!user){
+      res.status(403).json({message: `No user with email: ${req.body.email}`})
+    } else{
+      tokenGen = new TokenGenerator();
+      token = tokenGen.generate();
+     console.log(token)
+      User.findByIdAndUpdate(user._id, {resetPwordToken: token})
+      .then(() => console.log('db updated'))
+      .catch(e => console.error(e));
+      const transporter = nodemailer.createTransport({
+        service:'gmail',
+        auth:{
+          user: 'projectideanetwork@gmail.com',
+          pass: 'gulag123'
+        }
+      });
+      const mailOptions = {
+        from: 'projectideanetwork@gmail.com',
+        to: `${req.body.email}`,
+        subject: "Link To Reset Password",
+        text: 
+        `You are receiving this email because a request for resetting this account's password was made.\n\n`+'If you made this request, please click the link:\n\n'+`http://localhost:3000/resetpassword/${token} \n\n`+'If you did not make this request, please ignore this email, but consider updating your password.'
+      }
+      
+      transporter.sendMail(mailOptions, (err, response) => {
+        if (err) throw err;
+        res.status(200).json({message: "Recovery email has been sent."})
+      });
+    }
+  })
+    .catch(e => console.error(e));
+      
+})
+
+//reset password form
+router.put('/resetPassword/:token', (req, res) => {
+  User.findOne({resetPwordToken: req.params.token})
+  .then((retuser) => {
+    if(!retuser){
+      console.log("No user exists");
+  }
+  if (req.body.password === req.body.confirm){
+        retuser.setPassword(req.body.password, function(err) {
+            retuser.save(function(err){
+              if(err) throw err;
+                res.status(200).json({message: "Password successfully reset"});
+            });
+        });
+  } else {
+    res.status(400).json({message: "Passwords do not match"})
+  }
+})
+.catch(e => console.error(e))
+});
 //logout
 // router.get('/users/logout', passport.authenticate('jwt'),(req, res) => {
   
