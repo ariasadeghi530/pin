@@ -112,7 +112,10 @@ const useStyles = makeStyles(theme => ({
   },
   text: {
     color: "white"
-  }
+  },
+  listText: {
+    color: "black"
+  },
 }));
 
 export default function PersistentDrawerRight() {
@@ -198,10 +201,12 @@ export default function PersistentDrawerRight() {
           </div>
           </ListItem>
           {['Profile', 'New Idea'].map((text, index) => (
+            <Link href={index % 2 === 0 ? "/profile": "/postidea"} className={classes.listText}>
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <AccountCircleOutlinedIcon /> : <CreateOutlinedIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
+            </Link>
           ))}
             <ListItem>
             <Button variant="outlined" color="secondary" onClick={handleLogOut} >

@@ -13,6 +13,8 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import Typography from '@material-ui/core/Typography';
 import { ClickAwayListener } from '@material-ui/core';
 import PostContext from '../../../utils/PostContext';
+import UserContext from '../../../utils/UserContext';
+import  { Redirect }  from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -59,6 +61,7 @@ function CreateIdea() {
 
   const [open, setOpen] = React.useState(false);
 
+
   const handleTooltipClose = () => {
     setOpen(false);
   };
@@ -68,9 +71,11 @@ function CreateIdea() {
   };
 
   const { title, description, difficulty, totalTime, handleCreateNewPost, handleInputChange } = useContext(PostContext);
+  const {isLoggedIn, user} = useContext(UserContext);
 
   return (
-    <Container className={classes.container}component="main" maxWidth="xs">
+<> {isLoggedIn ? 
+    (<Container className={classes.container}component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Typography variant="h4" gutterBottom>
           Post an Idea
@@ -151,7 +156,8 @@ function CreateIdea() {
           </Button>
         </form>
       </div>
-    </Container>
+    </Container>) :  <Redirect to={{pathname: '/signin'}} />}
+</>
   );
 }
 
