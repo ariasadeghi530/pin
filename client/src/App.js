@@ -7,12 +7,24 @@ import PasswordReset from './components/views/ResetPassword';
 import CreateIdea from './components/views/CreateIdea'
 import PrimarySearchAppBar from './components/Navbar'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import UserContext from './utils/UserContext';
 import PostContext from './utils/PostContext';
 import User from './utils/User'
 import Post from './utils/Post';
 import Profile from './components/views/Profile';
 import axios from 'axios';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#FFB74D'
+    },
+    secondary: {
+      main: '#FFB76E'
+    }
+  }
+})
 
 function App() {
 
@@ -156,7 +168,7 @@ function App() {
  
 
   return (
-    <>
+    <MuiThemeProvider theme={theme}>
     <PostContext.Provider value={postState}>
     <UserContext.Provider value={userState}>
     <Router> 
@@ -186,7 +198,7 @@ function App() {
     </Router>
     </UserContext.Provider>
     </PostContext.Provider>
-    </>
+    </MuiThemeProvider>
   )
 };
 
