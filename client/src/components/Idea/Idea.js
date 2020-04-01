@@ -39,7 +39,11 @@ export default function Idea() {
         titleBar: {
           background:
             'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+        
         },
+        width: {
+            width: '100%'
+        }
     }))
 
     const classes = singleLineGridListStyles()
@@ -107,22 +111,29 @@ export default function Idea() {
             </GridList> */}
         </div>
 
-            <TextareaAutosize aria-label="minimum height" rowsMin={3} placeholder="Write a comment" style={{
-                margin: '1% 1% 1% 1%'
-             }} />
-            <Button
+        <ul className="ul-comments">
+            {/* {comments.map(comment => <li>{comment}</li>)}  */}
+            <li>Comment #1</li>
+        </ul>
+        <div className={classes.width}>
+            <TextareaAutosize aria-label="minimum height" rowsMin={3} placeholder="Write a comment" className={classes.width} style={{
+                    margin: '1% 1% 1% 1%'
+            }} />
+                
+            
+        </div>
+        <Button
                 variant="contained"
                 color="primary"
                 endIcon={<Icon>send</Icon>}
             >
                 Send
             </Button>
-            <ul className="ul-comments">
-                {/* {comments.map(comment => <li>{comment}</li>)}  */}
-                <li>Comment #1</li>
-            </ul>
-        </div>
+            
+            
+    </div>
         
+    
     )
 }
 
