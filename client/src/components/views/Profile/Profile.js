@@ -113,7 +113,6 @@ export default function ControlledExpansionPanels() {
   
   useEffect(() => {
     handleUserProfile();
-    console.log(user)
   }, [isLoggedIn]);
 
  
@@ -133,7 +132,7 @@ export default function ControlledExpansionPanels() {
             className={classes.removePadding}
            
             avatar={ avatarURL ? <Avatar src={avatarURL} alt="gh-avatar" className={classes.avatarImg} /> : <Avatar aria-label="recipe" className={classes.avatar}>
-                {user.username.slice(1,2)}
+                {user.username}
               </Avatar>
               }
             title={<p>Hello</p>}
