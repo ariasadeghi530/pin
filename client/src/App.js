@@ -3,7 +3,7 @@ import SignIn from './components/views/SignIn';
 import HomePage from './components/views/HomePage';
 import SignUp from './components/views/SignUp';
 import Reset from './components/views/Reset';
-import ResetPassword from './components/views/ResetPassword';
+import PasswordReset from './components/views/ResetPassword';
 import CreateIdea from './components/views/CreateIdea'
 import PrimarySearchAppBar from './components/Navbar'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
@@ -11,7 +11,7 @@ import UserContext from './utils/UserContext';
 import PostContext from './utils/PostContext';
 import User from './utils/User'
 import Post from './utils/Post';
-import Axios from 'axios';
+import axios from 'axios';
 
 function App() {
 
@@ -37,11 +37,7 @@ function App() {
     search: '',
   });
 
-  const [forgotPasswordState, setForgotPasswordState] = useState({
-    email:'',
-    message: '',
-    error: false
-  })
+  
 
   userState.handleInputChange = event => {
     setUserState({...userState, [event.target.name]: event.target.value});
@@ -139,19 +135,7 @@ function App() {
       .catch(e => console.error(e))
   };
 
-  forgotPasswordState.handleInputChange = event =>{
-    setForgotPasswordState({...forgotPasswordState, [event.target.name]: event.target.value});
-  }
-
-  forgotPasswordState.sendEmail = event =>{
-    event.preventDefault();
-    if(forgotPasswordState.email === ''){
-      setForgotPasswordState({...forgotPasswordState, error: false, message: ''})
-    }
-    else{
-      
-    }
-  }
+ 
 
   return (
     <>
@@ -172,15 +156,11 @@ function App() {
         <Route exact path="/reset">
           <Reset />
         </Route>
-        <Route path="/resetpassword">
-          <ResetPassword />
-        </Route>
         <Route exact path="/postidea">
           <PrimarySearchAppBar />
           <CreateIdea />
         </Route>
-        <Route path="/resetPassword/:token">
-
+        <Route path="/resetPassword/:token" component={PasswordReset}>
         </Route>
       </Switch>
     </Router>

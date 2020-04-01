@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -8,6 +8,8 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Alert from '@material-ui/lab/Alert';
+import axios from 'axios';
 
 function Copyright() {
   return (
@@ -47,8 +49,42 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SignIn() {
+const PasswordReset = () => {
   const classes = useStyles();
+
+  const [resetSubmissionState, setResetSubmissionState] = useState({
+    password: '',
+    confirm: '',
+    error: false, 
+    message: ''
+  });
+
+  resetSubmissionState.handleInputChage = event =>{
+    setResetSubmissionState({...resetSubmissionState, [event.target.name]: event.target.value});
+  }
+  resetSubmissionState.handlePasswordReset = event =>{
+    event.preventDefault();
+    let newPassword = {
+      password: resetSubmissionState.password,
+      confirm: resetSubmissionState.confirm
+    };
+    let path = window.location.pathname;
+    let token = path.slice(15);
+    
+   if(resetSubmissionState.password !== '' || resetSubmissionState.confirm !== ''){
+      axios.put(`/api/resetPassword/${token}`, {password: resetSubmissionState.password, confirm: resetSubmissionState.confirm})
+    .then(({data: {message}})=> {
+      if(message === "Password successfully reset!"){
+        setResetSubmissionState({...resetSubmissionState, error: false, message,
+        password: '', confirm: ''})
+      } else {
+        setResetSubmissionState({...resetSubmissionState, error: true, message,
+          password: '', confirm: ''})
+      }
+    })
+    .catch(e => console.error(e))
+  }
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -61,6 +97,7 @@ export default function SignIn() {
         <Typography variant="subtitle2" color="textSecondary">
           Enter your new password
         </Typography>
+        {resetSubmissionState.message !== '' ? <div> { resetSubmissionState.error ? <Alert severity="error">{resetSubmissionState.message}</Alert>: <Alert severity="success">{resetSubmissionState.message}</Alert>}</div> : console.log(resetSubmissionState.message)}
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -70,19 +107,19 @@ export default function SignIn() {
             name="password"
             label="New Password"
             type="password"
-            // onChange={}
-            // value={}
+            onChange={resetSubmissionState.handleInputChage}
+            value={resetSubmissionState.password}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            name="password"
+            name="confirm"
             label="Confirm Password"
             type="password"
-            // onChange={}
-            // value={}
+            onChange={resetSubmissionState.handleInputChage}
+            value={resetSubmissionState.confirm}
           />
           <Button
             type="submit"
@@ -90,8 +127,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            // onChange={}
-            // onClick={}
+            onClick={resetSubmissionState.handlePasswordReset}
           >
             Submit
           </Button>
@@ -103,3 +139,4 @@ export default function SignIn() {
     </Container>
   );
 }
+export default PasswordReset;

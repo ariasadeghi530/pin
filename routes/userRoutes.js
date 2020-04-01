@@ -48,7 +48,7 @@ router.post('/forgotPassword', (req, res) => {
   User.findOne({email: req.body.email})
   .then((user) =>{
     if(!user){
-      res.status(403).json({message: `No user with email: ${req.body.email}`})
+      res.json({message: `No user with that email found`})
     } else{
       tokenGen = new TokenGenerator();
       token = tokenGen.generate();
@@ -73,7 +73,7 @@ router.post('/forgotPassword', (req, res) => {
       
       transporter.sendMail(mailOptions, (err, response) => {
         if (err) throw err;
-        res.status(200).json({message: "Recovery email has been sent."})
+        res.status(200).json({message: "Recovery email has been sent!"})
       });
     }
   })
@@ -92,7 +92,7 @@ router.put('/resetPassword/:token', (req, res) => {
         retuser.setPassword(req.body.password, function(err) {
             retuser.save(function(err){
               if(err) throw err;
-                res.status(200).json({message: "Password successfully reset"});
+                res.status(200).json({message: "Password successfully reset!"});
             });
         });
   } else {
