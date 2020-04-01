@@ -1,4 +1,5 @@
 const router = require('express').Router();
+require('dotenv').config();
 const passport = require('passport');
 const { User, Post } = require('../models');
 const TokenGenerator = require('uuid-token-generator');
@@ -63,12 +64,14 @@ router.post('/forgotPassword', (req, res) => {
           pass: 'gulag123'
         }
       });
+      let url = process.env.HEROKU_URL || 'http://localhost:3000/resetpassword/';
+
       const mailOptions = {
         from: 'projectideanetwork@gmail.com',
         to: `${req.body.email}`,
         subject: "Link To Reset Password",
         text: 
-        `You are receiving this email because a request for resetting this account's password was made.\n\n`+'If you made this request, please click the link:\n\n'+`http://localhost:3000/resetpassword/${token} \n\n`+'If you did not make this request, please ignore this email, but consider updating your password.'
+        `You are receiving this email because a request for resetting this account's password was made.\n\n`+'If you made this request, please click the link:\n\n'+url+`${token} \n\n`+'If you did not make this request, please ignore this email, but consider updating your password.'
       }
       
       transporter.sendMail(mailOptions, (err, response) => {
