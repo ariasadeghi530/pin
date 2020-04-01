@@ -3,13 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import UserContext from '../../utils/UserContext';
 import PostContext from '../../utils/PostContext';
 import Chip from '@material-ui/core/Chip';
-import { palette } from '@material-ui/system';
+
 import  { Redirect }  from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -31,6 +31,10 @@ const useStyles = makeStyles({
   },
   cardDescp:{
     marginTop: 15,
+  },
+  cardAction: {
+    display: 'block',
+    textAlign: 'initial'
   }
 });
 
@@ -49,6 +53,10 @@ useEffect(() =>{
     { isLoggedIn ? 
   posts.map((post,index )=> ( <Container key={index}>
     <Card className={classes.root} key={post.owner._id} variant="outlined">
+      <ButtonBase
+       className={classes.cardAction}
+      //  onClick={}
+       >
       <CardContent>
         <Typography className={classes.title} color="textSecondary">
           {post.owner.username}
@@ -66,9 +74,7 @@ useEffect(() =>{
           
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">View Idea</Button>
-      </CardActions>
+      </ButtonBase>
     </Card>
     </Container>)) : <Redirect to={{pathname: '/signin'}} /> 
     }
