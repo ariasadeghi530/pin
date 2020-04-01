@@ -14,11 +14,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import UserContext from '../../../utils/UserContext';
 import Link from "@material-ui/core/Link";
-import User from '../../../utils/User';
-
-
-
-
+import  { Redirect }  from 'react-router-dom';
 
 
 
@@ -123,7 +119,11 @@ export default function ControlledExpansionPanels() {
  
   return (
     <>
-      <Navbar />
+{isLoggedIn ? 
+
+     (
+       <>
+        <Navbar />
       <div className={classes.pageMargin}>
         <Card className={classes.root}>
           <Typography className={classes.title} color="textPrimary" gutterBottom>
@@ -237,6 +237,7 @@ export default function ControlledExpansionPanels() {
         </ExpansionPanelDetails>
       </ExpansionPanel> */}
       </div>
+      </> ) :  <Redirect to={{pathname: '/signin'}} />}
     </>
   );
 }
