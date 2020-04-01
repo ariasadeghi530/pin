@@ -12,6 +12,7 @@ const UserContext = createContext({
     handleInputChange: () => {},
     handleRegisterUser: () => {},
     handleSignInUser: () => {},
+    handleUserProfile: () => {},
     handleLogOut: () => {}
 });
 

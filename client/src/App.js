@@ -11,6 +11,7 @@ import UserContext from './utils/UserContext';
 import PostContext from './utils/PostContext';
 import User from './utils/User'
 import Post from './utils/Post';
+import Profile from './components/views/Profile';
 import axios from 'axios';
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
         .then(({data}) => {
           localStorage.setItem('jwt', data.token);
           localStorage.setItem('loggedIn', data.isLoggedIn);
+          localStorage.setItem('uid', data.id);
           setUserState({...userState, 
             user: data, 
              first: '',
@@ -82,13 +84,29 @@ function App() {
 
   User.login(user)
   .then(({data}) => {
+   
     localStorage.setItem('jwt', data.token);
     localStorage.setItem('loggedIn', data.isLoggedIn);
+    localStorage.setItem('uid', data.id);
     setUserState({...userState, user: data, username: '', password: '', isLoggedIn: data.isLoggedIn})
 
   })
   .catch(e => console.error(e))
 
+  }
+
+  userState.handleUserProfile =() =>{
+    User.profile()
+    .then(({data: userInfo}) =>{
+      axios.get(`https://api.github.com/search/users?q=${userInfo.github}`)
+      .then(({data: {items}}) =>{
+        console.log(items[0])
+        localStorage.setItem('avatar', items[0].avatar_url)
+        setUserState({...userState, user: userInfo});
+      })
+      .catch(e =>console.error(e))
+    })
+    .catch(e => console.error(e))
   }
 
   userState.handleLogOut = () => {
@@ -145,6 +163,8 @@ function App() {
       <Switch>
         <Route exact path="/signin">
           <SignIn />
+        </Route>
+        <Route path="/profile/:id" component={Profile}>
         </Route>
         <Route exact path="/signup">
           <SignUp />

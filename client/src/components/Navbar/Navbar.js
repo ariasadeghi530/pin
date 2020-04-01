@@ -141,8 +141,9 @@ export default function Nav() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const {handleLogOut} = useContext(UserContext);
+  const {handleLogOut, user} = useContext(UserContext);
   const {handleSearch, handleInputChange, search} = useContext(PostContext);
+  const userID = user._id || localStorage.getItem('uid'); 
 
   return (
     <div className={classes.root}>
@@ -220,7 +221,7 @@ export default function Nav() {
           </div>
           </ListItem>
           {['Profile', 'New Idea'].map((text, index) => (
-            <Link href={index % 2 === 0 ? "/profile": "/postidea"} className={classes.listText}>
+            <Link href={index % 2 === 0 ? `/profile/${userID}`: "/postidea"} className={classes.listText}>
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <AccountCircleOutlinedIcon /> : <CreateOutlinedIcon />}</ListItemIcon>
               <ListItemText primary={text} />
