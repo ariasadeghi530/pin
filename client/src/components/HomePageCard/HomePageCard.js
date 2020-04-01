@@ -30,7 +30,7 @@ const useStyles = makeStyles({
     marginTop: '1rem',
   },
   cardDescp:{
-    marginTop: 7,
+    marginTop: 15,
   }
 });
 
@@ -60,7 +60,7 @@ useEffect(() =>{
             <Chip label={post.difficulty} color={ post.difficulty === 'Hard' ? "secondary" : ( post.difficulty === "Moderate" ? "primary" : "default") } variant="outlined" /> 
           </Typography>
         </Typography>
-        <Typography variant="body2" component="p" className={classes.cardDescp}>
+        <Typography variant="body2" component="h6" className={classes.cardDescp}>
             
         {post.description}
           
