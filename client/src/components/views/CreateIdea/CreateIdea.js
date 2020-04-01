@@ -72,7 +72,7 @@ function CreateIdea() {
 
   const { title, description, difficulty, totalTime, handleCreateNewPost, handleInputChange } = useContext(PostContext);
   const {isLoggedIn, user} = useContext(UserContext);
-
+  
   return (
 <> {isLoggedIn ? 
     (<Container className={classes.container}component="main" maxWidth="xs">

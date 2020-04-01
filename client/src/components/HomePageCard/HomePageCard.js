@@ -3,11 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import UserContext from '../../utils/UserContext';
 import PostContext from '../../utils/PostContext';
+import Chip from '@material-ui/core/Chip';
+
 import  { Redirect }  from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -23,6 +25,16 @@ const useStyles = makeStyles({
   },
   ideaName: {
     marginTop: 0,
+  },
+  diffChip: {
+    marginTop: '1rem',
+  },
+  cardDescp:{
+    marginTop: 15,
+  },
+  cardAction: {
+    display: 'block',
+    textAlign: 'initial'
   }
 });
 
@@ -41,25 +53,28 @@ useEffect(() =>{
     { isLoggedIn ? 
   posts.map((post,index )=> ( <Container key={index}>
     <Card className={classes.root} key={post.owner._id} variant="outlined">
+      <ButtonBase
+       className={classes.cardAction}
+      //  onClick={}
+       >
       <CardContent>
         <Typography className={classes.title} color="textSecondary">
           {post.owner.username}
           </Typography>
         <Typography variant="h4" component="h3" className={classes.ideaName}>
          {post.title}
-          <Typography variant="body2" component="p">
-            <br/>
-            Difficulty: {post.difficulty}
+          <Typography variant="body2" component="p" className={classes.diffChip}>
+            
+            <Chip label={post.difficulty} color={ post.difficulty === 'Hard' ? "secondary" : ( post.difficulty === "Moderate" ? "primary" : "default") } variant="outlined" /> 
           </Typography>
         </Typography>
-        <Typography variant="body2" component="p">
+        <Typography variant="body2" component="h6" className={classes.cardDescp}>
+            
         {post.description}
-          <br />
+          
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">View Idea</Button>
-      </CardActions>
+      </ButtonBase>
     </Card>
     </Container>)) : <Redirect to={{pathname: '/signin'}} /> 
     }

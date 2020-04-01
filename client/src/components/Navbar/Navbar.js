@@ -116,9 +116,16 @@ const useStyles = makeStyles(theme => ({
   listText: {
     color: "black"
   },
+  logout:{
+    width: "100%",
+    display: 'flex',
+   alignContent: "center",
+   marginTop: 5
+    // marginLeft: "3rem"
+  }
 }));
 
-export default function PersistentDrawerRight() {
+export default function Nav() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -146,7 +153,7 @@ export default function PersistentDrawerRight() {
           <Typography variant="h6" noWrap className={classes.title} >
           <Link href="/" >
             <div className={classes.text}>
-            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo}/> 
+            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo} alt="pin logo"/> 
             Pin 
             </div>
             </Link>
@@ -173,6 +180,14 @@ export default function PersistentDrawerRight() {
         }}
       >
         <div className={classes.drawerHeader}>
+        <Typography variant="h6" noWrap className={classes.title} >
+          <Link href="/" >
+            <div >
+            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo}/> 
+            Pin 
+            </div>
+            </Link>
+          </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <CloseIcon /> : <CloseIcon />}
           </IconButton>
@@ -208,12 +223,14 @@ export default function PersistentDrawerRight() {
             </ListItem>
             </Link>
           ))}
+            <Divider />
             <ListItem>
-            <Button variant="outlined" color="secondary" onClick={handleLogOut} >
+            <Button variant="outlined" color="secondary" className={classes.logout}onClick={handleLogOut} >
             Logout
           </Button>
             </ListItem>
         </List>
+        
         <Divider />
         
       </Drawer>

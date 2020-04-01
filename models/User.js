@@ -6,6 +6,8 @@ const UserSchema = new Schema({
   username: {type: String, unique: true, required: true, dropDups: true},
   email: {type: String, unique: true, required: true, dropDups: true},
   github: {type: String, unique: true, dropDups: true},
+  bio: { type: String },
+  resetPwordToken: {type: String, default: ''},
   ideas: [
     {
       type: Schema.Types.ObjectId,

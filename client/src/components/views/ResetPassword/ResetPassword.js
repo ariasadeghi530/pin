@@ -12,8 +12,6 @@ import Alert from '@material-ui/lab/Alert';
 import axios from 'axios';
 
 function Copyright() {
-  
-
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
@@ -51,60 +49,77 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Reset() {
+const PasswordReset = () => {
   const classes = useStyles();
-  const [forgotPasswordState, setForgotPasswordState] = useState({
-    email:'',
-    message: '',
-    error: false
+
+  const [resetSubmissionState, setResetSubmissionState] = useState({
+    password: '',
+    confirm: '',
+    error: false, 
+    message: ''
   });
-  
-  forgotPasswordState.handleInputChange = event =>{
-    setForgotPasswordState({...forgotPasswordState, [event.target.name]: event.target.value});
+
+  resetSubmissionState.handleInputChage = event =>{
+    setResetSubmissionState({...resetSubmissionState, [event.target.name]: event.target.value});
+  }
+  resetSubmissionState.handlePasswordReset = event =>{
+    event.preventDefault();
+    let newPassword = {
+      password: resetSubmissionState.password,
+      confirm: resetSubmissionState.confirm
+    };
+    let path = window.location.pathname;
+    let token = path.slice(15);
+    
+   if(resetSubmissionState.password !== '' || resetSubmissionState.confirm !== ''){
+      axios.put(`/api/resetPassword/${token}`, {password: resetSubmissionState.password, confirm: resetSubmissionState.confirm})
+    .then(({data: {message}})=> {
+      if(message === "Password successfully reset!"){
+        setResetSubmissionState({...resetSubmissionState, error: false, message,
+        password: '', confirm: ''})
+      } else {
+        setResetSubmissionState({...resetSubmissionState, error: true, message,
+          password: '', confirm: ''})
+      }
+    })
+    .catch(e => console.error(e))
+  }
   }
 
-  forgotPasswordState.sendEmail = event =>{
-    event.preventDefault();
-    if(forgotPasswordState.email === ''){
-      setForgotPasswordState({...forgotPasswordState, error: false, message: ''})
-    }
-    else{
-     
-      axios.post('/api/forgotPassword', {email: forgotPasswordState.email})
-      .then(({data:{message}}) => {
-        
-        if(message === "Recovery email has been sent!"){
-        setForgotPasswordState({...forgotPasswordState, message, error: false, email: ''});
-        } else {
-          setForgotPasswordState({...forgotPasswordState, message, error: true});
-        }
-      })
-      .catch(e => console.error(e));
-    }
-  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.signLogo} alt="pin logo" />
         <Typography component="h1" variant="h5">
-          Reset your password
+          Confirm Your Password Reset
         </Typography>
         <Typography variant="subtitle2" color="textSecondary">
-          We will send a password reset link to your email
+          Enter your new password
         </Typography>
-      { forgotPasswordState.message !== '' ? <div>{forgotPasswordState.error ? <Alert severity="error">{forgotPasswordState.message}</Alert>: <Alert severity="success">{forgotPasswordState.message}</Alert>}</div> : console.log('')}
+        {resetSubmissionState.message !== '' ? <div> { resetSubmissionState.error ? <Alert severity="error">{resetSubmissionState.message}</Alert>: <Alert severity="success">{resetSubmissionState.message}</Alert>}</div> : console.log(resetSubmissionState.message)}
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            name="email"
-            label="Email address"
-            type="email"
-            value={forgotPasswordState.email}
-            onChange={forgotPasswordState.handleInputChange}
+            name="password"
+            label="New Password"
+            type="password"
+            onChange={resetSubmissionState.handleInputChage}
+            value={resetSubmissionState.password}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="confirm"
+            label="Confirm Password"
+            type="password"
+            onChange={resetSubmissionState.handleInputChage}
+            value={resetSubmissionState.confirm}
           />
           <Button
             type="submit"
@@ -112,15 +127,10 @@ export default function Reset() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={forgotPasswordState.sendEmail}
+            onClick={resetSubmissionState.handlePasswordReset}
           >
             Submit
           </Button>
-          <Grid item>
-            <Link href="/signin" variant="body2">
-              {"Already have an account? Sign In"}
-            </Link>
-          </Grid>
         </form>
       </div>
       <Box mt={8}>
@@ -129,3 +139,4 @@ export default function Reset() {
     </Container>
   );
 }
+export default PasswordReset;

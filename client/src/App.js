@@ -3,6 +3,7 @@ import SignIn from './components/views/SignIn';
 import HomePage from './components/views/HomePage';
 import SignUp from './components/views/SignUp';
 import Reset from './components/views/Reset';
+import PasswordReset from './components/views/ResetPassword';
 import CreateIdea from './components/views/CreateIdea'
 import PrimarySearchAppBar from './components/Navbar'
 import Idea from './components/Idea'
@@ -11,6 +12,7 @@ import UserContext from './utils/UserContext';
 import PostContext from './utils/PostContext';
 import User from './utils/User'
 import Post from './utils/Post';
+import axios from 'axios';
 
 function App() {
 
@@ -35,6 +37,8 @@ function App() {
     imageLinks: '',
     search: '',
   });
+
+  
 
   userState.handleInputChange = event => {
     setUserState({...userState, [event.target.name]: event.target.value});
@@ -132,6 +136,8 @@ function App() {
       .catch(e => console.error(e))
   };
 
+ 
+
   return (
     <>
       <PostContext.Provider value={postState}>
@@ -157,6 +163,8 @@ function App() {
           <Route exact path="/postidea">
             <PrimarySearchAppBar />
             <CreateIdea />
+          </Route>
+          <Route path="/resetPassword/:token" component={PasswordReset}>
           </Route>
         </Switch>
       </Router>
