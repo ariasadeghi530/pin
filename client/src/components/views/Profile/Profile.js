@@ -135,8 +135,6 @@ export default function ControlledExpansionPanels() {
                 {user.username}
               </Avatar>
               }
-            title={<p>Hello</p>}
-           
           />
     
           <CardContent
