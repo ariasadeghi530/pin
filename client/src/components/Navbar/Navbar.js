@@ -116,6 +116,13 @@ const useStyles = makeStyles(theme => ({
   listText: {
     color: "black"
   },
+  logout:{
+    width: "100%",
+    display: 'flex',
+   alignContent: "center",
+   marginTop: 5
+    // marginLeft: "3rem"
+  }
 }));
 
 export default function PersistentDrawerRight() {
@@ -216,12 +223,14 @@ export default function PersistentDrawerRight() {
             </ListItem>
             </Link>
           ))}
+            <Divider />
             <ListItem>
-            <Button variant="outlined" color="secondary" onClick={handleLogOut} >
+            <Button variant="outlined" color="secondary" className={classes.logout}onClick={handleLogOut} >
             Logout
           </Button>
             </ListItem>
         </List>
+        
         <Divider />
         
       </Drawer>
