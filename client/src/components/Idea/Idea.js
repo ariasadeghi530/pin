@@ -20,58 +20,6 @@ import IconButton from '@material-ui/core/IconButton';
 import './Idea.css'
 
 export default function Idea() {
-    
-
-    const [comments, setComments] = useState([])
-    /*
-    useEffect(() => {
-        axios.get('')
-            .then(res => {
-                setComments(res.data)
-            })
-            .catch(err => console.error(err))
-
-    }, [])
-    */
-    return (
-        <div>
-            <Navbar />
-            <br /> <br /> <br /> <br /> <br /> <br />
-            <Card>
-                <CardContent>
-                    <Typography color="textSecondary" gutterBottom>
-                    Author
-                    </Typography>
-                    <Typography variant="h5" component="h2">
-                    Title
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    
-                </CardActions>
-            </Card>
-
-            <singleLineGridList />
-
-            <TextareaAutosize aria-label="minimum height" rowsMin={3} placeholder="Write a comment" />
-            <Button
-                variant="contained"
-                color="primary"
-                endIcon={<Icon>send</Icon>}
-            >
-                Send
-            </Button>
-            <ul className="ul-comments">
-                {/* {comments.map(comment => <li>{comment}</li>)}  */}
-                <li>Comment #1</li>
-            </ul>
-        </div>
-        
-    )
-}
-
-
-function singleLineGridList() {
     const singleLineGridListStyles = makeStyles((theme) => ({
         root: {
           display: 'flex',
@@ -92,14 +40,53 @@ function singleLineGridList() {
           background:
             'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
         },
-      }))
+    }))
 
     const classes = singleLineGridListStyles()
     let tileData = {}
+    const [comments, setComments] = useState([])
+    /*
+    useEffect(() => {
+        axios.get('')
+            .then(res => {
+                setComments(res.data)
+            })
+            .catch(err => console.error(err))
 
+    }, [])
+    */
     return (
-        <div className={classes.root}>
-            <GridList className={classes.gridList} cols={2.5}>
+        <div>
+            <Navbar />
+            <br /> <br /> <br /> <br /> <br /> <br />
+            <Card>
+                <CardContent>
+                    <Typography color="textSecondary" gutterBottom style={{
+                        float: 'right'
+                    }}>
+                    Author
+                    </Typography>
+                    <Typography variant="h5" component="h2">
+                    Title
+                    </Typography>
+                    <Typography>
+                        Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec fringilla magna.
+                    </Typography>
+                    <Typography>
+                        Difficulty: easy
+                    </Typography>
+                    <Typography>
+                        Total time: 12 hours
+                    </Typography>
+                </CardContent>
+                <CardActions>
+                    
+                </CardActions>
+            </Card>
+
+            <div className={classes.root}>
+            
+            {/* <GridList className={classes.gridList} cols={2.5}>
                 {tileData.map((tile) => (
                 <GridListTile key={tile.img}>
                     <img src={tile.img} alt={tile.title} />
@@ -117,7 +104,26 @@ function singleLineGridList() {
                     />
                 </GridListTile>
                 ))}
-            </GridList>
+            </GridList> */}
         </div>
+
+            <TextareaAutosize aria-label="minimum height" rowsMin={3} placeholder="Write a comment" style={{
+                margin: '1% 1% 1% 1%'
+             }} />
+            <Button
+                variant="contained"
+                color="primary"
+                endIcon={<Icon>send</Icon>}
+            >
+                Send
+            </Button>
+            <ul className="ul-comments">
+                {/* {comments.map(comment => <li>{comment}</li>)}  */}
+                <li>Comment #1</li>
+            </ul>
+        </div>
+        
     )
 }
+
+
