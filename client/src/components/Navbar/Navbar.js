@@ -49,6 +49,10 @@ const useStyles = makeStyles(theme => ({
   hide: {
     display: 'none',
   },
+  drawerTitle: {
+    flexGrow: 1,
+    marginLeft: "2%"
+  },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
@@ -180,7 +184,7 @@ export default function Nav() {
         }}
       >
         <div className={classes.drawerHeader}>
-        <Typography variant="h6" noWrap className={classes.title} >
+        <Typography variant="h6" noWrap className={classes.drawerTitle} >
           <Link href="/" >
             <div >
             <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo}/> 
