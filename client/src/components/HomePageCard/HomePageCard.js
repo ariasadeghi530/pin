@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import UserContext from '../../utils/UserContext';
 import PostContext from '../../utils/PostContext';
+import Chip from '@material-ui/core/Chip';
+import { palette } from '@material-ui/system';
 import  { Redirect }  from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -23,6 +25,12 @@ const useStyles = makeStyles({
   },
   ideaName: {
     marginTop: 0,
+  },
+  diffChip: {
+    marginTop: '1rem',
+  },
+  cardDescp:{
+    marginTop: 7,
   }
 });
 
@@ -47,14 +55,15 @@ useEffect(() =>{
           </Typography>
         <Typography variant="h4" component="h3" className={classes.ideaName}>
          {post.title}
-          <Typography variant="body2" component="p">
-            <br/>
-            Difficulty: {post.difficulty}
+          <Typography variant="body2" component="p" className={classes.diffChip}>
+            
+            <Chip label={post.difficulty} color={ post.difficulty === 'Hard' ? "secondary" : ( post.difficulty === "Moderate" ? "primary" : "default") } variant="outlined" /> 
           </Typography>
         </Typography>
-        <Typography variant="body2" component="p">
+        <Typography variant="body2" component="p" className={classes.cardDescp}>
+            
         {post.description}
-          <br />
+          
         </Typography>
       </CardContent>
       <CardActions>
