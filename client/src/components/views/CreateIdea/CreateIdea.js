@@ -143,9 +143,10 @@ function CreateIdea() {
               className={classes.input}
             />
           </Grid>
-          <Button variant="contained" 
+          <Button
             color="primary"
             className={classes.button}
+            variant="contained"
             onClick={handleCreateNewPost}>
             Post
           </Button>
