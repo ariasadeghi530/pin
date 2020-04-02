@@ -36,6 +36,8 @@ function App() {
     email: '',
     github: '',
     password: '',
+    ideas: [],
+    projects: [],
     isLoggedIn: localStorage.getItem('loggedIn') || false
   });
 
@@ -112,9 +114,8 @@ function App() {
     .then(({data: userInfo}) =>{
       axios.get(`https://api.github.com/search/users?q=${userInfo.github}`)
       .then(({data: {items}}) =>{
-        console.log(items[0])
         localStorage.setItem('avatar', items[0].avatar_url)
-        setUserState({...userState, user: userInfo});
+        setUserState({...userState, user: userInfo, projects: userInfo.projects, ideas: userInfo.ideas});
       })
       .catch(e =>console.error(e))
     })
@@ -143,7 +144,7 @@ function App() {
   
     Post.search(postState.search)
     .then(({data}) =>{
-      console.log(data);
+     
       setPostState({...postState, posts: data, search: ''});
     })
     .catch(e => console.error(e))
@@ -160,7 +161,9 @@ function App() {
     };
     Post.create(post)
       .then(({data}) => {
+        
         setPostState({ ...postState, title: '', description: '', difficulty: '', totalTime: '', imageLinks: '', post: data });
+        window.location.href = '/profile/' + data.owner;
       })
       .catch(e => console.error(e))
   };

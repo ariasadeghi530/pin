@@ -8,6 +8,8 @@ const UserContext = createContext({
     password: '',
     email: '',
     github: '',
+    ideas: [],
+    projects: [],
     isLoggedIn: false, 
     handleInputChange: () => {},
     handleRegisterUser: () => {},
