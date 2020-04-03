@@ -94,6 +94,7 @@ export default function Idea() {
     const { post, postOwner, solutions, comments, handleViewPost } = useContext(PostContext);
     const { isLoggedIn } = useContext(UserContext);
     const ideaId = (window.location.pathname).slice(5);
+    let userID = localStorage.getItem('uid');
 
     useEffect(() => {
         handleViewPost(ideaId);

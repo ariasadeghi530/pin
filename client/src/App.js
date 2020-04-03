@@ -89,7 +89,12 @@ function App() {
              email: '',
              github: '',
              password: '',
-            isLoggedIn: data.isLoggedIn})
+            isLoggedIn: data.isLoggedIn});
+            axios.get(`https://api.github.com/search/users?q=${data.github}`)
+            .then(({data: {items}}) =>{
+              localStorage.setItem('avatar', items[0].avatar_url)
+            })
+            .catch(e =>console.error(e));
       })
       .catch(e => console.error(e))
         })
@@ -106,7 +111,12 @@ function App() {
     localStorage.setItem('jwt', data.token);
     localStorage.setItem('loggedIn', data.isLoggedIn);
     localStorage.setItem('uid', data.id);
-    setUserState({...userState, user: data, username: '', password: '', isLoggedIn: data.isLoggedIn})
+    setUserState({...userState, user: data, username: '', password: '', isLoggedIn: data.isLoggedIn});
+    axios.get(`https://api.github.com/search/users?q=${data.github}`)
+    .then(({data: {items}}) =>{
+      localStorage.setItem('avatar', items[0].avatar_url)
+    })
+    .catch(e =>console.error(e));
 
   })
   .catch(e => console.error(e))
@@ -115,13 +125,8 @@ function App() {
 
   userState.handleUserProfile =() =>{
     User.profile()
-    .then(({data: userInfo}) =>{
-      axios.get(`https://api.github.com/search/users?q=${userInfo.github}`)
-      .then(({data: {items}}) =>{
-        localStorage.setItem('avatar', items[0].avatar_url)
-        setUserState({...userState, user: userInfo, projects: userInfo.projects, ideas: userInfo.ideas});
-      })
-      .catch(e =>console.error(e))
+    .then(({data: userInfo}) => {
+      setUserState({...userState, user: userInfo, projects: userInfo.projects, ideas: userInfo.ideas});
     })
     .catch(e => console.error(e))
   }
@@ -181,6 +186,11 @@ function App() {
       setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments});
     })
     .catch(e => console.error(e))
+  }
+
+  postState.handleAddSolution = (event) =>{
+    event.preventDefault();
+
   }
 
  

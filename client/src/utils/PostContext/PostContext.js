@@ -20,7 +20,8 @@ const PostContext = createContext({
   handleRemoveFromPost: () => {},
   handleSearch: () => {},
   handleViewPost: () => {},
-  handleGoToPost: () => {}
+  handleGoToPost: () => {},
+  handleAddSolution: () => {}
 });
 
 export default PostContext;
