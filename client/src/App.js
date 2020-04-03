@@ -6,6 +6,7 @@ import Reset from './components/views/Reset';
 import PasswordReset from './components/views/ResetPassword';
 import CreateIdea from './components/views/CreateIdea'
 import PrimarySearchAppBar from './components/Navbar'
+import Idea from './components/Idea'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import UserContext from './utils/UserContext';
@@ -44,12 +45,15 @@ function App() {
   const [postState, setPostState] = useState({
     posts: [],
     post: {},
+    postOwner: '',
     title: '',
     description: '',
     difficulty: '',
     totalTime: '',
     imageLinks: '',
     search: '',
+    solutions: [],
+    comments: []
   });
 
   
@@ -168,6 +172,17 @@ function App() {
       .catch(e => console.error(e))
   };
 
+  postState.handleGoToPost = (id) => {
+      window.location.href = '/idea/' + id;
+  }
+  postState.handleViewPost = (id) =>{
+    Post.idea(id)
+    .then(( {data}) => {
+      setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments});
+    })
+    .catch(e => console.error(e))
+  }
+
  
 
   return (
@@ -179,15 +194,13 @@ function App() {
         <Route exact path="/signin">
           <SignIn />
         </Route>
-        <Route path="/profile/:id" component={Profile}>
-        </Route>
         <Route exact path="/signup">
           <SignUp />
         </Route>
-        <Route exact path="/">
-          <PrimarySearchAppBar />
-          <HomePage />
+        <Route path="/profile/:id" component={Profile}>
         </Route>
+        <Route path="/idea/:id" component={Idea}>
+          </Route>
         <Route exact path="/reset">
           <Reset />
         </Route>
@@ -197,11 +210,16 @@ function App() {
         </Route>
         <Route path="/resetPassword/:token" component={PasswordReset}>
         </Route>
+        <Route exact path="/">
+          <PrimarySearchAppBar />
+          <HomePage />
+        </Route>
       </Switch>
     </Router>
     </UserContext.Provider>
     </PostContext.Provider>
     </MuiThemeProvider>
+  
   )
 };
 

@@ -10,6 +10,7 @@ import UserContext from '../../utils/UserContext';
 import PostContext from '../../utils/PostContext';
 import Chip from '@material-ui/core/Chip';
 
+
 import  { Redirect }  from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -43,7 +44,7 @@ function HomePageCard() {
 
   const classes = useStyles();
 
-const {posts, handleViewAll} = useContext(PostContext);
+const {posts, handleViewAll, handleGoToPost} = useContext(PostContext);
 const {isLoggedIn, user} = useContext(UserContext);
 
 useEffect(() =>{
@@ -56,7 +57,7 @@ useEffect(() =>{
     <Card className={classes.root} key={post.owner._id} variant="outlined">
       <ButtonBase
        className={classes.cardAction}
-      //  onClick={}
+       onClick={() => handleGoToPost(post._id)}
        >
       <CardContent>
         <Typography className={classes.title} color="textSecondary">

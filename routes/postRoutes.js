@@ -3,7 +3,6 @@ const passport = require('passport');
 
 const { Post, User } = require('../models');
 
-
 // Get all posts
 router.get('/posts', passport.authenticate('jwt'), (req, res) => {
   Post.find().populate("owner")
@@ -22,7 +21,7 @@ router.get('/posts/search/:search', passport.authenticate('jwt'), (req, res) =>{
 
 //get one post
 router.get('/posts/:postID', passport.authenticate('jwt'), (req, res) => {
-  Post.findById(req.params.postID)
+  Post.findById(req.params.postID).populate('owner')
   .then((post) => res.json(post))
   .catch(e => console.error(e));
 });
@@ -51,7 +50,7 @@ router.put('/posts/:postID', passport.authenticate('jwt'), (req, res) => {
 
 //add a solution to a post
 router.put('/posts/:postID/solutions', passport.authenticate('jwt'), (req, res) => {
-  Post.findByIdAndUpdate(req.params.postID, {$push: {solutions: { github: req.body.github, deployed: req.body.deployed, owner: req.user._id}}})
+  Post.findByIdAndUpdate(req.params.postID, {$push: {solutions: { description:req.body.description, github: req.body.github, deployed: req.body.deployed, poster: req.user.username, uid: req.user._id}}})
   .then(() => {
     Post.findById(req.params.postID)
   .then((post) => res.json(post))
@@ -62,7 +61,7 @@ router.put('/posts/:postID/solutions', passport.authenticate('jwt'), (req, res) 
 
 //add a comment to a post
 router.put('/posts/:postID/comments', passport.authenticate('jwt'), (req, res) => {
-  Post.findByIdAndUpdate(req.params.postID, {$push: {comments: { comment: req.body.comment, owner: req.user._id}}})
+  Post.findByIdAndUpdate(req.params.postID, {$push: {comments: { comment: req.body.comment, owner: req.user.username}}})
   .then(() => {
     Post.findById(req.params.postID)
   .then((post) => res.json(post))
@@ -73,7 +72,7 @@ router.put('/posts/:postID/comments', passport.authenticate('jwt'), (req, res) =
 
 //remove a solution from a post
 router.delete('/posts/:postID/solutions', passport.authenticate('jwt'), (req, res) => {
-  Post.findByIdAndUpdate(req.params.postID, {$pull: {solutions: { github: req.body.github, deployed: req.body.deployed, owner: req.user._id}}})
+  Post.findByIdAndUpdate(req.params.postID, {$pull: {solutions: { description: req.body.description, github: req.body.github, deployed: req.body.deployed, poster: req.user.username, uid: req.user._id}}})
   .then(() => {
     Post.findById(req.params.postID)
   .then((post) => res.json(post))
