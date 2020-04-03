@@ -1,7 +1,7 @@
 import React, {useEffect, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +12,17 @@ import Chip from '@material-ui/core/Chip';
 
 
 import  { Redirect }  from 'react-router-dom';
+
+const myTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#FFB74D'
+    },
+    secondary: {
+      main: '#C25450'
+    }
+  }
+})
 
 const useStyles = makeStyles({
   root: {
@@ -42,14 +53,15 @@ const useStyles = makeStyles({
 
 function HomePageCard() {
 
+
   const classes = useStyles();
 
 const {posts, handleViewAll, handleGoToPost} = useContext(PostContext);
 const {isLoggedIn, user} = useContext(UserContext);
 
-useEffect(() =>{
-  handleViewAll();
-}, [isLoggedIn])
+  useEffect(() =>{
+    handleViewAll();
+  }, [isLoggedIn])
   return (
     <>
     { isLoggedIn ? 
@@ -66,8 +78,9 @@ useEffect(() =>{
         <Typography variant="h4" component="h3" className={classes.ideaName}>
          {post.title}
           <Typography variant="body2" component="p" className={classes.diffChip}>
-            
-            <Chip label={post.difficulty} color={ post.difficulty === 'Hard' ? "secondary" : ( post.difficulty === "Moderate" ? "primary" : "default") } variant="outlined" /> 
+            <MuiThemeProvider theme={myTheme}>
+            <Chip label={post.difficulty} color={ post.difficulty === 'Hard' ? 'secondary' : ( post.difficulty === 'Moderate' ? 'primary' : 'default') } variant="outlined" /> 
+            </MuiThemeProvider>
           </Typography>
         </Typography>
         <Typography variant="body2" component="h6" className={classes.cardDescp}>

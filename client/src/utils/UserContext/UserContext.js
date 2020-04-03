@@ -11,11 +11,13 @@ const UserContext = createContext({
     ideas: [],
     projects: [],
     isLoggedIn: false, 
+    edit: false,
     handleInputChange: () => {},
     handleRegisterUser: () => {},
     handleSignInUser: () => {},
     handleUserProfile: () => {},
-    handleLogOut: () => {}
+    handleLogOut: () => {},
+    handleToggleEdit: () => {}
 });
 
 export default UserContext;

@@ -23,6 +23,12 @@ const theme = createMuiTheme({
     },
     secondary: {
       main: '#FFB76E'
+    },
+    easy: {
+      main: '#00B069'
+    },
+    hard: {
+      main: '#C25450'
     }
   }
 })
@@ -39,6 +45,7 @@ function App() {
     password: '',
     ideas: [],
     projects: [],
+    edit: false,
     isLoggedIn: localStorage.getItem('loggedIn') || false
   });
 
@@ -52,8 +59,15 @@ function App() {
     totalTime: '',
     imageLinks: '',
     search: '',
+    newSolution: {},
+    newComment: {},
     solutions: [],
-    comments: []
+    comments: [],
+    desc: '',
+    gh: '',
+    deployed: '',
+    edit: false,
+    addSol: false,
   });
 
   
@@ -188,9 +202,19 @@ function App() {
     .catch(e => console.error(e))
   }
 
-  postState.handleAddSolution = (event) =>{
-    event.preventDefault();
+  postState.handleToggleSolution = () =>{
+    setPostState({...postState, addSol: !postState.addSol});
+  }
 
+  postState.handleAddSolution = (event, id) =>{
+    event.preventDefault();
+    
+    let solution = {description: postState.desc, github: postState.gh, deployed: postState.deployed};
+    Post.addSolution(id, solution)
+    .then(({data}) => {
+      setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments, addSol: false});
+    })
+    .catch(e => console.error(e))
   }
 
  

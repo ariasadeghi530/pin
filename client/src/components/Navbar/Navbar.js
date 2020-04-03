@@ -230,7 +230,7 @@ export default function Nav() {
           ))}
             <Divider />
             <ListItem>
-            <Button variant="outlined" color="secondary" className={classes.logout}onClick={handleLogOut} >
+            <Button variant="outlined" color="secondary" className={classes.logout} onClick={handleLogOut} >
             Logout
           </Button>
             </ListItem>

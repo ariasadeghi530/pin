@@ -11,7 +11,8 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
-import Box from '@material-ui/core/Box'
+import Box from '@material-ui/core/Box';
+import TextField from '@material-ui/core/TextField';
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -31,6 +32,17 @@ export default function Idea() {
             justifyContent: 'space-around',
             overflow: 'hidden',
             backgroundColor: theme.palette.background.paper,
+        },
+        cardRoot:{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-around',
+            overflow: 'hidden',
+            backgroundColor: theme.palette.background.paper,
+            height: '180px'
+        },
+        cardBody:{
+            height: '109px'
         },
         gridList: {
             flexWrap: 'nowrap',
@@ -84,14 +96,14 @@ export default function Idea() {
         solTitle: {
             display: 'flex'
         },
-        deployMargin:{
+        deployMargin: {
             marginLeft: "0px !important",
         }
     }))
 
     const classes = singleLineGridListStyles()
 
-    const { post, postOwner, solutions, comments, handleViewPost } = useContext(PostContext);
+    const { post, postOwner, solutions, comments, addSol, edit, handleViewPost, handleToggleSolution, handleToggleEdit, handleInputChange, desc, gh, deployed, handleAddSolution } = useContext(PostContext);
     const { isLoggedIn } = useContext(UserContext);
     const ideaId = (window.location.pathname).slice(5);
     let userID = localStorage.getItem('uid');
@@ -101,6 +113,7 @@ export default function Idea() {
     }, isLoggedIn)
     console.log(post)
     console.log(solutions)
+    console.log(addSol)
     return (
         <div>
             <Navbar />
@@ -129,34 +142,87 @@ export default function Idea() {
             </Card>
 
             <Box m={1}>
-                <div className={classes.solTitle}>
-                    <Typography component="h6" variant="h5" className={classes.alignLeft}>
-                        Solutions
-                                     </Typography>
-                    <Button color="primary" className={classes.floatRight}>Add a solution</Button>
-                </div>
-                <GridList className={classes.gridList} cols={2.5}>
-                    {solutions.map((solution, index) => (
-                        <GridListTile key={index}>
-                            <Card className={classes.root}>
-                                <CardContent>
-                                    <Typography className={classes.titleSol} color="textSecondary" gutterBottom>
-                                        {solution.poster}
+                {!addSol ? (
+                    <>
+                        <div className={classes.solTitle}>
+                            <Typography component="h6" variant="h5" className={classes.alignLeft}>
+                                Solutions
+                        </Typography>
+                            <Button color="primary" className={classes.floatRight} name="addSol" value={addSol} onClick={() => handleToggleSolution()}>Add a solution</Button>
+                        </div>
+                        <GridList className={classes.gridList} cols={2.5}>
+                            {solutions.map((solution, index) => (
+                                <GridListTile key={index}>
+                                    <Card className={classes.cardRoot}>
+                                        <CardContent className={classes.cardBody}>
+                                            <Typography className={classes.titleSol} color="textSecondary" gutterBottom>
+                                                {solution.poster}
+                                            </Typography>
+                                            <Typography className={classes.description}>
+                                                {solution.description}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions >
+
+                                            <Button size="small" href={solution.github} target="_blank">Github</Button>
+                                            <Button size="small" href={solution.deployed} target="_blank" className={classes.deployMargin} >Deployed</Button>
+
+                                        </CardActions>
+                                    </Card>
+                                </GridListTile>
+                            ))}
+                        </GridList>
+                    </>) : (
+                        <>
+                            <div className={classes.solTitle}>
+                                <Typography component="h6" variant="h5" className={classes.alignLeft}>
+                                    Add A Solution
                                     </Typography>
-                                    <Typography className={classes.description}>
-                                        {solution.description}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions >
-                                    
-                                    <Button size="small" href={solution.github} target="_blank">Github</Button>
-                                    <Button size="small"href={solution.deployed} target="_blank" className={classes.deployMargin} >Deployed</Button>
-                                    
-                                </CardActions>
-                            </Card>
-                        </GridListTile>
-                    ))}
-                </GridList>
+                                <Button color="primary" className={classes.floatRight} name="saveSol" value={addSol} onClick={(e) => handleAddSolution(e, post._id)}>Save solution</Button>
+                            </div>
+                            <GridList className={classes.gridList} cols={1}>
+                                <Box m={0.5}>
+                                    <form className={classes.form} noValidate>
+                                    <TextField
+                                            variant="outlined"
+                                            fullWidth
+                                            name="desc"
+                                            label="Short Descripton"
+                                            size="small"
+                                            id="desc"
+                                            margin="normal"
+                                            required
+                                            value={desc}
+                                            onChange={handleInputChange}
+                                        />
+                                        <TextField
+                                            variant="outlined"
+                                            required
+                                            margin="normal"
+                                            size="small"
+                                            fullWidth
+                                            id="gh"
+                                            label="Github Repo Link"
+                                            name="gh"
+                                            value={gh}
+                                            onChange={handleInputChange}
+                                        />
+                                        <TextField
+                                            variant="outlined"
+                                            fullWidth
+                                            name="deployed"
+                                            label="Deployed App Link"
+                                            size="small"
+                                            id="deployed"
+                                            margin="normal"
+                                            value={deployed}
+                                            onChange={handleInputChange}
+                                        />
+                                    </form>
+                                </Box>
+                            </GridList>
+                        </>)
+                }
             </Box>
 
             <ul className="ul-comments">

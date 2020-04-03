@@ -12,6 +12,13 @@ const PostContext = createContext({
   search: '',
   solutions: [],
   comments: [],
+  newSolution: {},
+  newComment: {},
+  edit: false,
+  addSol: false,
+  desc: '',
+  gh: '',
+  deployed: '',
   handleViewAll: () => {},
   handleCreateNewPost: () => {},
   handleInputChange: () => {},
@@ -21,7 +28,8 @@ const PostContext = createContext({
   handleSearch: () => {},
   handleViewPost: () => {},
   handleGoToPost: () => {},
-  handleAddSolution: () => {}
+  handleAddSolution: () => {},
+  handleToggleSolution: () => {}
 });
 
 export default PostContext;
