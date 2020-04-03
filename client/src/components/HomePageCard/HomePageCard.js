@@ -10,6 +10,7 @@ import UserContext from '../../utils/UserContext';
 import PostContext from '../../utils/PostContext';
 import Chip from '@material-ui/core/Chip';
 
+
 import  { Redirect }  from 'react-router-dom';
 
 const myTheme = createMuiTheme({
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
     minWidth: 275,
     marginBottom: 0,
     marginTop: 20,
+   
   },
   title: {
     fontSize: 14,
@@ -54,8 +56,8 @@ function HomePageCard() {
 
   const classes = useStyles();
 
-  const {posts, handleViewAll} = useContext(PostContext);
-  const {isLoggedIn, user} = useContext(UserContext);
+const {posts, handleViewAll, handleGoToPost} = useContext(PostContext);
+const {isLoggedIn, user} = useContext(UserContext);
 
   useEffect(() =>{
     handleViewAll();
@@ -67,7 +69,7 @@ function HomePageCard() {
     <Card className={classes.root} key={post.owner._id} variant="outlined">
       <ButtonBase
        className={classes.cardAction}
-      //  onClick={}
+       onClick={() => handleGoToPost(post._id)}
        >
       <CardContent>
         <Typography className={classes.title} color="textSecondary">

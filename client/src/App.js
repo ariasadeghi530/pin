@@ -6,6 +6,7 @@ import Reset from './components/views/Reset';
 import PasswordReset from './components/views/ResetPassword';
 import CreateIdea from './components/views/CreateIdea'
 import PrimarySearchAppBar from './components/Navbar'
+import Idea from './components/Idea'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import UserContext from './utils/UserContext';
@@ -42,18 +43,23 @@ function App() {
     email: '',
     github: '',
     password: '',
+    ideas: [],
+    projects: [],
     isLoggedIn: localStorage.getItem('loggedIn') || false
   });
 
   const [postState, setPostState] = useState({
     posts: [],
     post: {},
+    postOwner: '',
     title: '',
     description: '',
     difficulty: '',
     totalTime: '',
     imageLinks: '',
     search: '',
+    solutions: [],
+    comments: []
   });
 
   
@@ -118,9 +124,8 @@ function App() {
     .then(({data: userInfo}) =>{
       axios.get(`https://api.github.com/search/users?q=${userInfo.github}`)
       .then(({data: {items}}) =>{
-        console.log(items[0])
         localStorage.setItem('avatar', items[0].avatar_url)
-        setUserState({...userState, user: userInfo});
+        setUserState({...userState, user: userInfo, projects: userInfo.projects, ideas: userInfo.ideas});
       })
       .catch(e =>console.error(e))
     })
@@ -149,7 +154,7 @@ function App() {
   
     Post.search(postState.search)
     .then(({data}) =>{
-      console.log(data);
+     
       setPostState({...postState, posts: data, search: ''});
     })
     .catch(e => console.error(e))
@@ -166,10 +171,23 @@ function App() {
     };
     Post.create(post)
       .then(({data}) => {
+        
         setPostState({ ...postState, title: '', description: '', difficulty: '', totalTime: '', imageLinks: '', post: data });
+        window.location.href = '/profile/' + data.owner;
       })
       .catch(e => console.error(e))
   };
+
+  postState.handleGoToPost = (id) => {
+      window.location.href = '/idea/' + id;
+  }
+  postState.handleViewPost = (id) =>{
+    Post.idea(id)
+    .then(( {data}) => {
+      setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments});
+    })
+    .catch(e => console.error(e))
+  }
 
  
 
@@ -182,15 +200,13 @@ function App() {
         <Route exact path="/signin">
           <SignIn />
         </Route>
-        <Route path="/profile/:id" component={Profile}>
-        </Route>
         <Route exact path="/signup">
           <SignUp />
         </Route>
-        <Route exact path="/">
-          <PrimarySearchAppBar />
-          <HomePage />
+        <Route path="/profile/:id" component={Profile}>
         </Route>
+        <Route path="/idea/:id" component={Idea}>
+          </Route>
         <Route exact path="/reset">
           <Reset />
         </Route>
@@ -200,11 +216,16 @@ function App() {
         </Route>
         <Route path="/resetPassword/:token" component={PasswordReset}>
         </Route>
+        <Route exact path="/">
+          <PrimarySearchAppBar />
+          <HomePage />
+        </Route>
       </Switch>
     </Router>
     </UserContext.Provider>
     </PostContext.Provider>
     </MuiThemeProvider>
+  
   )
 };
 

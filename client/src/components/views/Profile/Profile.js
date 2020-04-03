@@ -15,6 +15,9 @@ import Button from '@material-ui/core/Button';
 import UserContext from '../../../utils/UserContext';
 import Link from "@material-ui/core/Link";
 import  { Redirect }  from 'react-router-dom';
+import Container from '@material-ui/core/Container';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import Chip from '@material-ui/core/Chip'
 
 
 
@@ -93,6 +96,34 @@ const useStyles = makeStyles((theme) => ({
   },
   left:{
     float: 'left'
+  },
+  ideaName: {
+    marginTop: 0,
+  },
+  diffChip: {
+    marginTop: '1rem',
+  },
+  cardDescp:{
+    marginTop: 15,
+  },
+  cardAction: {
+    display: 'block',
+    textAlign: 'initial'
+  },
+  cardTitle:{
+    fontSize: 14,
+    textAlign: "right",
+    float: "right",
+  },
+  cardRoot:{
+    minWidth: 275,
+    marginBottom: 0,
+    marginTop: 20,
+  },
+  expansionHeight:{
+    overflowX: "hidden",
+    display: 'block',
+    paddingTop: 0,
   }
 }));
 
@@ -106,16 +137,15 @@ export default function ControlledExpansionPanels() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const { isLoggedIn, user, handleUserProfile } = useContext(UserContext);
+  const { isLoggedIn, user, handleUserProfile, projects, ideas } = useContext(UserContext);
 
   const avatarURL = localStorage.getItem('avatar');
-  let url = window.location.pathname;
+
   
   useEffect(() => {
     handleUserProfile();
-    console.log(user)
   }, [isLoggedIn]);
-
+ 
  
   return (
     <>
@@ -133,11 +163,9 @@ export default function ControlledExpansionPanels() {
             className={classes.removePadding}
            
             avatar={ avatarURL ? <Avatar src={avatarURL} alt="gh-avatar" className={classes.avatarImg} /> : <Avatar aria-label="recipe" className={classes.avatar}>
-                {user.username.slice(1,2)}
+                {user.username}
               </Avatar>
               }
-            title={<p>Hello</p>}
-           
           />
     
           <CardContent
@@ -151,7 +179,7 @@ export default function ControlledExpansionPanels() {
                 </Typography>
               </div>
               <Typography variant="body2" component="p">
-                {user.bio}
+                {user.bio} 
               </Typography>
               <Typography className={classes.pos} color="textPrimary">
 
@@ -180,10 +208,42 @@ export default function ControlledExpansionPanels() {
             <Typography className={classes.heading}>{user.username}'s Ideas</Typography>
             {/* <Typography className={classes.secondaryHeading}>{user.username}'s Ideas</Typography> */}
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-
-            </Typography>
+          <ExpansionPanelDetails className={classes.expansionHeight}>
+          { ideas.length === 0 ? <Typography>
+              No ideas posted! Add an idea to see it here!
+          </Typography> : 
+          <>
+        {
+         ideas.map((idea) => (
+           <Container> 
+           <Card className={classes.cardRoot} key={idea.owner._id} variant="outlined">
+           <ButtonBase
+            className={classes.cardAction}
+           //  onClick={}
+            >
+           <CardContent>
+             <Typography className={classes.cardTitle} color="textSecondary">
+               {idea.owner.username}
+               </Typography>
+             <Typography variant="h4" component="h3" className={classes.ideaName}>
+              {idea.title}
+               <Typography variant="body2" component="p" className={classes.diffChip}>
+                 
+                 <Chip label={idea.difficulty} color={ idea.difficulty === 'Hard' ? "secondary" : ( idea.difficulty === "Moderate" ? "primary" : "default") } variant="outlined" /> 
+               </Typography>
+             </Typography>
+             <Typography variant="body2" component="h6" className={classes.cardDescp}>
+                 
+             {idea.description}
+               
+             </Typography>
+           </CardContent>
+           </ButtonBase>
+         </Card>
+         </Container>))
+        }
+        </>
+        }
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <ExpansionPanel expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
@@ -197,11 +257,41 @@ export default function ControlledExpansionPanels() {
             Review all your posts 
           </Typography> */}
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-              Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus, varius pulvinar
-              diam eros in elit. Pellentesque convallis laoreet laoreet.
-          </Typography>
+          <ExpansionPanelDetails className={classes.expansionHeight}>
+          { projects.length === 0 ? <Typography>
+              No ideas pinned! Explore ideas and pin them to see them here!
+          </Typography> :
+          <>
+          {
+         projects.map((idea) => (
+           <Container> 
+           <Card className={classes.cardRoot} key={idea.owner._id} variant="outlined">
+           <ButtonBase
+            className={classes.cardAction}
+           //  onClick={}
+            >
+           <CardContent>
+             <Typography className={classes.cardTitle} color="textSecondary">
+               {idea.owner.username}
+               </Typography>
+             <Typography variant="h4" component="h3" className={classes.ideaName}>
+              {idea.title}
+               <Typography variant="body2" component="p" className={classes.diffChip}>
+                 
+                 <Chip label={idea.difficulty} color={ idea.difficulty === 'Hard' ? "secondary" : ( idea.difficulty === "Moderate" ? "primary" : "default") } variant="outlined" /> 
+               </Typography>
+             </Typography>
+             <Typography variant="body2" component="h6" className={classes.cardDescp}>
+                 
+             {idea.description}
+               
+             </Typography>
+           </CardContent>
+           </ButtonBase>
+         </Card>
+         </Container>))
+        }
+        </>}
           </ExpansionPanelDetails>
         </ExpansionPanel>
         {/* <ExpansionPanel expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
