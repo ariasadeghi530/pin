@@ -27,6 +27,17 @@ router.post('/users/login', (req, res) => {
 
 // User registration
 router.post('/users/register', (req, res) => {
+  if (req.body.email === '') {
+    res.status(400).json({ message: "Email required" });
+  } else if (req.body.first === '') {
+    res.status(400).json({ message: "First name required" });
+  } else if (req.body.last === '') {
+    res.status(400).json({ message: "Last name required" });
+  } else if (req.body.username === '') {
+    res.status(400).json({ message: "Username required" });
+  } else if (req.body.password === '') {
+    res.status(400).json({ message: "Password required" });
+  }
   User.register(new User({
     first: req.body.first,
     last: req.body.last,
