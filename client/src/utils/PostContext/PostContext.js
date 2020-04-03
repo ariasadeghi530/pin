@@ -4,6 +4,7 @@ const PostContext = createContext({
   posts: [],
   post: {},
   postOwner: '',
+  posterId: '',
   title: '',
   description: '',
   difficulty: '',

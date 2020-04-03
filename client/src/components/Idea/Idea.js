@@ -1,5 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import  { Redirect }  from 'react-router-dom';
+
 
 import Navbar from '../Navbar'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
@@ -18,6 +20,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import PostContext from '../../utils/PostContext';
 import UserContext from '../../utils/UserContext';
@@ -103,26 +106,33 @@ export default function Idea() {
 
     const classes = singleLineGridListStyles()
 
-    const { post, postOwner, solutions, comments, addSol, edit, handleViewPost, handleToggleSolution, handleToggleEdit, handleInputChange, desc, gh, deployed, handleAddSolution } = useContext(PostContext);
+    const { post, postOwner, solutions, comments, addSol, edit, handleViewPost, handleToggleSolution, handleToggleEdit, handleInputChange, desc, gh, deployed, handleAddSolution, posterId} = useContext(PostContext);
     const { isLoggedIn } = useContext(UserContext);
     const ideaId = (window.location.pathname).slice(5);
     let userID = localStorage.getItem('uid');
 
     useEffect(() => {
         handleViewPost(ideaId);
-    }, isLoggedIn)
+    }, [isLoggedIn])
     console.log(post)
     console.log(solutions)
-    console.log(addSol)
+    
     return (
-        <div>
+        <>
+       { isLoggedIn ? 
+            (
+                <>
+            <div>
             <Navbar />
 
             <Card className={classes.marginTop}>
                 <CardContent>
+                     {posterId === userID ?
+                     <div className={classes.username}> <MoreVertIcon ></MoreVertIcon> </div>: 
                     <Typography color="textSecondary" className={classes.username} gutterBottom >
                         {postOwner}
                     </Typography>
+    }
                     <Typography variant="h4" component="h2">
                         {post.title}
                     </Typography>
@@ -246,9 +256,11 @@ export default function Idea() {
 
 
         </div>
-
-
-    )
+        </>
+        ) : 
+         <Redirect to={{pathname: '/signin'}} />}
+        </>
+    );
 }
 
 

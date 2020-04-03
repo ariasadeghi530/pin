@@ -53,6 +53,7 @@ function App() {
     posts: [],
     post: {},
     postOwner: '',
+    posterId: '',
     title: '',
     description: '',
     difficulty: '',
@@ -197,7 +198,7 @@ function App() {
   postState.handleViewPost = (id) =>{
     Post.idea(id)
     .then(( {data}) => {
-      setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments});
+      setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments, posterId: data.owner._id});
     })
     .catch(e => console.error(e))
   }
@@ -208,13 +209,14 @@ function App() {
 
   postState.handleAddSolution = (event, id) =>{
     event.preventDefault();
-    
+    if(postState.desc !== '' && postState.gh !== ''){
     let solution = {description: postState.desc, github: postState.gh, deployed: postState.deployed};
     Post.addSolution(id, solution)
     .then(({data}) => {
       setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments, addSol: false});
     })
     .catch(e => console.error(e))
+  }
   }
 
  

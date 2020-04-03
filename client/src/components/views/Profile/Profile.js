@@ -18,6 +18,7 @@ import  { Redirect }  from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Chip from '@material-ui/core/Chip'
+import PostContext from '../../../utils/PostContext';
 
 
 
@@ -138,10 +139,10 @@ export default function ControlledExpansionPanels() {
   };
 
   const { isLoggedIn, user, handleUserProfile, projects, ideas } = useContext(UserContext);
-
+const {handleGoToPost} = useContext(PostContext);
   const avatarURL = localStorage.getItem('avatar');
 
-  
+  // 
   useEffect(() => {
     handleUserProfile();
   }, [isLoggedIn]);
@@ -219,7 +220,7 @@ export default function ControlledExpansionPanels() {
            <Card className={classes.cardRoot} key={idea.owner._id} variant="outlined">
            <ButtonBase
             className={classes.cardAction}
-           //  onClick={}
+            onClick={() => handleGoToPost(idea._id)}
             >
            <CardContent>
              <Typography className={classes.cardTitle} color="textSecondary">
