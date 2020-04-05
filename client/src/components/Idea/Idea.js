@@ -100,7 +100,7 @@ const myTheme = createMuiTheme({
             marginBottom: 12,
         },
         description: {
-            fontSize: 14
+            fontSize: 12
         },
         alignLeft: {
             display: 'grid',
