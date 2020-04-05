@@ -7,6 +7,8 @@ import Navbar from '../Navbar'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+
 
 
 import Card from '@material-ui/core/Card'
@@ -143,12 +145,27 @@ const myTheme = createMuiTheme({
             width: '22px',
             marginTop: '8px',
             
+        },
+        solutionUName:{
+            justifyContent: 'flex-start',
+            paddingBottom: "6px"
+        },
+        solutionDel:{
+ 
+            justifyContent: 'flex-end',
+           alignSelf: 'flex-end',
+           alignContent: 'flex-end', 
+        },
+        deleteButton:{
+            paddingTop: 0,
+            paddingRight: 0,
+            paddingBottom: 9
         }
     }))
 
     const classes = singleLineGridListStyles()
 
-    const { post, postOwner, solutions, comments, addSol, edit, handleViewPost, handleToggleSolution, handleToggleEdit, handleInputChange, desc, gh, deployed, handleAddSolution, posterId } = useContext(PostContext);
+    const { post, postOwner, solutions, comments, addSol, edit, handleViewPost, handleToggleSolution, handleToggleEdit, handleInputChange, desc, gh, deployed, handleAddSolution, posterId, handleRemSolution } = useContext(PostContext);
 
     const { isLoggedIn, handlePin, projects, handleUnPin } = useContext(UserContext);
 
@@ -193,7 +210,7 @@ const myTheme = createMuiTheme({
                                     </Button>
                                     </div>
                                     }
-                                    {posterId === userID ?
+                                    {posterId == userID ?
                                         <div className={classes.username}>  <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                                         <MoreVertIcon />
                                       </Button>
@@ -245,9 +262,25 @@ const myTheme = createMuiTheme({
                                                 <GridListTile key={index}>
                                                     <Card className={classes.cardRoot}>
                                                         <CardContent className={classes.cardBody}>
-                                                            <Typography className={classes.titleSol} color="textSecondary" gutterBottom>
+                                                          
+                                                                <div className={classes.flex}>
+                                                                    <div className={classes.solutionUName}>
                                                                 {solution.poster}
-                                                            </Typography>
+                                                                    </div>
+                                                                    <div className={classes.solutionDel}>
+                                                                   { solution.uid === userID ?
+                                                                   <>
+                                                                    <IconButton size="small"className={classes.deleteButton} onClick={()=>handleRemSolution(ideaId,solution)}>
+                                                                         <DeleteOutlineIcon fontSize="small"/>
+                                                                     </IconButton> 
+                                                                     </> : 
+                                                                    <div>
+                                                                   
+                                                                     </div> 
+                                                                     }
+                                                                    </div>
+                                                                </div>
+                                                          
                                                             <Typography className={classes.description}>
                                                                 {solution.description}
                                                             </Typography>

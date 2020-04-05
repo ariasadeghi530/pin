@@ -243,6 +243,15 @@ function App() {
   }
   }
 
+  postState.handleRemSolution = (id, solution) => {
+    console.log(id, solution)
+    Post.remSolution(id, solution)
+    .then(({data}) => {
+      setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments, addSol: false});
+    })
+    .catch(e => console.error(e))
+  }
+
  
 
   return (

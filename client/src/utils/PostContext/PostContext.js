@@ -30,6 +30,7 @@ const PostContext = createContext({
   handleViewPost: () => {},
   handleGoToPost: () => {},
   handleAddSolution: () => {},
+  handleRemSolution: () => {},
   handleToggleSolution: () => {}
 });
 
