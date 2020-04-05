@@ -165,7 +165,7 @@ const myTheme = createMuiTheme({
 
     const classes = singleLineGridListStyles()
 
-    const { post, postOwner, solutions, comments, addSol, edit, handleViewPost, handleToggleSolution, handleToggleEdit, handleInputChange, desc, gh, deployed, handleAddSolution, posterId, handleRemSolution } = useContext(PostContext);
+    const { post, postOwner, solutions, comments, addSol, edit, handleViewPost, handleToggleSolution, handleToggleEdit, handleInputChange, desc, gh, deployed, handleAddSolution, posterId, handleRemSolution, handleDeleteIdea } = useContext(PostContext);
 
     const { isLoggedIn, handlePin, projects, handleUnPin } = useContext(UserContext);
 
@@ -222,7 +222,7 @@ const myTheme = createMuiTheme({
                                         onClose={handleClose}
                                       >
                                         <MenuItem onClick={handleClose}>Edit Idea</MenuItem>
-                                        <MenuItem onClick={handleClose}>Delete Idea</MenuItem>
+                                        <MenuItem onClick={()=>handleDeleteIdea(ideaId)}>Delete Idea</MenuItem>
                                       </Menu>
                                     </div>  :
                                         <Typography color="textSecondary" className={classes.username} gutterBottom >

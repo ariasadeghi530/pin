@@ -6,6 +6,7 @@ const Post = {
   idea: id => axios.get(`/api/posts/${id}`, { headers: {"Authorization": "Bearer " + (localStorage.getItem('jwt'))}}),
   create: post => axios.post('/api/posts', post, { headers: {"Authorization": "Bearer " + (localStorage.getItem('jwt'))}}),
   update: (id, updates) => axios.put(`/api/posts/${id}`, updates, { headers: {"Authorization": "Bearer " + (localStorage.getItem('jwt'))}}),
+  delete: (id) => axios.delete(`/api/posts/${id}`, { headers: {"Authorization": "Bearer " + (localStorage.getItem('jwt'))}}),
   addSolution: (id, solution) => axios.put(`/api/posts/${id}/solutions`, solution, { headers: {"Authorization": "Bearer " + (localStorage.getItem('jwt'))}}),
   addComment: (id, comment) => axios.put(`/api/posts/${id}/comments`, comment, { headers: {"Authorization": "Bearer " + (localStorage.getItem('jwt'))}}),
   remSolution: (id, solution) => axios.delete(`/api/posts/${id}/solutions`,{ data: {solution}, headers: {"Authorization": "Bearer " + (localStorage.getItem('jwt'))}}),

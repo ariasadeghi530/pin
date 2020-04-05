@@ -235,7 +235,7 @@ function App() {
     let solution = {description: postState.desc, github: postState.gh, deployed: postState.deployed};
     Post.addSolution(id, solution)
     .then(({data}) => {
-      setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments, addSol: false});
+      setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments, addSol: false, desc: '', gh: '', deployed: ''});
     })
     .catch(e => console.error(e))
   } else {
@@ -247,6 +247,15 @@ function App() {
     Post.remSolution(id, solution)
     .then(({data}) => {
       setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments, addSol: false});
+    })
+    .catch(e => console.error(e))
+  }
+
+  postState.handleDeleteIdea = (id) => {
+    Post.delete(id)
+    .then(({data}) => {
+      console.log(data);
+      window.location.href = '/profile/' + data._id;
     })
     .catch(e => console.error(e))
   }

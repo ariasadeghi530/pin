@@ -31,7 +31,8 @@ const PostContext = createContext({
   handleGoToPost: () => {},
   handleAddSolution: () => {},
   handleRemSolution: () => {},
-  handleToggleSolution: () => {}
+  handleToggleSolution: () => {},
+  handleDeleteIdea: () => {}
 });
 
 export default PostContext;
