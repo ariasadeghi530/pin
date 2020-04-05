@@ -17,7 +17,9 @@ const UserContext = createContext({
     handleSignInUser: () => {},
     handleUserProfile: () => {},
     handleLogOut: () => {},
-    handleToggleEdit: () => {}
+    handleToggleEdit: () => {},
+    handlePin: () => {},
+    handleUnPin: () => {}
 });
 
 export default UserContext;

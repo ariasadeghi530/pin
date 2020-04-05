@@ -269,7 +269,7 @@ const {handleGoToPost} = useContext(PostContext);
            <Card className={classes.cardRoot} key={idea.owner._id} variant="outlined">
            <ButtonBase
             className={classes.cardAction}
-           //  onClick={}
+            onClick={() => handleGoToPost(idea._id)}
             >
            <CardContent>
              <Typography className={classes.cardTitle} color="textSecondary">

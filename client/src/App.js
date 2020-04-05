@@ -146,6 +146,21 @@ function App() {
     .catch(e => console.error(e))
   }
 
+  userState.handlePin = (id) =>{
+    User.pin(id)
+    .then(({data: userInfo}) => {
+      setUserState({...userState, user: userInfo, projects: userInfo.projects, ideas: userInfo.ideas});
+    })
+    .catch(e => console.error(e));
+  }
+  userState.handleUnPin = (id) => {
+    User.unpin(id)
+    .then(({data: userInfo}) =>{
+      setUserState({...userState, user: userInfo, projects: userInfo.projects, ideas: userInfo.ideas});
+    })
+    .catch(e => console.error(e));
+  }
+
   userState.handleLogOut = () => {
     localStorage.clear();
     setUserState({...userState, isLoggedIn: false});
@@ -200,8 +215,15 @@ function App() {
     .then(( {data}) => {
       setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments, posterId: data.owner._id});
     })
+    .catch(e => console.error(e));
+    User.profile()
+    .then(({data}) =>{
+      let pinIds = data.projects.map(proj => proj._id);
+      setUserState({...userState, projects: pinIds});
+    })
     .catch(e => console.error(e))
   }
+
 
   postState.handleToggleSolution = () =>{
     setPostState({...postState, addSol: !postState.addSol});
@@ -216,6 +238,8 @@ function App() {
       setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments, addSol: false});
     })
     .catch(e => console.error(e))
+  } else {
+    setPostState({...postState, addSol: !postState.addSol});
   }
   }
 
