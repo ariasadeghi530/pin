@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Redirect } from 'react-router-dom';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 import Navbar from '../Navbar'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
@@ -9,7 +9,13 @@ import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
-
+import Grid from '@material-ui/core/Grid';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Tooltip from '@material-ui/core/Tooltip';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import { ClickAwayListener } from '@material-ui/core';
 
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -26,6 +32,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Chip from '@material-ui/core/Chip';
 
 
 import PostContext from '../../utils/PostContext';
@@ -35,17 +42,17 @@ import './Idea.css'
 
 export default function Idea() {
 
-    
-const myTheme = createMuiTheme({
-    palette: {
-      primary: {
-        main: '#FFB74D'
-      },
-      secondary: {
-        main: '#C25450'
-      }
-    }
-  })
+
+    const myTheme = createMuiTheme({
+        palette: {
+            primary: {
+                main: '#FFB74D'
+            },
+            secondary: {
+                main: '#C25450'
+            }
+        }
+    })
 
     const singleLineGridListStyles = makeStyles((theme) => ({
         root: {
@@ -88,10 +95,10 @@ const myTheme = createMuiTheme({
             marginTop: "20%"
         },
         username: {
-            
+
             justifyContent: 'flex-end',
-           alignSelf: 'flex-end',
-           alignContent: 'flex-end'
+            alignSelf: 'flex-end',
+            alignContent: 'flex-end'
         },
         titleSol: {
             fontSize: 14,
@@ -124,48 +131,76 @@ const myTheme = createMuiTheme({
             marginLeft: "0px !important",
         },
         pin: {
-            
+
             justifyContent: 'flex-start',
         },
-        flex:{
+        flex: {
             display: 'flex',
             justifyContent: 'space-between'
         },
-        logo:{
-            
+        logo: {
+
             height: '22px',
             width: '22px',
             marginTop: '8px',
             // marginLeft: '10px'
         },
-        clickLogo:{
+        clickLogo: {
             background: myTheme.palette.primary.main,
-            borderRadius: '3px',
+            borderRadius: '10px',
             height: '22px',
             width: '22px',
             marginTop: '8px',
-            
+
         },
-        solutionUName:{
+        solutionUName: {
             justifyContent: 'flex-start',
             paddingBottom: "6px"
         },
-        solutionDel:{
- 
+        solutionDel: {
+
             justifyContent: 'flex-end',
-           alignSelf: 'flex-end',
-           alignContent: 'flex-end', 
+            alignSelf: 'flex-end',
+            alignContent: 'flex-end',
         },
-        deleteButton:{
+        deleteButton: {
             paddingTop: 0,
             paddingRight: 0,
             paddingBottom: 9
+        },
+        form: {
+            width: '100%', // Fix IE 11 issue.
+            marginTop: theme.spacing(3),
+        },
+        input: {
+            width: '100%', // Fix IE 11 issue.
+            marginBottom: theme.spacing(2),
+        },
+        formControl: {
+            marginBottom: theme.spacing(2),
+            minWidth: 120,
+            marginLeft: 0,
+        },
+        pos2:{
+            marginBottom: 8
         }
     }))
 
     const classes = singleLineGridListStyles()
 
-    const { post, postOwner, solutions, comments, addSol, edit, handleViewPost, handleToggleSolution, handleToggleEdit, handleInputChange, desc, gh, deployed, handleAddSolution, posterId, handleRemSolution, handleDeleteIdea } = useContext(PostContext);
+    const [open, setOpen] = React.useState(false);
+
+
+    const handleTooltipClose = () => {
+        setOpen(false);
+    };
+
+    const handleTooltipOpen = () => {
+        setOpen(true);
+    };
+
+
+    const { post, postOwner, solutions, comments, addSol, edit, handleViewPost, handleToggleSolution, handleToggleEdit, handleInputChange, desc, gh, deployed, handleAddSolution, posterId, handleRemSolution, handleDeleteIdea, title, description, difficulty, totalTime, handleEditIdea } = useContext(PostContext);
 
     const { isLoggedIn, handlePin, projects, handleUnPin } = useContext(UserContext);
 
@@ -174,20 +209,20 @@ const myTheme = createMuiTheme({
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
-     const handleClick = (event) => {
-       setAnchorEl(event.currentTarget);
-     };
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
 
-     const handleClose = () => {
-      setAnchorEl(null);
-     };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
 
 
     useEffect(() => {
         handleViewPost(ideaId);
     }, [isLoggedIn])
- 
+
 
     return (
         <>
@@ -199,49 +234,122 @@ const myTheme = createMuiTheme({
 
                             <Card className={classes.marginTop}>
                                 <CardContent>
-                                    <div className={classes.flex}>
-                                   { projects.includes(ideaId) ?  <div className={classes.pin}>
-                                        <Button onClick={() => handleUnPin(ideaId)}>
-                                    <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.clickLogo} alt="pin logo"/> 
-                                    </Button>
-                                    </div> : <div className={classes.pin}>
-                                        <Button onClick={() => handlePin(ideaId)}>
-                                    <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo} alt="pin logo"/> 
-                                    </Button>
-                                    </div>
-                                    }
-                                    {posterId == userID ?
-                                        <div className={classes.username}>  <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                                        <MoreVertIcon />
-                                      </Button>
-                                      <Menu
-                                        id="simple-menu"
-                                        anchorEl={anchorEl}
-                                        keepMounted
-                                        open={Boolean(anchorEl)}
-                                        onClose={handleClose}
-                                      >
-                                        <MenuItem onClick={handleClose}>Edit Idea</MenuItem>
-                                        <MenuItem onClick={()=>handleDeleteIdea(ideaId)}>Delete Idea</MenuItem>
-                                      </Menu>
-                                    </div>  :
-                                        <Typography color="textSecondary" className={classes.username} gutterBottom >
-                                            {postOwner}
-                                        </Typography>
-                                    }
-                                    </div>
-                                    <Typography variant="h4" component="h2">
-                                        {post.title}
-                                    </Typography>
-                                    <Typography>
-                                        {post.description}
-                                    </Typography>
-                                    <Typography>
-                                        {post.difficulty}
-                                    </Typography>
-                                    <Typography>
-                                        Estimated total time: {post.totalTime}
-                                    </Typography>
+                                    {edit === true ?
+                                        <>
+                                            <div className={classes.username}>
+                                                <Button onClick={(e) => handleEditIdea(e, ideaId, post)}>
+                                                    Save
+                                  </Button>
+                                            </div>
+                                            <form className={classes.form} noValidate autoComplete="off">
+                                                <Grid item xs={12}>
+                                                    <TextField
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        size="small"
+                                                        id="title"
+                                                        label="Project Title"
+                                                        name="title"
+                                                        className={classes.input}
+                                                        defaultValue={post.title}
+                                                        onChange={handleInputChange}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} className={classes.inline}>
+                                                    <FormControl variant="outlined" className={classes.formControl}>
+                                                        <InputLabel id="difficulty">Difficulty</InputLabel>
+                                                        <Select
+                                                            label="difficulty"
+                                                            name="difficulty"
+                                                            size="small"
+                                                            defaultValue={post.difficulty}
+                                                            onChange={handleInputChange} >
+                                                            <MenuItem value={'Easy'}>Easy</MenuItem>
+                                                            <MenuItem value={'Moderate'}>Moderate</MenuItem>
+                                                            <MenuItem value={'Hard'}>Hard</MenuItem>
+                                                        </Select>
+                                                    </FormControl>
+
+                                                </Grid>
+                                                <Grid item xs={12}>
+                                                    <TextField
+                                                        multiline={true}
+                                                        rows={10}
+                                                        variant="outlined"
+                                                        size="small"
+                                                        fullWidth
+                                                        id="text"
+                                                        label="Project Description"
+                                                        name="description"
+                                                        className={classes.input}
+                                                        defaultValue={post.description}
+                                                        onChange={handleInputChange}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12}>
+                                                    <TextField
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        id="time"
+                                                        size="small"
+                                                        label="Estimated Time to Complete"
+                                                        name="totalTime"
+                                                        defaultValue={post.totalTime}
+                                                        onChange={handleInputChange}
+                                                        className={classes.input}
+                                                    />
+                                                </Grid>
+
+                                            </form>
+                                        </>
+                                        : (
+                                            <>
+                                                <div className={classes.flex}>
+                                                    {projects.includes(ideaId) ? <div className={classes.pin}>
+                                                        <Button onClick={() => handleUnPin(ideaId)}>
+                                                            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.clickLogo} alt="pin logo" />
+                                                        </Button>
+                                                    </div> : <div className={classes.pin}>
+                                                            <Button onClick={() => handlePin(ideaId)}>
+                                                                <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo} alt="pin logo" />
+                                                            </Button>
+                                                        </div>
+                                                    }
+                                                    {posterId === userID ?
+                                                        <div className={classes.username}>  <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                                                            <MoreVertIcon />
+                                                        </Button>
+                                                            <Menu
+                                                                id="simple-menu"
+                                                                anchorEl={anchorEl}
+                                                                keepMounted
+                                                                open={Boolean(anchorEl)}
+                                                                onClose={handleClose}
+                                                            >
+                                                                <MenuItem onClick={() => { handleToggleEdit(); handleClose(); }}>Edit Idea</MenuItem>
+                                                                <MenuItem onClick={() => handleDeleteIdea(ideaId)}>Delete Idea</MenuItem>
+                                                            </Menu>
+                                                        </div> :
+                                                        <Typography color="textSecondary" className={classes.username} gutterBottom >
+                                                            {postOwner}
+                                                        </Typography>
+                                                    }
+                                                </div>
+                                                <Typography variant="h4" component="h2" className={classes.pos2}>
+                                                    {post.title}
+                                                </Typography>
+                                                <Typography variant="h4" component="h2" className={classes.pos2}>
+                                                    <MuiThemeProvider theme={myTheme}>
+                                                        <Chip label={post.difficulty} color={post.difficulty === 'Hard' ? 'secondary' : (post.difficulty === 'Moderate' ? 'primary' : 'default')} variant="outlined" />
+                                                    </MuiThemeProvider>
+                                                </Typography>
+                                                <Typography className={classes.pos2}>
+                                                    {post.description}
+                                                </Typography>
+                                                <Typography>
+                                                    Estimated total time: {post.totalTime}
+                                                </Typography>
+                                            </>)}
                                 </CardContent>
                                 <CardActions>
 
@@ -262,25 +370,25 @@ const myTheme = createMuiTheme({
                                                 <GridListTile key={index}>
                                                     <Card className={classes.cardRoot}>
                                                         <CardContent className={classes.cardBody}>
-                                                          
-                                                                <div className={classes.flex}>
-                                                                    <div className={classes.solutionUName}>
-                                                                {solution.poster}
-                                                                    </div>
-                                                                    <div className={classes.solutionDel}>
-                                                                   { solution.uid === userID ?
-                                                                   <>
-                                                                    <IconButton size="small"className={classes.deleteButton} onClick={()=>handleRemSolution(ideaId,solution)}>
-                                                                         <DeleteOutlineIcon fontSize="small"/>
-                                                                     </IconButton> 
-                                                                     </> : 
-                                                                    <div>
-                                                                   
-                                                                     </div> 
-                                                                     }
-                                                                    </div>
+
+                                                            <div className={classes.flex}>
+                                                                <div className={classes.solutionUName}>
+                                                                    {solution.poster}
                                                                 </div>
-                                                          
+                                                                <div className={classes.solutionDel}>
+                                                                    {solution.uid === userID ?
+                                                                        <>
+                                                                            <IconButton size="small" className={classes.deleteButton} onClick={() => handleRemSolution(ideaId, solution)}>
+                                                                                <DeleteOutlineIcon fontSize="small" />
+                                                                            </IconButton>
+                                                                        </> :
+                                                                        <div>
+
+                                                                        </div>
+                                                                    }
+                                                                </div>
+                                                            </div>
+
                                                             <Typography className={classes.description}>
                                                                 {solution.description}
                                                             </Typography>

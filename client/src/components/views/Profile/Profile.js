@@ -152,7 +152,7 @@ export default function ControlledExpansionPanels() {
 const {handleGoToPost} = useContext(PostContext);
   const avatarURL = localStorage.getItem('avatar');
 
-  // 
+ 
   useEffect(() => {
     handleUserProfile();
   }, [isLoggedIn]);
@@ -290,8 +290,9 @@ const {handleGoToPost} = useContext(PostContext);
              <Typography variant="h4" component="h3" className={classes.ideaName}>
               {idea.title}
                <Typography variant="body2" component="p" className={classes.diffChip}>
-                 
-                 <Chip label={idea.difficulty} color={ idea.difficulty === 'Hard' ? "secondary" : ( idea.difficulty === "Moderate" ? "primary" : "default") } variant="outlined" /> 
+               <MuiThemeProvider theme={myTheme}>
+            <Chip label={idea.difficulty} color={ idea.difficulty === 'Hard' ? 'secondary' : ( idea.difficulty === 'Moderate' ? 'primary' : 'default') } variant="outlined" /> 
+            </MuiThemeProvider>
                </Typography>
              </Typography>
              <Typography variant="body2" component="h6" className={classes.cardDescp}>
