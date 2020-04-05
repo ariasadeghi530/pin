@@ -19,8 +19,18 @@ import Container from '@material-ui/core/Container';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Chip from '@material-ui/core/Chip'
 import PostContext from '../../../utils/PostContext';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-
+const myTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#FFB74D'
+    },
+    secondary: {
+      main: '#C25450'
+    }
+  }
+})
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -164,7 +174,7 @@ const {handleGoToPost} = useContext(PostContext);
             className={classes.removePadding}
            
             avatar={ avatarURL ? <Avatar src={avatarURL} alt="gh-avatar" className={classes.avatarImg} /> : <Avatar aria-label="recipe" className={classes.avatar}>
-                {user.username}
+                {user.username.slice(1)}
               </Avatar>
               }
           />
@@ -230,7 +240,9 @@ const {handleGoToPost} = useContext(PostContext);
               {idea.title}
                <Typography variant="body2" component="p" className={classes.diffChip}>
                  
-                 <Chip label={idea.difficulty} color={ idea.difficulty === 'Hard' ? "secondary" : ( idea.difficulty === "Moderate" ? "primary" : "default") } variant="outlined" /> 
+               <MuiThemeProvider theme={myTheme}>
+            <Chip label={idea.difficulty} color={ idea.difficulty === 'Hard' ? 'secondary' : ( idea.difficulty === 'Moderate' ? 'primary' : 'default') } variant="outlined" /> 
+            </MuiThemeProvider>
                </Typography>
              </Typography>
              <Typography variant="body2" component="h6" className={classes.cardDescp}>
