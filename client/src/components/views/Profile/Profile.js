@@ -206,7 +206,7 @@ const {handleGoToPost} = useContext(PostContext);
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
-            <Typography className={classes.heading}>{user.username}'s Ideas</Typography>
+            <Typography className={classes.heading}>{user.username + "'s Ideas"}</Typography>
             {/* <Typography className={classes.secondaryHeading}>{user.username}'s Ideas</Typography> */}
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.expansionHeight}>
@@ -253,7 +253,7 @@ const {handleGoToPost} = useContext(PostContext);
             aria-controls="panel2bh-content"
             id="panel2bh-header"
           >
-            <Typography className={classes.heading}>{user.username}'s Pinned Projects</Typography>
+            <Typography className={classes.heading}>{user.username + "'s Pinned Projects"}</Typography>
             {/* <Typography className={classes.secondaryHeading}>
             Review all your posts 
           </Typography> */}
