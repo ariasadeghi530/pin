@@ -22,7 +22,7 @@ import PostContext from '../../../utils/PostContext';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import InputLabel from '@material-ui/core/InputLabel';
+
 
 const myTheme = createMuiTheme({
   palette: {
@@ -151,7 +151,7 @@ export default function ControlledExpansionPanels() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const { isLoggedIn, user, handleUserProfile, projects, ideas, edit, handleInputChange, handleToggleEdit, handleEditProfile, first, last, username, github, bio, email } = useContext(UserContext);
+  const { isLoggedIn, user, handleUserProfile, projects, ideas, edit, handleInputChange, handleToggleEdit, handleEditProfile, } = useContext(UserContext);
   const {handleGoToPost} = useContext(PostContext);
   const avatarURL = localStorage.getItem('avatar');
 

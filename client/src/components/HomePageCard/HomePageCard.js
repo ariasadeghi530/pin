@@ -57,7 +57,7 @@ function HomePageCard() {
   const classes = useStyles();
 
 const {posts, handleViewAll, handleGoToPost} = useContext(PostContext);
-const {isLoggedIn, user} = useContext(UserContext);
+const {isLoggedIn} = useContext(UserContext);
 
   useEffect(() =>{
     handleViewAll();

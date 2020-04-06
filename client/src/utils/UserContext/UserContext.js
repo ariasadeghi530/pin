@@ -22,7 +22,6 @@ const UserContext = createContext({
     handleEditProfile: () => {},
     handlePin: () => {},
     handleUnPin: () => {},
-    handleEditProfile: () => {},
 });
 
 export default UserContext;

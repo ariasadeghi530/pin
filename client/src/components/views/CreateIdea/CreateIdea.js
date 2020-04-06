@@ -71,7 +71,7 @@ function CreateIdea() {
   };
 
   const { title, description, difficulty, totalTime, handleCreateNewPost, handleInputChange } = useContext(PostContext);
-  const {isLoggedIn, user} = useContext(UserContext);
+  const {isLoggedIn} = useContext(UserContext);
   
   return (
 <> {isLoggedIn ? 

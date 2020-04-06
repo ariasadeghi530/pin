@@ -4,9 +4,9 @@ import { Redirect } from 'react-router-dom';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 import Navbar from '../Navbar'
-import TextareaAutosize from '@material-ui/core/TextareaAutosize'
+
 import Button from '@material-ui/core/Button'
-import Icon from '@material-ui/core/Icon'
+
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 import Grid from '@material-ui/core/Grid';
@@ -35,7 +35,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import SendIcon from '@material-ui/icons/Send';
-import Fab from '@material-ui/core/Fab';
+
 
 
 
@@ -225,7 +225,7 @@ export default function Idea() {
     };
 
 
-    const { post, postOwner, solutions, comments, addSol, edit, handleViewPost, handleToggleSolution, handleToggleEdit, handleInputChange, desc, gh, deployed, handleAddSolution, posterId, handleRemSolution, handleDeleteIdea, title, description, difficulty, totalTime, handleEditIdea, newComment, handleAddComment, handleRemComment } = useContext(PostContext);
+    const { post, postOwner, solutions, comments, addSol, edit, handleViewPost, handleToggleSolution, handleToggleEdit, handleInputChange, desc, gh, deployed, handleAddSolution, posterId, handleRemSolution, handleDeleteIdea, handleEditIdea, newComment, handleAddComment, handleRemComment } = useContext(PostContext);
 
     const { isLoggedIn, handlePin, projects, handleUnPin } = useContext(UserContext);
 

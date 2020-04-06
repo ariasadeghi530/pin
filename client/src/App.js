@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import SignIn from './components/views/SignIn';
 import HomePage from './components/views/HomePage';
 import SignUp from './components/views/SignUp';
@@ -62,7 +62,6 @@ function App() {
     imageLinks: '',
     search: '',
     newSolution: {},
-    newComment: {},
     solutions: [],
     comments: [],
     desc: '',
