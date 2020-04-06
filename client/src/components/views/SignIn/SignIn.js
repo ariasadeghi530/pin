@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
   
-  const { username, password, isLoggedIn, handleInputChange, handleSignInUser} = useContext(UserContext);
+  const { username, password, isLoggedIn, handleInputChange, handleSignInUser, message } = useContext(UserContext);
 
   return (
     <>

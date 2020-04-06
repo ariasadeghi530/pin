@@ -3,7 +3,8 @@ require('dotenv').config();
 const passport = require('passport');
 const { User, Post } = require('../models');
 const TokenGenerator = require('uuid-token-generator');
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
+const { check, validationResult } = require('express-validator');
 
 
 const jwt = require('jsonwebtoken');
@@ -27,7 +28,15 @@ router.post('/users/login', (req, res) => {
 })
 
 // User registration
-router.post('/users/register', (req, res) => {
+router.post('/users/register', [
+  check('email').isEmail(),
+  check('password').isLength({ min: 5 })
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors)
+    return res.status(422).json({ errors: errors.array() });
+  }
   if (req.body.email === '') {
     res.status(400).json({ message: "Email required" });
   } else if (req.body.first === '') {

@@ -48,7 +48,8 @@ function App() {
     ideas: [],
     projects: [],
     edit: false,
-    isLoggedIn: localStorage.getItem('loggedIn') || false
+    isLoggedIn: localStorage.getItem('loggedIn') || false,
+    message: ''
   });
 
   const [postState, setPostState] = useState({
@@ -93,6 +94,7 @@ function App() {
 
     User.register(user)
       .then((registered) => {
+        if (registered.data === 'OK') {
         User.login({ username: user.username, password: user.password })
           .then(({ data }) => {
             localStorage.setItem('jwt', data.token);
@@ -116,8 +118,19 @@ function App() {
               .catch(e => console.error(e));
           })
           .catch(e => console.error(e))
+        } else if (registered.data.message !== undefined) {
+          setUserState({ ...userState, message: registered.data.message })
+        } else {
+          if (registered.data.keyValue.email) {
+            let message = `A user with email ${registered.data.keyValue.email} already exists.`
+            setUserState({ ...userState, message })
+          } else {
+            let message = `A user with GitHub account ${registered.data.keyValue.github} already exists.`
+            setUserState({ ...userState, message })
+          }
+        }
       })
-      .catch(e => console.error(e));
+      .catch(err => console.error(err));
   }
 
   userState.handleSignInUser = (event) => {

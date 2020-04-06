@@ -53,49 +53,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
-  const [signupSubmissionState, setSignupSubmissionState] = useState({
-    first: '',
-    last: '',
-    email: '',
-    username: '',
-    password: '',
-    confirm: '',
-    error: false,
-    message: '',
-    fields: {},
-    errors: {}
-  });
-
-  const handleValidation = () => {
-    let fields = signupSubmissionState.fields;
-    let errors = signupSubmissionState.errors;
-    let formIsValid = true;
-    if (!fields["first"]) {
-      formIsValid = false;
-      errors["first"] = "Cannot be empty"
-    }
-    if (!fields["last"]) {
-      formIsValid = false;
-      errors["last"] = "Cannot be empty"
-    }
-    if (typeof fields["email"] !== "undefined") {
-      let lastAtPos = fields["email"].lastIndexOf('@');
-      let lastDotPos = fields["email"].lastIndexOf('.');
-
-      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["email"].indexOf('@@') == -1 && lastDotPos > 2 && (fields["email"].length - lastDotPos) > 2)) {
-        formIsValid = false;
-        errors["email"] = "Email is not valid";
-      }
-    }  
-    setSignupSubmissionState({ errors: errors});
-    return formIsValid;
-  };
-
-  signupSubmissionState.handleInputChage = event => {
-    setSignupSubmissionState({ ...signupSubmissionState, [event.target.name]: event.target.value });
-  }
-
-   const {first, last, email, username, password, github, handleInputChange, handleRegisterUser, isLoggedIn} = useContext(UserContext);
+   const {first, last, email, username, password, github, handleInputChange, handleRegisterUser, isLoggedIn, message } = useContext(UserContext);
 
   return (
     <>
@@ -109,7 +67,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        {signupSubmissionState.message !== '' ? <div> {signupSubmissionState.error ? <Alert severity="error">{signupSubmissionState.message}</Alert> : <Alert severity="success">{signupSubmissionState.message}</Alert>}</div> : console.log(signupSubmissionState.message)}
+        {message !== '' ? <Alert severity="error">{message}</Alert> : ''}
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -176,6 +134,7 @@ export default function SignUp() {
                 value={password}
                 autoComplete="current-password"
                 onChange={handleInputChange}
+                helperText={password.length < 5 ? 'Password must be at least 5 characters' : ''}
               />
             </Grid>
             <Grid item xs={12}>
