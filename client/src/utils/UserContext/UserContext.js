@@ -8,6 +8,7 @@ const UserContext = createContext({
     password: '',
     email: '',
     github: '',
+    bio: '',
     ideas: [],
     projects: [],
     isLoggedIn: false, 
@@ -18,8 +19,10 @@ const UserContext = createContext({
     handleUserProfile: () => {},
     handleLogOut: () => {},
     handleToggleEdit: () => {},
+    handleEditProfile: () => {},
     handlePin: () => {},
-    handleUnPin: () => {}
+    handleUnPin: () => {},
+    handleEditProfile: () => {},
 });
 
 export default UserContext;

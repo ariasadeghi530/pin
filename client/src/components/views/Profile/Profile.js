@@ -20,6 +20,9 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Chip from '@material-ui/core/Chip'
 import PostContext from '../../../utils/PostContext';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const myTheme = createMuiTheme({
   palette: {
@@ -148,7 +151,7 @@ export default function ControlledExpansionPanels() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const { isLoggedIn, user, handleUserProfile, projects, ideas } = useContext(UserContext);
+  const { isLoggedIn, user, handleUserProfile, projects, ideas, edit, handleInputChange, handleToggleEdit, handleEditProfile, first, last, username, github, bio, email } = useContext(UserContext);
 const {handleGoToPost} = useContext(PostContext);
   const avatarURL = localStorage.getItem('avatar');
 
@@ -165,6 +168,105 @@ const {handleGoToPost} = useContext(PostContext);
      (
        <>
         <Navbar />
+      {  edit ? 
+      <>
+      <Card className={classes.root, classes.pageMargin}>
+      <CardContent>
+       <form className={classes.form} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                size="small"
+                
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                defaultValue={user.username}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                size="small"
+                name="first"
+                defaultValue={user.first}
+                variant="outlined"
+                
+                fullWidth
+                id="firstName"
+                label="First Name"
+               
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                size="small"
+                
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="last"
+                autoComplete="lname"
+                defaultValue={user.last}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                multiline={true}
+                rows={5}
+                fullWidth
+                id="bio"
+                label="Bio"
+                name="bio"
+                
+                defaultValue={user.bio}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                size="small"
+                
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                defaultValue={user.email}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                size="small"
+                fullWidth
+                id="github"
+                label="GitHub username"
+                name="github"
+                defaultValue={user.github}
+                onChange={handleInputChange}
+              />
+            </Grid>
+          </Grid>
+        </form>
+        </CardContent>
+          <CardActions>
+            {localStorage.getItem('uid') === user._id ? <Button onClick={(e)=>handleEditProfile(e, user._id, user)}size="small" color="primary" variant='outlined' className={classes.noMargin, classes.fullWidth}>Save</Button> : <div> </div>}
+          </CardActions>
+          </Card>
+      </>
+      
+      :
       <div className={classes.pageMargin}>
         <Card className={classes.root}>
           <Typography className={classes.title} color="textPrimary" gutterBottom>
@@ -173,8 +275,8 @@ const {handleGoToPost} = useContext(PostContext);
           <CardHeader
             className={classes.removePadding}
            
-            avatar={ avatarURL ? <Avatar src={avatarURL} alt="gh-avatar" className={classes.avatarImg} /> : <Avatar aria-label="recipe" className={classes.avatar}>
-                {user.username.slice(1)}
+            avatar={ avatarURL ? <Avatar src={avatarURL} alt="gh-avatar" className={classes.avatarImg} /> : <Avatar aria-label="recipe"  className={classes.avatar}>
+                {user.username}
               </Avatar>
               }
           />
@@ -189,12 +291,12 @@ const {handleGoToPost} = useContext(PostContext);
                   {user.first} {user.last}
                 </Typography>
               </div>
-              <Typography variant="body2" component="p">
+              <Typography variant="body2" component="p" className={classes.pos}>
                 {user.bio} 
               </Typography>
               <Typography className={classes.pos} color="textPrimary">
 
-                <Link href={`https://github.com/${user.github}`} className={classes.imageSize}>
+                <Link href={`https://github.com/${user.github}`} target="_blank" className={classes.imageSize}>
                   <div >
                     <img src={"/images/products/product_5.png"} alt="github-logo" className={classes.imageSize} />
 
@@ -204,10 +306,11 @@ const {handleGoToPost} = useContext(PostContext);
             </div>
           </CardContent>
           <CardActions>
-            {localStorage.getItem('uid') === user._id ? <Button size="small" color="primary" variant='outlined' className={classes.noMargin, classes.fullWidth}>Edit</Button> : <div> </div>}
+            {localStorage.getItem('uid') === user._id ? <Button onClick={handleToggleEdit}size="small" color="primary" variant='outlined' className={classes.noMargin, classes.fullWidth}>Edit</Button> : <div> </div>}
           </CardActions>
         </Card>
       </div>
+      }
 
       <div className={classes.root, classes.elementMargin}>
         <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>

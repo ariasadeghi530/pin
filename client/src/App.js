@@ -43,6 +43,7 @@ function App() {
     email: '',
     github: '',
     password: '',
+    bio: '',
     ideas: [],
     projects: [],
     edit: false,
@@ -145,7 +146,7 @@ function App() {
       .then(({ data: userInfo }) => {
         setUserState({ ...userState, user: userInfo, projects: userInfo.projects, ideas: userInfo.ideas });
       })
-      .catch(e => console.error(e))
+      .catch(e => console.error(e));
   }
 
   userState.handlePin = (id) => {
@@ -163,6 +164,48 @@ function App() {
       .catch(e => console.error(e));
   }
 
+  userState.handleToggleEdit = () => {
+    setUserState({...userState, edit: !userState.edit});
+  }
+
+  userState.handleEditProfile = (event, id, profile) => {
+    event.preventDefault();
+    let updates = {username: userState.username, first: userState.first, last: userState.last, email: userState.email, github: userState.github, bio: userState.bio};
+  
+    if(updates.username === ''){
+      updates.username = profile.username;
+    }
+    if(updates.github === ''){
+      updates.github = profile.github;
+    }
+    if(updates.github !== profile.github){
+      localStorage.removeItem('avatar');
+      axios.get(`https://api.github.com/search/users?q=${updates.github}`)
+      .then(({ data: { items } }) => {
+        localStorage.setItem('avatar', items[0].avatar_url);
+      })
+      .catch(e => console.error(e));
+    }
+    if(updates.first === ''){
+      updates.first = profile.first;
+    }
+    if(updates.last === ''){
+      updates.last = profile.last;
+    }
+    if(updates.email === ''){
+      updates.email = profile.email;
+    }
+    if(updates.bio === ''){
+      updates.bio = profile.bio;
+    }
+    User.update(updates)
+    .then(({data: userInfo}) => {
+      setUserState({...userState, user: userInfo, projects: userInfo.projects, ideas: userInfo.ideas, edit: !userState.edit, first: '', username: '', last: '', email: '', github: '', bio: ''});
+      
+    })
+    .catch(e => console.error(e));
+  }
+
   userState.handleLogOut = () => {
     localStorage.clear();
     setUserState({ ...userState, isLoggedIn: false });
@@ -175,7 +218,6 @@ function App() {
   postState.handleViewAll = () => {
     Post.home()
       .then(({ data }) => {
-
         setPostState({ ...postState, posts: data })
       })
       .catch(e => console.error(e))
