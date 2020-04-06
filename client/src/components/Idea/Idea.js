@@ -179,6 +179,10 @@ export default function Idea() {
         },
         pos2:{
             marginBottom: 8
+        },
+        save:{
+            width: '100%'
+            
         }
     }))
 
@@ -231,12 +235,9 @@ export default function Idea() {
                             <Card className={classes.marginTop}>
                                 <CardContent>
                                     {edit === true ?
-                                        <>
-                                            <div className={classes.username}>
-                                                <Button onClick={(e) => handleEditIdea(e, ideaId, post)}>
-                                                    Save
-                                  </Button>
-                                            </div>
+                                    <div>
+                                        
+                                              
                                             <form className={classes.form} noValidate autoComplete="off">
                                                 <Grid item xs={12}>
                                                     <TextField
@@ -297,7 +298,12 @@ export default function Idea() {
                                                 </Grid>
 
                                             </form>
-                                        </>
+                                            <Button onClick={(e) => handleEditIdea(e, ideaId, post)} fullWidth 
+                                                variant="outlined"color="primary" className={classes.save}>
+                                                    Save
+                                  </Button>
+                                            
+                                        </div>
                                         : (
                                             <>
                                                 <div className={classes.flex}>

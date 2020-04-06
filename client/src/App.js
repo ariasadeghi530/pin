@@ -201,7 +201,7 @@ function App() {
     User.update(updates)
     .then(({data: userInfo}) => {
       setUserState({...userState, user: userInfo, projects: userInfo.projects, ideas: userInfo.ideas, edit: !userState.edit, first: '', username: '', last: '', email: '', github: '', bio: ''});
-      
+     
     })
     .catch(e => console.error(e));
   }
