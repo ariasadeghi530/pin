@@ -5,7 +5,7 @@ const UserSchema = new Schema({
   last: {type: String, required: true},
   username: {type: String, unique: true, required: true, dropDups: true},
   email: {type: String, unique: true, required: true, dropDups: true},
-  github: {type: String, unique: true, dropDups: true},
+  github: {type: String, unique: true, dropDups: true, sparse: true},
   bio: { type: String },
   resetPwordToken: {type: String, default: ''},
   ideas: [
