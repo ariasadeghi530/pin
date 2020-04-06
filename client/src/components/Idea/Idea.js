@@ -118,7 +118,8 @@ export default function Idea() {
             display: 'grid',
             justifyContent: 'flex-end',
             width: '50%',
-            flexGrow: 1
+            flexGrow: 1,
+            paddingBottom: 0
         },
         solTitle: {
             display: 'flex'
@@ -166,7 +167,7 @@ export default function Idea() {
         },
         form: {
             width: '100%', // Fix IE 11 issue.
-            marginTop: theme.spacing(3),
+            marginTop: 0
         },
         input: {
             width: '100%', // Fix IE 11 issue.
