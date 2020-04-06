@@ -525,7 +525,7 @@ export default function Idea() {
                                   </>
                                   }
                                  </List> 
-                                
+                                <form onSubmit={(e) => handleAddComment(e, ideaId)}>
                                  <TextField
                                    label="Add a comment"
                                    id="outlined-size-small"
@@ -547,7 +547,7 @@ export default function Idea() {
                                 >
                                     <SendIcon />
                                 </IconButton>
-                              
+                                </form>
                             
                             </Box>
 
