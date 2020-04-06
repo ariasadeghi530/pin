@@ -13,7 +13,7 @@ require('dotenv').config();
 // User login
 router.post('/users/login', (req, res) => {
   User.authenticate()(req.body.username, req.body.password, (err, user) => {
-    if (err) throw err;
+    if (err) res.send(err);
     res.json({
       isLoggedIn: !!user,
       ideas: user.ideas,

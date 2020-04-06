@@ -95,6 +95,7 @@ function App() {
       .then((registered) => {
         User.login({ username: user.username, password: user.password })
           .then(({ data }) => {
+            if(data.isLoggedIn){
             localStorage.setItem('jwt', data.token);
             localStorage.setItem('loggedIn', data.isLoggedIn);
             localStorage.setItem('uid', data.id);
@@ -114,6 +115,7 @@ function App() {
                 localStorage.setItem('avatar', items[0].avatar_url)
               })
               .catch(e => console.error(e));
+            }
           })
           .catch(e => console.error(e))
       })
@@ -123,22 +125,24 @@ function App() {
   userState.handleSignInUser = (event) => {
     event.preventDefault();
     const user = { username: userState.username, password: userState.password };
-
-    User.login(user)
-      .then(({ data }) => {
-
-        localStorage.setItem('jwt', data.token);
-        localStorage.setItem('loggedIn', data.isLoggedIn);
-        localStorage.setItem('uid', data.id);
-        setUserState({ ...userState, user: data, username: '', password: '', isLoggedIn: data.isLoggedIn });
-        axios.get(`https://api.github.com/search/users?q=${data.github}`)
-          .then(({ data: { items } }) => {
-            localStorage.setItem('avatar', items[0].avatar_url)
-          })
-          .catch(e => console.error(e));
-
-      })
-      .catch(e => console.error(e))
+    if(user.username !== '' && user.password !== ''){
+      User.login(user)
+        .then(({ data }) => {
+          if(data.isLoggedIn){
+            localStorage.setItem('jwt', data.token);
+            localStorage.setItem('loggedIn', data.isLoggedIn);
+            localStorage.setItem('uid', data.id);
+            setUserState({ ...userState, user: data, username: '', password: '', isLoggedIn: data.isLoggedIn });
+            axios.get(`https://api.github.com/search/users?q=${data.github}`)
+              .then(({ data: { items } }) => {
+                localStorage.setItem('avatar', items[0].avatar_url)
+              })
+              .catch(e => console.error(e));
+    
+          }
+        })
+        .catch(e => console.error(e))
+    }
 
   }
 
