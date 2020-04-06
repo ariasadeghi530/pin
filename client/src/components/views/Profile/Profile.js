@@ -152,10 +152,12 @@ export default function ControlledExpansionPanels() {
   };
 
   const { isLoggedIn, user, handleUserProfile, projects, ideas, edit, handleInputChange, handleToggleEdit, handleEditProfile, first, last, username, github, bio, email } = useContext(UserContext);
-const {handleGoToPost} = useContext(PostContext);
+  const {handleGoToPost} = useContext(PostContext);
   const avatarURL = localStorage.getItem('avatar');
 
- 
+  const profileId = (window.location.pathname).slice(9);
+  let userID = localStorage.getItem('uid');
+
   useEffect(() => {
     handleUserProfile();
   }, [isLoggedIn]);
@@ -305,9 +307,11 @@ const {handleGoToPost} = useContext(PostContext);
               </Typography>
             </div>
           </CardContent>
-          <CardActions>
+         { profileId == userID ? <CardActions>
             {localStorage.getItem('uid') === user._id ? <Button onClick={handleToggleEdit}size="small" color="primary" variant='outlined' className={classes.noMargin, classes.fullWidth}>Edit</Button> : <div> </div>}
-          </CardActions>
+          </CardActions> :
+          <>
+          </>}
         </Card>
       </div>
       }
