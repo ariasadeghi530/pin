@@ -49,7 +49,8 @@ function App() {
     projects: [],
     edit: false,
     isLoggedIn: localStorage.getItem('loggedIn') || false,
-    message: ''
+    message: '',
+    rememberMe: true
   });
 
   const [postState, setPostState] = useState({
@@ -74,7 +75,9 @@ function App() {
     addSol: false,
   });
 
-
+  userState.handleToggleRemember = () => {
+    setUserState({ ...userState, rememberMe: !userState.rememberMe })
+  }
 
   userState.handleInputChange = event => {
     setUserState({ ...userState, [event.target.name]: event.target.value });
@@ -110,7 +113,8 @@ function App() {
               email: '',
               github: '',
               password: '',
-              isLoggedIn: data.isLoggedIn
+              isLoggedIn: data.isLoggedIn,
+              message: ''
             });
             axios.get(`https://api.github.com/search/users?q=${data.github}`)
               .then(({ data: { items } }) => {
@@ -145,13 +149,15 @@ function App() {
             localStorage.setItem('jwt', data.token);
             localStorage.setItem('loggedIn', data.isLoggedIn);
             localStorage.setItem('uid', data.id);
-            setUserState({ ...userState, user: data, username: '', password: '', isLoggedIn: data.isLoggedIn });
+            setUserState({ ...userState, message: '', user: data, username: '', password: '', isLoggedIn: data.isLoggedIn });
             axios.get(`https://api.github.com/search/users?q=${data.github}`)
               .then(({ data: { items } }) => {
                 localStorage.setItem('avatar', items[0].avatar_url)
               })
               .catch(e => console.error(e));
     
+          } else {
+            setUserState({ ...userState, message: 'Login failed, incorrect username or password'})
           }
         })
         .catch(e => console.error(e))

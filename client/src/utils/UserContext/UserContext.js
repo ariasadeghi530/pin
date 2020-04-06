@@ -14,6 +14,7 @@ const UserContext = createContext({
     isLoggedIn: false, 
     edit: false,
     message: '',
+    rememberMe: true,
     handleInputChange: () => {},
     handleRegisterUser: () => {},
     handleSignInUser: () => {},
@@ -23,6 +24,7 @@ const UserContext = createContext({
     handleEditProfile: () => {},
     handlePin: () => {},
     handleUnPin: () => {},
+    handleToggleRemember: () => {}
 });
 
 export default UserContext;

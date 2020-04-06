@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import UserContext from '../../../utils/UserContext'
 import {Redirect} from 'react-router-dom';
+import Alert from '@material-ui/lab/Alert';
 
 function Copyright() {
   return (
@@ -54,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
   
-  const { username, password, isLoggedIn, handleInputChange, handleSignInUser, message } = useContext(UserContext);
+  const { username, password, isLoggedIn, handleInputChange, handleSignInUser, message, rememberMe, handleToggleRemember } = useContext(UserContext);
 
   return (
     <>
@@ -66,6 +67,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+        {message !== '' ? <Alert severity="error">{message}</Alert> : ''}
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -93,7 +95,7 @@ export default function SignIn() {
             autoComplete="current-password"
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" checked="true"/>}
+            control={<Checkbox value="remember" color="primary" checked={rememberMe} name="rememberMe" onClick={handleToggleRemember}/>}
             label="Remember me"
           />
           <Button
