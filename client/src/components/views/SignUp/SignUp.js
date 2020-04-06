@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import UserContext from '../../../utils/UserContext'
 import {Redirect} from 'react-router-dom';
+import Alert from '@material-ui/lab/Alert';
 
 function Copyright() {
   return (
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
-   const {first, last, email, username, password, github, handleInputChange, handleRegisterUser, isLoggedIn} = useContext(UserContext);
+   const {first, last, email, username, password, github, handleInputChange, handleRegisterUser, isLoggedIn, message } = useContext(UserContext);
 
   return (
     <>
@@ -66,6 +67,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
+        {message !== '' ? <Alert severity="error">{message}</Alert> : ''}
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -132,6 +134,7 @@ export default function SignUp() {
                 value={password}
                 autoComplete="current-password"
                 onChange={handleInputChange}
+                helperText={password.length < 5 ? 'Password must be at least 5 characters' : ''}
               />
             </Grid>
             <Grid item xs={12}>

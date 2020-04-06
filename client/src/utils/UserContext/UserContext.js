@@ -13,6 +13,7 @@ const UserContext = createContext({
     projects: [],
     isLoggedIn: false, 
     edit: false,
+    message: '',
     handleInputChange: () => {},
     handleRegisterUser: () => {},
     handleSignInUser: () => {},
