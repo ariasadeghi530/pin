@@ -14,6 +14,7 @@ import PostContext from './utils/PostContext';
 import User from './utils/User'
 import Post from './utils/Post';
 import Profile from './components/views/Profile';
+import ProfileEdit from './components/views/ProfileEdit'
 import axios from 'axios';
 
 const theme = createMuiTheme({
@@ -125,9 +126,9 @@ function App() {
       axios.get(`https://api.github.com/search/users?q=${userInfo.github}`)
       .then(({data: {items}}) =>{
         localStorage.setItem('avatar', items[0].avatar_url)
-        setUserState({...userState, user: userInfo, projects: userInfo.projects, ideas: userInfo.ideas});
       })
       .catch(e =>console.error(e))
+      setUserState({ ...userState, user: userInfo, projects: userInfo.projects, ideas: userInfo.ideas });
     })
     .catch(e => console.error(e))
   }
@@ -204,6 +205,8 @@ function App() {
           <SignUp />
         </Route>
         <Route path="/profile/:id" component={Profile}>
+        </Route>
+        <Route path="/profile/edit/:id" component={ProfileEdit}>
         </Route>
         <Route path="/idea/:id" component={Idea}>
           </Route>

@@ -193,7 +193,9 @@ export default function ControlledExpansionPanels() {
             </div>
           </CardContent>
           <CardActions>
-            {localStorage.getItem('uid') === user._id ? <Button size="small" color="primary" variant='outlined' className={classes.noMargin, classes.fullWidth}>Edit</Button> : <div> </div>}
+                  {localStorage.getItem('uid') === user._id ? <Button size="small" color="primary" variant='outlined' className={classes.noMargin, classes.fullWidth}>
+                    <Link href={`/profile/edit/${user._id}`}>Edit</Link>
+                  </Button> : <div> </div>}
           </CardActions>
         </Card>
       </div>
