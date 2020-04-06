@@ -19,6 +19,8 @@ router.post('/users/login', (req, res) => {
       ideas: user.ideas,
       projects: user.projects,
       user: user.username,
+      id: user._id,
+      github: user.github,
       token: jwt.sign({ id: user._id }, process.env.SECRET)
     });
   })
@@ -111,7 +113,7 @@ router.put('/resetPassword/:token', (req, res) => {
 
 //get a user and their projects/ideas
 router.get('/users', passport.authenticate('jwt'), (req, res) => {
-  User.findById(req.user._id)
+  User.findById(req.user._id).populate('ideas').populate('projects')
   .then((user) => res.json(user))
   .catch(e => console.error(e));
 })
@@ -119,7 +121,7 @@ router.get('/users', passport.authenticate('jwt'), (req, res) => {
 //update user info and get it back
 router.put('/users', passport.authenticate('jwt'), (req, res) => {
   User.findByIdAndUpdate(req.user._id, req.body)
-  .then(() => {User.findById(req.user._id)
+  .then(() => {User.findById(req.user._id).populate('ideas').populate('projects')
   .then((user) => res.json(user))
   .catch(e => console.error(e));})
   .catch(e => console.error(e));

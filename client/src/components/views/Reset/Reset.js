@@ -118,7 +118,7 @@ export default function Reset() {
           </Button>
           <Grid item>
             <Link href="/signin" variant="body2">
-              {"Already have an account? Sign In"}
+              {"Sign In"}
             </Link>
           </Grid>
         </form>

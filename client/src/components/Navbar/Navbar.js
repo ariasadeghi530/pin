@@ -22,8 +22,21 @@ import UserContext from '../../utils/UserContext';
 import PostContext from '../../utils/PostContext';
 import Link from '@material-ui/core/Link';
 import CloseIcon from '@material-ui/icons/Close';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const drawerWidth = '100%';
+
+
+const myTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#FFB74D'
+    },
+    secondary: {
+      main: '#C25450'
+    }
+  }
+})
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,6 +61,10 @@ const useStyles = makeStyles(theme => ({
   },
   hide: {
     display: 'none',
+  },
+  drawerTitle: {
+    flexGrow: 1,
+    marginLeft: "2%"
   },
   drawer: {
     width: drawerWidth,
@@ -120,7 +137,8 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     display: 'flex',
    alignContent: "center",
-   marginTop: 5
+   marginTop: 5,
+   color: myTheme.palette.secondary.main
     // marginLeft: "3rem"
   }
 }));
@@ -137,8 +155,9 @@ export default function Nav() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const {handleLogOut} = useContext(UserContext);
+  const {handleLogOut, user} = useContext(UserContext);
   const {handleSearch, handleInputChange, search} = useContext(PostContext);
+  const userID = user._id || localStorage.getItem('uid'); 
 
   return (
     <div className={classes.root}>
@@ -180,7 +199,7 @@ export default function Nav() {
         }}
       >
         <div className={classes.drawerHeader}>
-        <Typography variant="h6" noWrap className={classes.title} >
+        <Typography variant="h6" noWrap className={classes.drawerTitle} >
           <Link href="/" >
             <div >
             <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo}/> 
@@ -216,7 +235,7 @@ export default function Nav() {
           </div>
           </ListItem>
           {['Profile', 'New Idea'].map((text, index) => (
-            <Link href={index % 2 === 0 ? "/profile": "/postidea"} className={classes.listText}>
+            <Link href={index % 2 === 0 ? `/profile/${userID}`: "/postidea"} className={classes.listText}>
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <AccountCircleOutlinedIcon /> : <CreateOutlinedIcon />}</ListItemIcon>
               <ListItemText primary={text} />
@@ -225,9 +244,11 @@ export default function Nav() {
           ))}
             <Divider />
             <ListItem>
-            <Button variant="outlined" color="secondary" className={classes.logout}onClick={handleLogOut} >
+            <MuiThemeProvider theme={myTheme}>
+            <Button variant="outlined" color="secondary" className={classes.logout} onClick={handleLogOut} >
             Logout
           </Button>
+            </MuiThemeProvider>
             </ListItem>
         </List>
         

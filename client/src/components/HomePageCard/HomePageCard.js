@@ -1,7 +1,7 @@
 import React, {useEffect, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
@@ -10,13 +10,26 @@ import UserContext from '../../utils/UserContext';
 import PostContext from '../../utils/PostContext';
 import Chip from '@material-ui/core/Chip';
 
+
 import  { Redirect }  from 'react-router-dom';
+
+const myTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#FFB74D'
+    },
+    secondary: {
+      main: '#C25450'
+    }
+  }
+})
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
     marginBottom: 0,
     marginTop: 20,
+   
   },
   title: {
     fontSize: 14,
@@ -40,22 +53,23 @@ const useStyles = makeStyles({
 
 function HomePageCard() {
 
+
   const classes = useStyles();
 
-const {posts, handleViewAll} = useContext(PostContext);
+const {posts, handleViewAll, handleGoToPost} = useContext(PostContext);
 const {isLoggedIn, user} = useContext(UserContext);
 
-useEffect(() =>{
-  handleViewAll();
-}, [isLoggedIn])
+  useEffect(() =>{
+    handleViewAll();
+  }, [isLoggedIn])
   return (
     <>
     { isLoggedIn ? 
   posts.map((post,index )=> ( <Container key={index}>
-    <Card className={classes.root} key={post.owner._id} variant="outlined">
+    <Card className={classes.root} key={post._id} variant="outlined">
       <ButtonBase
        className={classes.cardAction}
-      //  onClick={}
+       onClick={() => handleGoToPost(post._id)}
        >
       <CardContent>
         <Typography className={classes.title} color="textSecondary">
@@ -64,8 +78,9 @@ useEffect(() =>{
         <Typography variant="h4" component="h3" className={classes.ideaName}>
          {post.title}
           <Typography variant="body2" component="p" className={classes.diffChip}>
-            
-            <Chip label={post.difficulty} color={ post.difficulty === 'Hard' ? "secondary" : ( post.difficulty === "Moderate" ? "primary" : "default") } variant="outlined" /> 
+            <MuiThemeProvider theme={myTheme}>
+            <Chip label={post.difficulty} color={ post.difficulty === 'Hard' ? 'secondary' : ( post.difficulty === 'Moderate' ? 'primary' : 'default') } variant="outlined" /> 
+            </MuiThemeProvider>
           </Typography>
         </Typography>
         <Typography variant="body2" component="h6" className={classes.cardDescp}>
