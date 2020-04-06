@@ -18,8 +18,22 @@ import  { Redirect }  from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Chip from '@material-ui/core/Chip'
+import PostContext from '../../../utils/PostContext';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import InputLabel from '@material-ui/core/InputLabel';
 
-
+const myTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#FFB74D'
+    },
+    secondary: {
+      main: '#C25450'
+    }
+  }
+})
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -137,11 +151,11 @@ export default function ControlledExpansionPanels() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const { isLoggedIn, user, handleUserProfile, projects, ideas } = useContext(UserContext);
-
+  const { isLoggedIn, user, handleUserProfile, projects, ideas, edit, handleInputChange, handleToggleEdit, handleEditProfile, first, last, username, github, bio, email } = useContext(UserContext);
+const {handleGoToPost} = useContext(PostContext);
   const avatarURL = localStorage.getItem('avatar');
 
-  
+ 
   useEffect(() => {
     handleUserProfile();
   }, [isLoggedIn]);
@@ -154,6 +168,105 @@ export default function ControlledExpansionPanels() {
      (
        <>
         <Navbar />
+      {  edit ? 
+      <>
+      <Card className={classes.root, classes.pageMargin}>
+      <CardContent>
+       <form className={classes.form} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                size="small"
+                
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                defaultValue={user.username}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                size="small"
+                name="first"
+                defaultValue={user.first}
+                variant="outlined"
+                
+                fullWidth
+                id="firstName"
+                label="First Name"
+               
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                size="small"
+                
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="last"
+                autoComplete="lname"
+                defaultValue={user.last}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                multiline={true}
+                rows={5}
+                fullWidth
+                id="bio"
+                label="Bio"
+                name="bio"
+                
+                defaultValue={user.bio}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                size="small"
+                
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                defaultValue={user.email}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                size="small"
+                fullWidth
+                id="github"
+                label="GitHub username"
+                name="github"
+                defaultValue={user.github}
+                onChange={handleInputChange}
+              />
+            </Grid>
+          </Grid>
+        </form>
+        </CardContent>
+          <CardActions>
+            {localStorage.getItem('uid') === user._id ? <Button onClick={(e)=>handleEditProfile(e, user._id, user)}size="small" color="primary" variant='outlined' className={classes.noMargin, classes.fullWidth}>Save</Button> : <div> </div>}
+          </CardActions>
+          </Card>
+      </>
+      
+      :
       <div className={classes.pageMargin}>
         <Card className={classes.root}>
           <Typography className={classes.title} color="textPrimary" gutterBottom>
@@ -162,7 +275,7 @@ export default function ControlledExpansionPanels() {
           <CardHeader
             className={classes.removePadding}
            
-            avatar={ avatarURL ? <Avatar src={avatarURL} alt="gh-avatar" className={classes.avatarImg} /> : <Avatar aria-label="recipe" className={classes.avatar}>
+            avatar={ avatarURL ? <Avatar src={avatarURL} alt="gh-avatar" className={classes.avatarImg} /> : <Avatar aria-label="recipe"  className={classes.avatar}>
                 {user.username}
               </Avatar>
               }
@@ -178,12 +291,12 @@ export default function ControlledExpansionPanels() {
                   {user.first} {user.last}
                 </Typography>
               </div>
-              <Typography variant="body2" component="p">
+              <Typography variant="body2" component="p" className={classes.pos}>
                 {user.bio} 
               </Typography>
               <Typography className={classes.pos} color="textPrimary">
 
-                <Link href={`https://github.com/${user.github}`} className={classes.imageSize}>
+                <Link href={`https://github.com/${user.github}`} target="_blank" className={classes.imageSize}>
                   <div >
                     <img src={"/images/products/product_5.png"} alt="github-logo" className={classes.imageSize} />
 
@@ -193,12 +306,11 @@ export default function ControlledExpansionPanels() {
             </div>
           </CardContent>
           <CardActions>
-                  {localStorage.getItem('uid') === user._id ? <Button size="small" color="primary" variant='outlined' className={classes.noMargin, classes.fullWidth}>
-                    <Link href={`/profile/edit/${user._id}`}>Edit</Link>
-                  </Button> : <div> </div>}
+            {localStorage.getItem('uid') === user._id ? <Button onClick={handleToggleEdit}size="small" color="primary" variant='outlined' className={classes.noMargin, classes.fullWidth}>Edit</Button> : <div> </div>}
           </CardActions>
         </Card>
       </div>
+      }
 
       <div className={classes.root, classes.elementMargin}>
         <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
@@ -207,7 +319,7 @@ export default function ControlledExpansionPanels() {
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
-            <Typography className={classes.heading}>{user.username}'s Ideas</Typography>
+            <Typography className={classes.heading}>{user.username + "'s Ideas"}</Typography>
             {/* <Typography className={classes.secondaryHeading}>{user.username}'s Ideas</Typography> */}
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.expansionHeight}>
@@ -221,7 +333,7 @@ export default function ControlledExpansionPanels() {
            <Card className={classes.cardRoot} key={idea.owner._id} variant="outlined">
            <ButtonBase
             className={classes.cardAction}
-           //  onClick={}
+            onClick={() => handleGoToPost(idea._id)}
             >
            <CardContent>
              <Typography className={classes.cardTitle} color="textSecondary">
@@ -231,7 +343,9 @@ export default function ControlledExpansionPanels() {
               {idea.title}
                <Typography variant="body2" component="p" className={classes.diffChip}>
                  
-                 <Chip label={idea.difficulty} color={ idea.difficulty === 'Hard' ? "secondary" : ( idea.difficulty === "Moderate" ? "primary" : "default") } variant="outlined" /> 
+               <MuiThemeProvider theme={myTheme}>
+            <Chip label={idea.difficulty} color={ idea.difficulty === 'Hard' ? 'secondary' : ( idea.difficulty === 'Moderate' ? 'primary' : 'default') } variant="outlined" /> 
+            </MuiThemeProvider>
                </Typography>
              </Typography>
              <Typography variant="body2" component="h6" className={classes.cardDescp}>
@@ -254,7 +368,7 @@ export default function ControlledExpansionPanels() {
             aria-controls="panel2bh-content"
             id="panel2bh-header"
           >
-            <Typography className={classes.heading}>{user.username}'s Pinned Projects</Typography>
+            <Typography className={classes.heading}>{user.username + "'s Pinned Projects"}</Typography>
             {/* <Typography className={classes.secondaryHeading}>
             Review all your posts 
           </Typography> */}
@@ -270,7 +384,7 @@ export default function ControlledExpansionPanels() {
            <Card className={classes.cardRoot} key={idea.owner._id} variant="outlined">
            <ButtonBase
             className={classes.cardAction}
-           //  onClick={}
+            onClick={() => handleGoToPost(idea._id)}
             >
            <CardContent>
              <Typography className={classes.cardTitle} color="textSecondary">
@@ -279,8 +393,9 @@ export default function ControlledExpansionPanels() {
              <Typography variant="h4" component="h3" className={classes.ideaName}>
               {idea.title}
                <Typography variant="body2" component="p" className={classes.diffChip}>
-                 
-                 <Chip label={idea.difficulty} color={ idea.difficulty === 'Hard' ? "secondary" : ( idea.difficulty === "Moderate" ? "primary" : "default") } variant="outlined" /> 
+               <MuiThemeProvider theme={myTheme}>
+            <Chip label={idea.difficulty} color={ idea.difficulty === 'Hard' ? 'secondary' : ( idea.difficulty === 'Moderate' ? 'primary' : 'default') } variant="outlined" /> 
+            </MuiThemeProvider>
                </Typography>
              </Typography>
              <Typography variant="body2" component="h6" className={classes.cardDescp}>

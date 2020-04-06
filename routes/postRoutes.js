@@ -72,7 +72,7 @@ router.put('/posts/:postID/comments', passport.authenticate('jwt'), (req, res) =
 
 //remove a solution from a post
 router.delete('/posts/:postID/solutions', passport.authenticate('jwt'), (req, res) => {
-  Post.findByIdAndUpdate(req.params.postID, {$pull: {solutions: { description: req.body.description, github: req.body.github, deployed: req.body.deployed, poster: req.user.username, uid: req.user._id}}})
+  Post.findByIdAndUpdate(req.params.postID, {$pull: {solutions: { description: req.body.solution.description, github: req.body.solution.github, deployed: req.body.solution.deployed, poster: req.user.username, uid: req.user._id}}})
   .then(() => {
     Post.findById(req.params.postID)
   .then((post) => res.json(post))

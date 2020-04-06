@@ -20,6 +20,7 @@ router.post('/users/login', (req, res) => {
       projects: user.projects,
       user: user.username,
       id: user._id,
+      github: user.github,
       token: jwt.sign({ id: user._id }, process.env.SECRET)
     });
   })

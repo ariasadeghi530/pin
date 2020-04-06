@@ -22,8 +22,21 @@ import UserContext from '../../utils/UserContext';
 import PostContext from '../../utils/PostContext';
 import Link from '@material-ui/core/Link';
 import CloseIcon from '@material-ui/icons/Close';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const drawerWidth = '100%';
+
+
+const myTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#FFB74D'
+    },
+    secondary: {
+      main: '#C25450'
+    }
+  }
+})
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -124,7 +137,8 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     display: 'flex',
    alignContent: "center",
-   marginTop: 5
+   marginTop: 5,
+   color: myTheme.palette.secondary.main
     // marginLeft: "3rem"
   }
 }));
@@ -230,9 +244,11 @@ export default function Nav() {
           ))}
             <Divider />
             <ListItem>
-            <Button variant="outlined" color="secondary" className={classes.logout}onClick={handleLogOut} >
+            <MuiThemeProvider theme={myTheme}>
+            <Button variant="outlined" color="secondary" className={classes.logout} onClick={handleLogOut} >
             Logout
           </Button>
+            </MuiThemeProvider>
             </ListItem>
         </List>
         

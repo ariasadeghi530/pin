@@ -66,7 +66,7 @@ const {isLoggedIn, user} = useContext(UserContext);
     <>
     { isLoggedIn ? 
   posts.map((post,index )=> ( <Container key={index}>
-    <Card className={classes.root} key={post.owner._id} variant="outlined">
+    <Card className={classes.root} key={post._id} variant="outlined">
       <ButtonBase
        className={classes.cardAction}
        onClick={() => handleGoToPost(post._id)}

@@ -4,6 +4,7 @@ const PostContext = createContext({
   posts: [],
   post: {},
   postOwner: '',
+  posterId: '',
   title: '',
   description: '',
   difficulty: '',
@@ -12,6 +13,13 @@ const PostContext = createContext({
   search: '',
   solutions: [],
   comments: [],
+  newSolution: {},
+  newComment: {},
+  edit: false,
+  addSol: false,
+  desc: '',
+  gh: '',
+  deployed: '',
   handleViewAll: () => {},
   handleCreateNewPost: () => {},
   handleInputChange: () => {},
@@ -20,7 +28,13 @@ const PostContext = createContext({
   handleRemoveFromPost: () => {},
   handleSearch: () => {},
   handleViewPost: () => {},
-  handleGoToPost: () => {}
+  handleGoToPost: () => {},
+  handleAddSolution: () => {},
+  handleRemSolution: () => {},
+  handleToggleSolution: () => {},
+  handleToggleEdit: () => {},
+  handleEditIdea: () => {},
+  handleDeleteIdea: () => {}
 });
 
 export default PostContext;
