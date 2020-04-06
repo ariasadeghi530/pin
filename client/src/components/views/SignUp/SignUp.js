@@ -139,7 +139,7 @@ export default function SignUp() {
                 variant="outlined"
                 fullWidth
                 id="github"
-                label="GitHub username"
+                label="GitHub Username"
                 name="github"
                 value={github}
                 onChange={handleInputChange}
