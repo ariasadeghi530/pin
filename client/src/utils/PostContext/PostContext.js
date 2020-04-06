@@ -20,6 +20,7 @@ const PostContext = createContext({
   desc: '',
   gh: '',
   deployed: '',
+  newComment: '',
   handleViewAll: () => {},
   handleCreateNewPost: () => {},
   handleInputChange: () => {},
@@ -34,6 +35,8 @@ const PostContext = createContext({
   handleToggleSolution: () => {},
   handleToggleEdit: () => {},
   handleEditIdea: () => {},
+  handleAddComment: () => {},
+  handleRemComment: () => {},
   handleDeleteIdea: () => {}
 });
 

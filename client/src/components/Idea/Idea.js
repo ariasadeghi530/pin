@@ -30,6 +30,14 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import SendIcon from '@material-ui/icons/Send';
+import Fab from '@material-ui/core/Fab';
+
+
 
 import PostContext from '../../utils/PostContext';
 import UserContext from '../../utils/UserContext';
@@ -85,7 +93,8 @@ export default function Idea() {
 
         },
         width: {
-            width: '100%'
+            width: '90%',
+            
         },
         marginTop: {
             marginTop: "20%"
@@ -182,8 +191,23 @@ export default function Idea() {
             marginBottom: 8
         },
         save:{
-            width: '100%'
-            
+            width: '100%'  
+        },
+        comments: {
+            width: '100%',
+            maxWidth: 360,
+            // backgroundColor: theme.palette.background.paper,
+          },
+        separator: {
+              height: 10,
+          },
+        commentDelete: {
+            paddingTop: "0px !important",
+            // marginBottom: '10px !important'
+   
+        },
+        addComment: {
+            marginTop: 3
         }
     }))
 
@@ -201,7 +225,7 @@ export default function Idea() {
     };
 
 
-    const { post, postOwner, solutions, comments, addSol, edit, handleViewPost, handleToggleSolution, handleToggleEdit, handleInputChange, desc, gh, deployed, handleAddSolution, posterId, handleRemSolution, handleDeleteIdea, title, description, difficulty, totalTime, handleEditIdea } = useContext(PostContext);
+    const { post, postOwner, solutions, comments, addSol, edit, handleViewPost, handleToggleSolution, handleToggleEdit, handleInputChange, desc, gh, deployed, handleAddSolution, posterId, handleRemSolution, handleDeleteIdea, title, description, difficulty, totalTime, handleEditIdea, newComment, handleAddComment, handleRemComment } = useContext(PostContext);
 
     const { isLoggedIn, handlePin, projects, handleUnPin } = useContext(UserContext);
 
@@ -224,14 +248,15 @@ export default function Idea() {
         handleViewPost(ideaId);
     }, [isLoggedIn])
 
+    
 
     return (
         <>
             {isLoggedIn ?
                 (
                     <>
-                        <div>
                             <Navbar />
+                        <Container>
 
                             <Card className={classes.marginTop}>
                                 <CardContent>
@@ -368,7 +393,7 @@ export default function Idea() {
                         </Typography>
                                             <Button color="primary" className={classes.floatRight} name="addSol" value={addSol} onClick={() => handleToggleSolution()}>Add a solution</Button>
                                         </div>
-                                        <GridList className={classes.gridList} cols={2.5}>
+                                        { solutions.length > 0 ?<GridList className={classes.gridList} cols={2.5}>
                                             {solutions.map((solution, index) => (
                                                 <GridListTile key={index}>
                                                     <Card className={classes.cardRoot}>
@@ -405,7 +430,12 @@ export default function Idea() {
                                                     </Card>
                                                 </GridListTile>
                                             ))}
-                                        </GridList>
+                                        </GridList> :
+                                        <Box m={0.5}>
+                                        <Typography color="textSecondary">
+                                            No solutions yet! Be the first to add a solution.
+                                        </Typography>
+                                        </Box> }
                                     </>) : (
                                         <>
                                             <div className={classes.solTitle}>
@@ -458,28 +488,70 @@ export default function Idea() {
                                         </>)
                                 }
                             </Box>
+                            <Box m={1} className={classes.separator}>
 
-                            <ul className="ul-comments">
-                                {/* {comments.map(comment => <li>{comment}</li>)}  */}
-
-                            </ul>
-                            <Container>
-                                <TextareaAutosize aria-label="minimum height" rowsMin={3} placeholder="Write a comment" className={classes.width} style={{
-                                    margin: '1% 1% 1% 1%'
-                                }} />
-
-
-                                <Button
-                                    size="small"
-                                    variant="contained"
-                                    color="primary"
-                                    endIcon={<Icon>send</Icon>}
-                                >
-                                </Button>
-                            </Container>
-
-
+                            </Box>
+                            <Box m={1}>
+                            <div className={classes.solTitle}>
+                                            <Typography component="h6" variant="h5" className={classes.alignLeft}>
+                                                Comments
+                        </Typography>
                         </div>
+                            <List className={classes.comments} >
+                            <Divider />
+                            { comments.length > 0 ?
+                            <>
+                             { comments.map(comment => 
+                              <>
+                              <ListItem >
+                              <ListItemText primary={comment.owner} secondary={comment.comment}/>
+                              { userID === comment.ownerId ? <IconButton className={classes.commentDelete} onClick={() => handleRemComment(ideaId, comment)}>
+                              <DeleteOutlineIcon />
+                              </IconButton> :
+                              <>
+                              </>}
+                                </ListItem>
+                                <Divider />
+                                </>
+                              )
+                              
+                              } </> :
+                              <>
+                              <Box m={0.5} >
+
+
+                              <ListItemText secondary="No comments yet! Be the first to comment."/>
+                                  </Box>
+                                  </>
+                                  }
+                                 </List> 
+                                
+                                 <TextField
+                                   label="Add a comment"
+                                   id="outlined-size-small"
+                                   value={newComment}
+                                   variant="outlined"
+                                   size="small"
+                                   name="newComment" 
+                                   className={classes.width} 
+                                   onChange={handleInputChange}
+                                />
+
+
+                                <IconButton
+                                    size="small"
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={(e) => handleAddComment(e, ideaId)}
+                                    className={classes.addComment}
+                                >
+                                    <SendIcon />
+                                </IconButton>
+                              
+                            
+                            </Box>
+
+                        </Container>
                     </>
                 ) :
                 <Redirect to={{ pathname: '/signin' }} />}

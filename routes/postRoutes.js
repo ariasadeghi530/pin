@@ -61,7 +61,7 @@ router.put('/posts/:postID/solutions', passport.authenticate('jwt'), (req, res) 
 
 //add a comment to a post
 router.put('/posts/:postID/comments', passport.authenticate('jwt'), (req, res) => {
-  Post.findByIdAndUpdate(req.params.postID, {$push: {comments: { comment: req.body.comment, owner: req.user.username}}})
+  Post.findByIdAndUpdate(req.params.postID, {$push: {comments: { comment: req.body.comment, owner: req.user.username, ownerId: req.user._id}}})
   .then(() => {
     Post.findById(req.params.postID)
   .then((post) => res.json(post))
@@ -83,7 +83,7 @@ router.delete('/posts/:postID/solutions', passport.authenticate('jwt'), (req, re
 
 //remove a comment from a post
 router.delete('/posts/:postID/comments', passport.authenticate('jwt'), (req, res) => {
-  Post.findByIdAndUpdate(req.params.postID, {$pull: {comments: { comment: req.body.comment, owner: req.user._id}}})
+  Post.findByIdAndUpdate(req.params.postID, {$pull: {comments: { comment: req.body.comment.comment, owner: req.user.username, ownerId: req.user._id}}})
   .then(() => {
     Post.findById(req.params.postID)
   .then((post) => res.json(post))

@@ -68,6 +68,7 @@ function App() {
     desc: '',
     gh: '',
     deployed: '',
+    newComment: '',
     edit: false,
     addSol: false,
   });
@@ -330,6 +331,26 @@ function App() {
       setPostState({ ...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments, posterId: data.owner, edit: false });
     })
     .catch(e => console.error(e))
+  }
+
+  postState.handleAddComment = (event, id) =>{
+    event.preventDefault();
+    let comment = {comment: postState.newComment}
+    if(comment.comment !== ''){
+      Post.addComment(id, comment)
+      .then(({data}) => {
+        setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments, posterId: data.owner, newComment: '' });
+      })
+      .catch(e => console.error(e));
+    }
+  }
+
+  postState.handleRemComment = (id, comment) =>{
+    Post.remComment(id, comment)
+    .then(({data}) => {
+      setPostState({...postState, post: data, postOwner: data.owner.username, solutions: data.solutions, comments: data.comments, posterId: data.owner, newComment: '' });
+    })
+    .catch(e => console.error(e));
   }
 
 
