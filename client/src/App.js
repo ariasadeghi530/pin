@@ -127,7 +127,7 @@ function App() {
         } else if (registered.data.message !== undefined) {
           setUserState({ ...userState, message: registered.data.message })
         } else {
-          if (registered.data.keyValue.email !== undefined) {
+          if (registered.data.keyValue.hasOwnProperty('email')) {
             let message = `A user with email ${registered.data.keyValue.email} already exists.`
             setUserState({ ...userState, message })
           } else {
@@ -216,15 +216,16 @@ function App() {
     }
     User.update(updates)
     .then(({data}) => {
+      console.log(data)
       if(data.errmsg){
-        if (data.keyValue.email !== undefined) {
+        if(data.keyValue.hasOwnProperty('username')){
+         let message = `A user with username ${data.keyValue.username} already exists.`;
+         setUserState({ ...userState, message });
+       }
+       else if (data.keyValue.hasOwnProperty('email')) {
           let message = `A user with email ${data.keyValue.email} already exists.`;
           setUserState({ ...userState, message });
         } 
-        else if(data.keyValue.username !== undefined){
-          let message = `A user with username ${data.keyValue.username} already exists.`;
-          setUserState({ ...userState, message });
-        }
         else {
           let message = `A user with GitHub account ${data.keyValue.github} already exists.`;
           setUserState({ ...userState, message });
