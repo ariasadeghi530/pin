@@ -127,6 +127,7 @@ function App() {
         } else if (registered.data.message !== undefined) {
           setUserState({ ...userState, message: registered.data.message })
         } else {
+          console.log(registered.data)
           if (registered.data.keyValue.hasOwnProperty('email')) {
             let message = `A user with email ${registered.data.keyValue.email} already exists.`
             setUserState({ ...userState, message })
@@ -216,7 +217,6 @@ function App() {
     }
     User.update(updates)
     .then(({data}) => {
-     console.log(data)
       if(data.errmsg){
         if(data.errmsg.includes('username')){
          let message = `A user with that username already exists.`;
