@@ -97,6 +97,7 @@ function App() {
 
     User.register(user)
       .then((registered) => {
+        console.log(registered)
         if (registered.data === 'OK') {
         User.login({ username: user.username, password: user.password })
           .then(({ data }) => {
@@ -127,7 +128,7 @@ function App() {
         } else if (registered.data.message !== undefined) {
           setUserState({ ...userState, message: registered.data.message })
         } else {
-          console.log(registered.data)
+          
           if (registered.data.keyValue.hasOwnProperty('email')) {
             let message = `A user with email ${registered.data.keyValue.email} already exists.`
             setUserState({ ...userState, message })
