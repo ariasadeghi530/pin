@@ -97,7 +97,6 @@ function App() {
 
     User.register(user)
       .then((registered) => {
-        console.log(registered)
         if (registered.data === 'OK') {
         User.login({ username: user.username, password: user.password })
           .then(({ data }) => {
@@ -129,11 +128,11 @@ function App() {
           setUserState({ ...userState, message: registered.data.message })
         } else {
           
-          if (registered.data.keyValue.hasOwnProperty('email')) {
-            let message = `A user with email ${registered.data.keyValue.email} already exists.`
+          if (registered.data.errmsg.includes('email')) {
+            let message = `A user with that email already exists.`
             setUserState({ ...userState, message })
           } else {
-            let message = `A user with GitHub account ${registered.data.keyValue.github} already exists.`
+            let message = `A user with that GitHub account already exists.`
             setUserState({ ...userState, message })
           }
         }
