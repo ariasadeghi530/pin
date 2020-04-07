@@ -216,7 +216,7 @@ function App() {
     }
     User.update(updates)
     .then(({data}) => {
-      console.log(data)
+     
       if(data.errmsg){
         if(data.keyValue.hasOwnProperty('username')){
          let message = `A user with username ${data.keyValue.username} already exists.`;
