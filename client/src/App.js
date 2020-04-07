@@ -218,16 +218,16 @@ function App() {
     .then(({data}) => {
      console.log(data)
       if(data.errmsg){
-        if(data.keyValue.hasOwnProperty('username')){
-         let message = `A user with username ${data.keyValue.username} already exists.`;
+        if(data.errmsg.includes('username')){
+         let message = `A user with that username already exists.`;
          setUserState({ ...userState, message });
        }
-       else if (data.keyValue.hasOwnProperty('email')) {
-          let message = `A user with email ${data.keyValue.email} already exists.`;
+       else if (data.errmsg.includes('email')) {
+          let message = `A user with that email already exists.`;
           setUserState({ ...userState, message });
         } 
         else {
-          let message = `A user with GitHub account ${data.keyValue.github} already exists.`;
+          let message = `A user with that GitHub account already exists.`;
           setUserState({ ...userState, message });
         }
       } else {
