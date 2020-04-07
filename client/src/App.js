@@ -94,10 +94,12 @@ function App() {
       github: userState.github,
       password: userState.password
     };
+    if(!user.email.includes('@')){
+      setUserState({...userState, message: 'Please enter a valid email address.'})
+    }
 
     User.register(user)
       .then((registered) => {
-        console.log(registered);
         if (registered.data === 'OK') {
         User.login({ username: user.username, password: user.password })
           .then(({ data }) => {
