@@ -143,8 +143,8 @@ router.put('/users', passport.authenticate('jwt'), (req, res) => {
   User.findByIdAndUpdate(req.user._id, req.body)
   .then(() => {User.findById(req.user._id).populate('ideas').populate('projects')
   .then((user) => res.json(user))
-  .catch(e => console.error(e));})
-  .catch(e => console.error(e));
+  .catch(e => res.send(e))})
+  .catch(e => res.send(e));
 })
 
 // Pinning a project, saving a project idea

@@ -14,7 +14,7 @@ import PostContext from './utils/PostContext';
 import User from './utils/User'
 import Post from './utils/Post';
 import Profile from './components/views/Profile';
-import ProfileEdit from './components/views/ProfileEdit'
+
 import axios from 'axios';
 
 const theme = createMuiTheme({
@@ -202,14 +202,6 @@ function App() {
     if(updates.github === ''){
       updates.github = profile.github;
     }
-    if(updates.github !== profile.github){
-      localStorage.removeItem('avatar');
-      axios.get(`https://api.github.com/search/users?q=${updates.github}`)
-      .then(({ data: { items } }) => {
-        localStorage.setItem('avatar', items[0].avatar_url);
-      })
-      .catch(e => console.error(e));
-    }
     if(updates.first === ''){
       updates.first = profile.first;
     }
@@ -223,8 +215,31 @@ function App() {
       updates.bio = profile.bio;
     }
     User.update(updates)
-    .then(({data: userInfo}) => {
-      setUserState({...userState, user: userInfo, projects: userInfo.projects, ideas: userInfo.ideas, edit: !userState.edit, first: '', username: '', last: '', email: '', github: '', bio: ''});
+    .then(({data}) => {
+      if(data.errmsg){
+        if (data.keyValue.email) {
+          let message = `A user with email ${data.keyValue.email} already exists.`;
+          setUserState({ ...userState, message });
+        } 
+        else if(data.keyValue.username){
+          let message = `A user with username ${data.keyValue.username} already exists.`;
+          setUserState({ ...userState, message });
+        }
+        else {
+          let message = `A user with GitHub account ${data.keyValue.github} already exists.`;
+          setUserState({ ...userState, message });
+        }
+      } else {
+        if(updates.github !== profile.github){
+          localStorage.removeItem('avatar');
+          axios.get(`https://api.github.com/search/users?q=${updates.github}`)
+          .then(({ data: { items } }) => {
+            localStorage.setItem('avatar', items[0].avatar_url);
+          })
+          .catch(e => console.error(e));
+        }
+        setUserState({...userState, user: data, projects: data.projects, ideas: data.ideas, edit: !userState.edit, first: '', username: '', last: '', email: '', github: '', bio: '', message: ''});
+      }
      
     })
     .catch(e => console.error(e));
