@@ -94,6 +94,9 @@ function App() {
       github: userState.github,
       password: userState.password
     };
+    if(!user.email.includes('@')){
+      setUserState({...userState, message: 'Please enter a valid email address.'})
+    }
 
     User.register(user)
       .then((registered) => {
@@ -127,11 +130,12 @@ function App() {
         } else if (registered.data.message !== undefined) {
           setUserState({ ...userState, message: registered.data.message })
         } else {
-          if (registered.data.keyValue.email) {
-            let message = `A user with email ${registered.data.keyValue.email} already exists.`
+          
+          if (registered.data.errmsg.includes('email')) {
+            let message = `A user with that email already exists.`
             setUserState({ ...userState, message })
           } else {
-            let message = `A user with GitHub account ${registered.data.keyValue.github} already exists.`
+            let message = `A user with that GitHub account already exists.`
             setUserState({ ...userState, message })
           }
         }
@@ -217,16 +221,16 @@ function App() {
     User.update(updates)
     .then(({data}) => {
       if(data.errmsg){
-        if (data.keyValue.email) {
-          let message = `A user with email ${data.keyValue.email} already exists.`;
+        if(data.errmsg.includes('username')){
+         let message = `A user with that username already exists.`;
+         setUserState({ ...userState, message });
+       }
+       else if (data.errmsg.includes('email')) {
+          let message = `A user with that email already exists.`;
           setUserState({ ...userState, message });
         } 
-        else if(data.keyValue.username){
-          let message = `A user with username ${data.keyValue.username} already exists.`;
-          setUserState({ ...userState, message });
-        }
         else {
-          let message = `A user with GitHub account ${data.keyValue.github} already exists.`;
+          let message = `A user with that GitHub account already exists.`;
           setUserState({ ...userState, message });
         }
       } else {

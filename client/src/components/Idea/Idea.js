@@ -35,7 +35,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import SendIcon from '@material-ui/icons/Send';
-
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 
 
 
@@ -44,7 +44,7 @@ import UserContext from '../../utils/UserContext';
 
 import './Idea.css'
 
-export default function Idea() {
+ function Idea(props) {
 
 
     const myTheme = createMuiTheme({
@@ -57,6 +57,27 @@ export default function Idea() {
             }
         }
     })
+
+   
+        const getGridListCols = () => {
+          if (isWidthUp('xl', props.width )) {
+              
+            return 9;
+          }
+      
+          if (isWidthUp('lg', props.width)) {
+           
+            return 6;
+          }
+      
+          if (isWidthUp('md', props.width)) {
+            
+            return 4;
+          }
+          
+          
+          return 2.5;
+        }
 
     const singleLineGridListStyles = makeStyles((theme) => ({
         root: {
@@ -94,10 +115,19 @@ export default function Idea() {
         },
         width: {
             width: '90%',
+            [theme.breakpoints.up('sm')]: {
+                width: '97%'
+            }
             
         },
         marginTop: {
-            marginTop: "20%"
+            marginTop: "20%",
+            [theme.breakpoints.up('sm')]: {
+                marginTop: "12%"
+              },
+              [theme.breakpoints.up('lg')]: {
+                marginTop: "10%"
+              },
         },
         username: {
 
@@ -196,6 +226,9 @@ export default function Idea() {
         comments: {
             width: '100%',
             maxWidth: 360,
+            [theme.breakpoints.up('sm')]: {
+                maxWidth: '100%',
+              },
             // backgroundColor: theme.palette.background.paper,
           },
         separator: {
@@ -207,7 +240,8 @@ export default function Idea() {
    
         },
         addComment: {
-            marginTop: 3
+            marginTop: 3,
+            
         }
     }))
 
@@ -393,7 +427,7 @@ export default function Idea() {
                         </Typography>
                                             <Button color="primary" className={classes.floatRight} name="addSol" value={addSol} onClick={() => handleToggleSolution()}>Add a solution</Button>
                                         </div>
-                                        { solutions.length > 0 ?<GridList className={classes.gridList} cols={2.5}>
+                                        { solutions.length > 0 ?<GridList className={classes.gridList} cols={getGridListCols()}>
                                             {solutions.map((solution, index) => (
                                                 <GridListTile key={index}>
                                                     <Card className={classes.cardRoot}>
@@ -560,3 +594,4 @@ export default function Idea() {
 }
 
 
+export default withWidth()(Idea);
