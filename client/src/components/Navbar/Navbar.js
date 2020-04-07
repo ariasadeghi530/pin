@@ -41,12 +41,14 @@ const myTheme = createMuiTheme({
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
+   
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+   
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -69,6 +71,7 @@ const useStyles = makeStyles(theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+   
   },
   drawerPaper: {
     width: drawerWidth,
@@ -126,6 +129,14 @@ const useStyles = makeStyles(theme => ({
     height: "7%",
     width: "7%",
     marginBottom: 7,
+    [theme.breakpoints.up('sm')]: {
+      width: "5%",
+      height: '5%',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: "3%",
+      height: '3%',
+    },
   },
   text: {
     color: "white",

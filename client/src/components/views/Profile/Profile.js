@@ -64,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
   },
   pageMargin: {
     marginTop: "20%",
+    [theme.breakpoints.up('sm')]: {
+     marginTop: '10%'
+    },
     //   float: 'right'
   },
   avatar: {

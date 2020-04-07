@@ -24,12 +24,14 @@ const myTheme = createMuiTheme({
   }
 })
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 275,
     marginBottom: 0,
     marginTop: 20,
-   
+    [theme.breakpoints.up('sm')]: {
+      marginTop: 40,
+    },
   },
   title: {
     fontSize: 14,
@@ -49,7 +51,7 @@ const useStyles = makeStyles({
     display: 'block',
     textAlign: 'initial'
   }
-});
+}));
 
 function HomePageCard() {
 
