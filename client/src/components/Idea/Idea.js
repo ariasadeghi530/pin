@@ -74,12 +74,8 @@ import './Idea.css'
             
             return 4;
           }
-          if (isWidthUp('500px', props.width)) {
-                
-                return 3.5;
-              }
           
-          console.log(2.5)
+          
           return 2.5;
         }
 
