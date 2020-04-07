@@ -97,6 +97,7 @@ function App() {
 
     User.register(user)
       .then((registered) => {
+        console.log(registered);
         if (registered.data === 'OK') {
         User.login({ username: user.username, password: user.password })
           .then(({ data }) => {
