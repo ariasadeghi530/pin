@@ -3,7 +3,8 @@ require('dotenv').config();
 const passport = require('passport');
 const { User, Post } = require('../models');
 const TokenGenerator = require('uuid-token-generator');
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
+const { check, validationResult } = require('express-validator');
 
 
 const jwt = require('jsonwebtoken');
@@ -13,7 +14,7 @@ require('dotenv').config();
 // User login
 router.post('/users/login', (req, res) => {
   User.authenticate()(req.body.username, req.body.password, (err, user) => {
-    if (err) throw err;
+    if (err) res.send(err);
     res.json({
       isLoggedIn: !!user,
       ideas: user.ideas,
@@ -27,7 +28,26 @@ router.post('/users/login', (req, res) => {
 })
 
 // User registration
-router.post('/users/register', (req, res) => {
+router.post('/users/register', [
+  check('email').isEmail(),
+  check('password').isLength({ min: 5 })
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors)
+    return res.status(422).json({ errors: errors.array() });
+  }
+  if (req.body.email === '') {
+    res.status(400).json({ message: "Email required" });
+  } else if (req.body.first === '') {
+    res.status(400).json({ message: "First name required" });
+  } else if (req.body.last === '') {
+    res.status(400).json({ message: "Last name required" });
+  } else if (req.body.username === '') {
+    res.status(400).json({ message: "Username required" });
+  } else if (req.body.password === '') {
+    res.status(400).json({ message: "Password required" });
+  }
   User.register(new User({
     first: req.body.first,
     last: req.body.last,
@@ -123,8 +143,8 @@ router.put('/users', passport.authenticate('jwt'), (req, res) => {
   User.findByIdAndUpdate(req.user._id, req.body)
   .then(() => {User.findById(req.user._id).populate('ideas').populate('projects')
   .then((user) => res.json(user))
-  .catch(e => console.error(e));})
-  .catch(e => console.error(e));
+  .catch(e => res.send(e))})
+  .catch(e => res.send(e));
 })
 
 // Pinning a project, saving a project idea

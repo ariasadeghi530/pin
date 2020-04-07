@@ -63,10 +63,7 @@ const PasswordReset = () => {
   }
   resetSubmissionState.handlePasswordReset = event =>{
     event.preventDefault();
-    let newPassword = {
-      password: resetSubmissionState.password,
-      confirm: resetSubmissionState.confirm
-    };
+   
     let path = window.location.pathname;
     let token = path.slice(15);
     

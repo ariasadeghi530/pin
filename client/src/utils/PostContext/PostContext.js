@@ -14,7 +14,6 @@ const PostContext = createContext({
   solutions: [],
   comments: [],
   newSolution: {},
-  newComment: {},
   edit: false,
   addSol: false,
   desc: '',

@@ -202,7 +202,7 @@ export default function Nav() {
         <Typography variant="h6" noWrap className={classes.drawerTitle} >
           <Link href="/" >
             <div >
-            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" className={classes.logo}/> 
+            <img src="https://image.flaticon.com/icons/svg/212/212816.svg" alt="pin-logo"className={classes.logo}/> 
             Pin 
             </div>
             </Link>

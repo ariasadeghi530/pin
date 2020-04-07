@@ -1,8 +1,8 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import HomePageCard from '../../HomePageCard';
 import Footer from '../../Footer';
 import Container from '@material-ui/core/Container';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   contain: {

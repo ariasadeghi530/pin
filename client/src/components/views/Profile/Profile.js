@@ -22,7 +22,8 @@ import PostContext from '../../../utils/PostContext';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import InputLabel from '@material-ui/core/InputLabel';
+import Alert from '@material-ui/lab/Alert';
+
 
 const myTheme = createMuiTheme({
   palette: {
@@ -138,7 +139,10 @@ const useStyles = makeStyles((theme) => ({
     overflowX: "hidden",
     display: 'block',
     paddingTop: 0,
-  }
+  },
+  alert: {
+    marginBottom: 15
+  },
 }));
 
 
@@ -151,7 +155,7 @@ export default function ControlledExpansionPanels() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const { isLoggedIn, user, handleUserProfile, projects, ideas, edit, handleInputChange, handleToggleEdit, handleEditProfile, first, last, username, github, bio, email } = useContext(UserContext);
+  const { isLoggedIn, user, handleUserProfile, projects, ideas, edit, handleInputChange, handleToggleEdit, handleEditProfile, message } = useContext(UserContext);
   const {handleGoToPost} = useContext(PostContext);
   const avatarURL = localStorage.getItem('avatar');
 
@@ -170,10 +174,12 @@ export default function ControlledExpansionPanels() {
      (
        <>
         <Navbar />
+        <Container>
       {  edit ? 
       <>
       <Card className={classes.root, classes.pageMargin}>
       <CardContent>
+      {message !== '' ? <Alert className={classes.alert}severity="error">{message}</Alert> : ''}
        <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -323,7 +329,7 @@ export default function ControlledExpansionPanels() {
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
-            <Typography className={classes.heading}>{user.username + "'s Ideas"}</Typography>
+            <Typography className={classes.heading}>{user.username + "'s Ideas" + ` (${ideas.length})`}</Typography>
             {/* <Typography className={classes.secondaryHeading}>{user.username}'s Ideas</Typography> */}
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.expansionHeight}>
@@ -372,7 +378,7 @@ export default function ControlledExpansionPanels() {
             aria-controls="panel2bh-content"
             id="panel2bh-header"
           >
-            <Typography className={classes.heading}>{user.username + "'s Pinned Projects"}</Typography>
+            <Typography className={classes.heading}>{user.username + "'s Pinned Projects" + ` (${projects.length})`}</Typography>
             {/* <Typography className={classes.secondaryHeading}>
             Review all your posts 
           </Typography> */}
@@ -448,6 +454,7 @@ export default function ControlledExpansionPanels() {
         </ExpansionPanelDetails>
       </ExpansionPanel> */}
       </div>
+      </Container>
       </> ) :  <Redirect to={{pathname: '/signin'}} />}
     </>
   );
