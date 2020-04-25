@@ -40,13 +40,13 @@ Idea page contains:
 - If you posted the idea, you will see a vertical dots icon, else it will be the username of the original poster
 - The vertical dots allows the poster to edit or delete the idea. 
 - Editing the idea will turn the card into a form, prefilled with the current information, where the user can update and save any changes.
-Solutions section:
+#### Solutions section:
  The solution card contains:
   - Username of the user who posted the solution
   - A delete icon (if the signed in user posted it)
   - A short description
   - Link(s) to the GitHub Repo, and deployed app (if any)
-Comments section:
+#### Comments section:
  A comment contains:
   - The username of the commenter
   - A delete icon (if the signed in user posted it)
