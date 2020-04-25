@@ -1,68 +1,59 @@
 # pin
 
-## Available Scripts
+## About this app
+- This is a MERN stack application, allowing developers to view, post, and pin(save) project ideas, intended to be used as practice or to add to their portfolio.
 
-In the project directory, you can run:
+## How to use this app
 
-### `npm start`
+ ### Login/Sign Up
+- When going to the site, unless you were previously logged in, you will be asked to login or register.
+- Input the required information for registration and if there are no issues, you will be redirected to the home page.
+- If you forget your password, clicking on Forgot Password will allow you to enter the email address of your account, and it will send you your account name and a reset link to reset your password.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+ ### Home/Navbar
+- On the home page, you will see all the posts, ordered by upload date. 
+- Each card contains the name of the project idea, the username of the poster, the perceived difficulty, as well as the description.
+- Clicking on an idea will take you to that post, to see more information about it. 
+- In the Navbar, you will see a search bar, profile link, a link to post a new idea, and a logout button. 
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Profile
+In your profile, you will see:
+- Username
+- Profile image from github (if you added it)
+- Full name
+- Bio
+- Link to your github
+- Edit button
+- Dropdown for your posted ideas 
+- Dropdown for your pinned ideas
 
-### `npm test`
+- Clicking edit makes the card a form, where you can edit and save account information.
+- In the ideas dropdown, you will see cards for each of your posted ideas, which will take you to the post. 
+- In the pinned projects dropdown, you will see cards for each of your pinned projects, which will take you to the post. 
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### New Idea
+- Post an project idea, providing a title/name, a description, a difficulty, and an estimated time to complete the project.
 
-### `npm run build`
+### Ideas
+Idea page contains: 
+- A Pin to save to project
+- If you posted the idea, you will see a vertical dots icon, else it will be the username of the original poster
+- The vertical dots allows the poster to edit or delete the idea. 
+- Editing the idea will turn the card into a form, prefilled with the current information, where the user can update and save any changes.
+Solutions section:
+ The solution card contains:
+  - Username of the user who posted the solution
+  - A delete icon (if the signed in user posted it)
+  - A short description
+  - Link(s) to the GitHub Repo, and deployed app (if any)
+Comments section:
+ A comment contains:
+  - The username of the commenter
+  - A delete icon (if the signed in user posted it)
+  - The comment
+  - An input to add a comment
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Future Development
+- The ability to view other user profiles, as well as connect with other users to work on projects together.
+- Different project categories, different kind of projects, whether it be a full stack, front end, etc, or even by technologies used.
+- Branch out to other project ideas besides web development, such as photography, music, so the platform can be for all types of creators and developers.
